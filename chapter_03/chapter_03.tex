@@ -46,10 +46,21 @@ For this thesis, ERA5 data were acquired at native resolution, with hourly resol
 
 \begin{table}[htbp]
 \centering
-\captionof{table}{\textbf{Types of forecasts from ERA5.} The table describes the characteristics of the different forecasts available from ERA5.}
-\includegraphics[width=1\textwidth]{forecasts_types.png}
+\captionof{table}{\textbf{ERA5 short- and long-range forecasts.} The table describes the characteristics of short- and long-range forecasts from ERA5.}
+\includegraphics[width=1\textwidth]{01_forecasts_types.png}
 \label{table:forecasts_types}
 \end{table}
+
+
+
+\subsection{Leaf Area Index}
+The leaf area index (LAI) is obtained from the ERA5 monthly averaged data on single levels. It is obtained by combining the variables called “leaf area index, high vegetation” and “leaf area index, low vegetation” on a per-grid-cell basis using the fractions of high and low vegetation prescribed in the model, respectively known as high vegetation cover and low vegetation cover.
+
+
+
+
+
+
 
 \begin{table}[htbp]
 \centering
@@ -58,14 +69,16 @@ For this thesis, ERA5 data were acquired at native resolution, with hourly resol
 \label{table:parameters_used}
 \end{table}
 
-24-hourly flash flood outlooks were considered, and hence accumulated or instantaneous variables were considered accordingly for the correspondent 24 hourly flash flood outlooks. 
+24-hourly flash flood outlooks were considered, and hence accumulated or instantaneous variables were considered accordingly for the correspondent 24 hourly flash flood outlooks.
 
-While ERA5 provides a comprenhensive suite of hydro-meteorological variables, its native precipitations output echibits known limitations in representing rainfall's sub-grid variability, which is crucial for flash flood prediction.To adress this limitation, this study employs ERA5-ecPoint, a post-processed rainfall forecast that enhances the representation of point-scale rainfall totals within each grid-box.  
+
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Post-processed rainfall data}
+
+While ERA5 provides a comprenhensive suite of hydro-meteorological variables, its native precipitations output echibits known limitations in representing rainfall's sub-grid variability, which is crucial for flash flood prediction.To adress this limitation, this study employs ERA5-ecPoint, a post-processed rainfall forecast that enhances the representation of point-scale rainfall totals within each grid-box.  
 
 \subsection{The ecPoint post-processing method}
 
