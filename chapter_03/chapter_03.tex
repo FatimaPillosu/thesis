@@ -36,36 +36,48 @@ Whilst the primary model development utilises the CONUS domain, the global appli
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Hydro-meteorological data from ERA5}
+\section{ERA5}
 
-The hydro-meteorological parameters used in this study were considered from a reanalysis dataset to ensure temporal and spatial consistency. 
-
-For the hydrological parameters, ERA5 is considered. ERA5 provides comprehensive global atmospheric reanalysis with significant advancements over it predecessor, ERA5-Interim, in terms of spatial and temporal resolution, model physics, and data assimilation methodology \citep{Hersbach_2020}. 
-
-For this thesis, ERA5 data were acquired at native resolution, with hourly resolution, covering the period between 1950 and 2024. From the extensive suite of variables in Era5\footnote {The full set of ERA5 parameters can be found on the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper}. Short-range forecasts (up to t+18, also known as "reanalysis") can be found under experiment version \textit{expver=1} while the long-range forecasts (up to t+240, used to create the medium-range forecasts) can be found under experiment version \textit{expver=11}.}, a subset of dynamic hydro-meteorological and static parameters were considered based on their established relationship with flash flood occurrence in previous literature: 
+Short- and long-range ERA5 forecasts were acquired at their native resolution (\textasciitilde31 km at the equator), for a period covering the years 1950 to 2024. Table \ref{table:forecasts_types} describes the characteristics of both forecasts (e.g., spatial and temporal resolution, run times, and maximum lead time). The short-range forecasts (also known as "reanalysis") will be used to train the data-driven model. The long-range forecasts will be used to assess the predictability of the data-driven medium-range (i.e., up to day 5) predictions of the areas at risk of flash floods.
 
 \begin{table}[htbp]
 \centering
 \captionof{table}{\textbf{ERA5 short- and long-range forecasts.} The table describes the characteristics of short- and long-range forecasts from ERA5.}
-\includegraphics[width=1\textwidth]{01_forecasts_types.png}
+\includegraphics[width=\textwidth]{01_forecasts_types.png}
 \label{table:forecasts_types}
 \end{table}
 
+From the extensive suite of variables included in ERA5\footnote {The full set of parameters included in the short- and long-range forecasts from ERA5 can be found in the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper}.}, the subset of dynamic and static parameters listed in Table \ref{table:parameters_used} were considered to compute those parameters whose relationship with flash flood occurrence has been established in previous literature, such antecedent soil moisture, slope of the orography, and vegetation. The following sub-sections describe the pre-processing of the raw ERA5 parameters to compute the variables that will be included in the data-driven model.
+
+\subsection{Antecedent soil moisture}
+
+For antecedent soil water content, this study considers the percentage of soil maximum saturation in the top 1 m layer of soil, 24 hours prior to a flash-flood-triggering rainfall event. The percentage of soil maximum saturation in the top 1 m of soil is computed considering the pre-established values of maximum soil saturation for different types of soil, and integrating those over layers 1, 2, and 3 of the volumetric soil water. The following pre-established values of maximum soil saturation for different types of soil used at ECMWF are:
 
 
-\subsection{Leaf Area Index}
+
+
+
+
+
+
+
+layers 1, 2, and 3 of the volumetric soil water and the soil type, and it follows the methods used at ECMWF.
+
+
+
+
+\subsection{Slope of the orography}
+
+
+\subsection{Vegetation}
+
 The leaf area index (LAI) is obtained from the ERA5 monthly averaged data on single levels. It is obtained by combining the variables called “leaf area index, high vegetation” and “leaf area index, low vegetation” on a per-grid-cell basis using the fractions of high and low vegetation prescribed in the model, respectively known as high vegetation cover and low vegetation cover.
-
-
-
-
-
 
 
 \begin{table}[htbp]
 \centering
 \captionof{table}{\textbf{Parameters used from ERA5 and ERA5-ecPoint.} Description of the parameters considered for developing the data-driven short- and medium-range predictions of areas at risk of flash floods over a continuous global domain.}
-\includegraphics[width=1\textwidth]{parameters_used.png}
+\includegraphics[width=\textwidth]{02_era5_params.png}
 \label{table:parameters_used}
 \end{table}
 
