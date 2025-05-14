@@ -49,21 +49,62 @@ Short- and long-range ERA5 forecasts were acquired at their native resolution (\
 
 From the extensive suite of variables included in ERA5\footnote {The full set of parameters included in the short- and long-range forecasts from ERA5 can be found in the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper}.}, the subset of dynamic and static parameters listed in Table \ref{table:parameters_used} were considered to compute those parameters whose relationship with flash flood occurrence has been established in previous literature, such antecedent soil moisture, slope of the orography, and vegetation. The following sub-sections describe the pre-processing of the raw ERA5 parameters to compute the variables that will be included in the data-driven model.
 
+\begin{table}[htbp]
+\centering
+\captionof{table}{\textbf{Parameters used from ERA5 and ERA5-ecPoint.} Description of the parameters considered for developing the data-driven short- and medium-range predictions of areas at risk of flash floods over a continuous global domain.}
+\includegraphics[width=\textwidth]{02_era5_params.png}
+\label{table:parameters_used}
+\end{table}
+
+
 \subsection{Antecedent soil moisture}
 
-For antecedent soil water content, this study considers the percentage of soil maximum saturation in the top 1 m layer of soil, 24 hours prior to a flash-flood-triggering rainfall event. The percentage of soil maximum saturation in the top 1 m of soil is computed considering the pre-established values of maximum soil saturation for different types of soil, and integrating those over layers 1, 2, and 3 of the volumetric soil water. The following pre-established values of maximum soil saturation for different types of soil used at ECMWF are:
+For antecedent soil water content, this study considers the percentage of soil maximum saturation in the top 1 m layer of soil, 24 hours prior to a flash-flood-triggering rainfall event. The percentage of soil maximum saturation in the top 1 m of soil is computed considering the pre-established values of maximum soil saturation for different types of soil, and integrating those over layers 1, 2, and 3 of the volumetric soil water. Table \ref{max_saturation} shows the pre-defined values of maximum soil saturation used at ECMWF for different types of soil \citep{Balsamo_2009}:
 
+\begin{table}[htbp]
+\centering
+\captionof{table}{\textbf{Maximum saturation} The table shows the pre-defined values of maximum soil saturation per soil type used at ECMWF \citep{Balsamo_2009}.}
+\includegraphics[width=\textwidth]{03_max_saturation.png}
+\label{table:max_saturation}
+\end{table}
 
+Equations \ref{eq:max_sat_field} and \ref{eq:indicator} show how the fields containing the percentage of soil saturation were computed. 
 
+\begin{align}
+\text{max\_sat\_field}
+  &= \sum_{i=01}^{N} \text{max\_sat}_i \,\mathbf{1}_{\{s=c_i\}}
+     \label{eq:max_sat_field}\\
+\mathbf{1}_{\{s=c_i\}}
+  &=
+  \begin{cases}
+    1, & s=c_i,\\
+    0, & s\neq c_i.
+  \end{cases}
+    \label{eq:indicator}
+\end{align}
 
+where, N goes from 1 to 7, and it represents the codes for the soil type.
 
+Equation \ref{eq:swvl} computes the soil water content over the top 1m layer of the soil:
 
+\begin{equation}
+\label{eq:swvl}
+\text{swvl} = \sum_{j=1}^{M} \text{swvl}_{j}\, \text{depth}_{j}
+\end{equation}
 
+where, M goes from 1 to 3, and it represents the soil layers.
 
+Finally, equation \ref{eq:swvl_perc} computes the percentage of soil saturation:
 
-layers 1, 2, and 3 of the volumetric soil water and the soil type, and it follows the methods used at ECMWF.
+\begin{equation}
+\label{eq:swvl_perc}
+\text{swvl\_perc} = \frac{\text{swvl}}{\text{max\_sat\_field}}
+\end{equation}
 
+Figure \ref{} shows the 
 
+ML-model input feature: ERA5’s percentage of soil saturation
+Dynamical field, VT: 31-08-2021 12 UTC to 01-09-2021 00 UTC
 
 
 \subsection{Slope of the orography}
@@ -74,12 +115,7 @@ layers 1, 2, and 3 of the volumetric soil water and the soil type, and it follow
 The leaf area index (LAI) is obtained from the ERA5 monthly averaged data on single levels. It is obtained by combining the variables called “leaf area index, high vegetation” and “leaf area index, low vegetation” on a per-grid-cell basis using the fractions of high and low vegetation prescribed in the model, respectively known as high vegetation cover and low vegetation cover.
 
 
-\begin{table}[htbp]
-\centering
-\captionof{table}{\textbf{Parameters used from ERA5 and ERA5-ecPoint.} Description of the parameters considered for developing the data-driven short- and medium-range predictions of areas at risk of flash floods over a continuous global domain.}
-\includegraphics[width=\textwidth]{02_era5_params.png}
-\label{table:parameters_used}
-\end{table}
+
 
 24-hourly flash flood outlooks were considered, and hence accumulated or instantaneous variables were considered accordingly for the correspondent 24 hourly flash flood outlooks.
 

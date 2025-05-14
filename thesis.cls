@@ -10,6 +10,7 @@
 %
 % Packages
 \RequirePackage{array}
+\RequirePackage{amsmath}
 \RequirePackage{booktabs}
 \RequirePackage{ifoddpage}
 \RequirePackage{eso-pic}
