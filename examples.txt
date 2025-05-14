@@ -1,0 +1,57 @@
+% COMMENTS IN THE MARGINS
+Decore partem \marginpara{This is the mini-paragraph in the wide margin. It is associated with this paragraph.} dissentias an usu, eos erat nostrum necessitatibus te.
+
+
+% INSERT FIGURES
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.75]{Figures/Figure_Example.png}
+\caption{\textbf{Figure title.} Figure description.}
+\label{fig:Figure_Example}
+\end{figure}
+
+
+% INSERT TABLES
+\begin{table}[htbp]
+\centering
+\captionof{table}{\textbf{Table title.} Table description.}
+\includegraphics[width=1\textwidth]{Tables/Table_Example.png}
+\label{table:Table_Example}
+\end{table}
+
+
+% INSERT EQUATIONS
+\begin{equation}
+\text{BS}_{\text{rel}} = \sum_{k \in K_0} \frac{n_k}{n} (\pi_k - \bar{x}_k)^2
+\label{eq:equation_example}
+\end{equation}
+
+
+% INSERT TEXT INSIDE A COLOURED BOX
+\begin{tcolorbox}[
+  colframe=custompink,  % Use the custom HEX color for the vertical line
+  colback=custompink,        % Background color remains white
+  sharp corners,        % Remove rounded corners
+  left=3mm,             % Space inside the box
+  right=3mm,            % Space inside the box
+  boxrule=1mm           % Thickness of the vertical line
+]
+{\color{custom_grey} {\setlength{\parindent}{1.0em} Sample text.}}
+\end{tcolorbox}
+
+[width=\textwidth]
+
+% INSERT COLOURED VERTICAL LINE TO TEH LEFT OF A TEXT
+\begin{tcolorbox}[
+  colframe=custom_fuchsia,  % Use the custom HEX color for the vertical line
+  colback=white,        % Background color remains white
+  sharp corners,        % Ensures sharp edges
+  boxrule=2mm,          % Thickness of the left vertical line
+  left=0mm,             % Space inside the left margin
+  right=0mm,            % No space on the right
+  toprule=0mm,          % Remove the top border
+  bottomrule=0mm,       % Remove the bottom border
+  rightrule=-1mm         % Remove the right border
+]
+{\color{custom_grey} {\setlength{\parindent}{1.0em} Sample text.}}
+\end{tcolorbox}

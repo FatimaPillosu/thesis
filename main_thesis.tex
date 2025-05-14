@@ -1,0 +1,167 @@
+\documentclass{thesis} % Use the custom class
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                        %%  
+%%  Thesis' Front Matter  %%  
+%%                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frontmatter % Enable Roman numerals for page numbers
+
+% -----------------
+% Thesis Front Page
+% -----------------
+
+\newgeometry{top=40mm, bottom=40mm, left=40mm, right=30mm} % Temporarily adjust the margins for the frontmatter
+
+\begin{titlepage}
+    \vspace*{-4cm} % Adjust the value to reduce top white space
+    \begin{center}
+        
+        \begin{minipage}[c]{0.4\textwidth} % Width for the first image
+            \includegraphics[width=3cm]{Figures/uorlogo.png}
+        \end{minipage}%
+        \hspace{2cm} % Space between the images
+        \begin{minipage}[c]{0.4\textwidth} % Width for the second image
+            \includegraphics[width=5cm]{Figures/ecmwf_logo.jpg}
+        \end{minipage}
+        
+        % University and Department Information
+        {\large\bfseries UNIVERSITY OF READING}\\
+        {\large  Department of Geography \& Environmental Science\\
+        School of Archaeology, Geography and Environmental Science}\\[0.5cm]
+        {\&}\\[0.5cm]
+        {\large\bfseries EUROPEAN CENTRE FOR MEDIUM-RANGE WEATHER FORECASTS}\\
+        {\large  Evaluation Section, Forecasts and Services Department}\\[2.5cm]
+        
+        % Thesis Title
+        {\huge\bfseries Outrunning flash floods:\\
+        improving forecasts for better preparedness}\\[1cm]
+        
+        % Author Name
+        {\Large Fatima Maria Pillosu}\\[5.5cm]
+        
+        % Degree and Date Information
+        {\Large  Thesis submitted for the degree of Doctor of Philosophy}\\[0.2cm]
+        {\Large  July 2025}
+    \end{center}
+\end{titlepage}
+
+% -------------------------------------------------------------------
+% Declaration
+% -------------------------------------------------------------------
+
+\thispagestyle{empty} % Suppress page number on this page
+
+\newpage
+\null
+\newpage
+\setcounter{page}{1} % Ensure the next page starts as Page 1
+
+\chapter*{\Large Declaration}
+
+I, Fatima M. Pillosu, confirm that this is my work, and the use of all material from other sources has been properly and fully acknowledged. \\[1cm]
+
+\begin{flushright}
+Fatima M. Pillosu \\
+\today
+\end{flushright}
+
+% -------------------------------------------------------------------
+% Abstract
+% -------------------------------------------------------------------
+\newpage
+\null
+\newpage
+\setcounter{page}{3} % Ensure the next page starts as Page 3
+
+\chapter*{\Large Abstract}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta porttitor felis in congue. Nam tincidunt eleifend sapien, a ultricies quam consectetur ac. Pellentesque congue lorem et nisl vestibulum congue. Sed vitae ex eu sapien elementum iaculis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut dictum orci ut libero mollis accumsan. Suspendisse at nibh placerat, placerat lectus a, rhoncus leo. Suspendisse rutrum auctor eleifend. In maximus neque nec consequat semper. Phasellus ex dolor, tincidunt pulvinar purus nec, pellentesque ullamcorper quam. Phasellus ac quam a turpis sodales maximus a lacinia turpis. Proin elementum ullamcorper suscipit. Curabitur sed lorem nisl. Sed vestibulum consequat justo, id pulvinar neque congue in. Praesent eleifend dui sit amet magna consequat vehicula a eget leo. Etiam fermentum iaculis egestas. Sed erat nulla, tempus ut laoreet eget, sollicitudin non diam. Duis placerat elit id ex placerat efficitur. Suspendisse eget nisl non odio fermentum elementum non ac risus. Fusce velit tellus, consectetur vel dolor vitae, tristique pharetra mi. Nunc eget purus a eros faucibus dictum. Proin eleifend, magna sed rhoncus maximus, libero justo suscipit mi, vel ultricies sem ligula quis neque. Duis sagittis auctor turpis, sed aliquam urna faucibus quis. Nullam congue consectetur dignissim. In hac habitasse platea dictumst. Duis ipsum dui, aliquet a nulla eu, vestibulum scelerisque lorem. Aenean quam lectus, tempor eget ipsum at, luctus dapibus quam. Ut a velit felis. Praesent pellentesque tristique ligula, ut tristique eros aliquet at. In dapibus vel sapien eget aliquet. Etiam vestibulum enim eget molestie accumsan. Aliquam egestas sapien nec auctor eleifend. Etiam ornare eu magna volutpat ornare. Sed pharetra elit non lobortis varius. Pellentesque fringilla elementum venenatis. Ut iaculis pharetra vestibulum.
+
+% -------------------------------------------------------------------
+% Acknowledgements
+% -------------------------------------------------------------------
+\newpage
+\null
+\newpage
+\setcounter{page}{5} % Ensure the next page starts as Page 5
+
+\chapter*{\Large Acknowledgements}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta porttitor felis in congue. Nam tincidunt eleifend sapien, a ultricies quam consectetur ac. Pellentesque congue lorem et nisl vestibulum congue. Sed vitae ex eu sapien elementum iaculis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut dictum orci ut libero mollis accumsan. Suspendisse at nibh placerat, placerat lectus a, rhoncus leo. Suspendisse rutrum auctor eleifend. In maximus neque nec consequat semper. Phasellus ex dolor, tincidunt pulvinar purus nec, pellentesque ullamcorper quam. Phasellus ac quam a turpis sodales maximus a lacinia turpis. Proin elementum ullamcorper suscipit. Curabitur sed lorem nisl. Sed vestibulum consequat justo, id pulvinar neque congue in. Praesent eleifend dui sit amet magna consequat vehicula a eget leo. Etiam fermentum iaculis egestas. Sed erat nulla, tempus ut laoreet eget, sollicitudin non diam. Duis placerat elit id ex placerat efficitur. Suspendisse eget nisl non odio fermentum elementum non ac risus. Fusce velit tellus, consectetur vel dolor vitae, tristique pharetra mi. Nunc eget purus a eros faucibus dictum. Proin eleifend, magna sed rhoncus maximus, libero justo suscipit mi, vel ultricies sem ligula quis neque. Duis sagittis auctor turpis, sed aliquam urna faucibus quis. Nullam congue consectetur dignissim. In hac habitasse platea dictumst. Duis ipsum dui, aliquet a nulla eu, vestibulum scelerisque lorem. Aenean quam lectus, tempor eget ipsum at, luctus dapibus quam. Ut a velit felis. Praesent pellentesque tristique ligula, ut tristique eros aliquet at. In dapibus vel sapien eget aliquet. Etiam vestibulum enim eget molestie accumsan. Aliquam egestas sapien nec auctor eleifend. Etiam ornare eu magna volutpat ornare. Sed pharetra elit non lobortis varius.
+
+% --------------------------------------------------------------------
+% Contents, list of figures, list of tables, and list of abbreviations
+% --------------------------------------------------------------------
+\newpage
+\null
+\newpage
+\tableofcontents     % Table of Contents
+
+\newpage
+\null
+\newpage
+\listoffigures       % List of Figures
+
+\newpage
+\null
+\newpage
+\listoftables        % List of Tables
+
+\newpage
+\null
+\newpage
+\include{abbreviations.tex}
+\printnomenclature[3cm]  % List of Abbreviations
+
+\restoregeometry % Restore the default margins for the rest of the document
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                         %%  
+%%  Main Thesis' Chapters  %%  
+%%                         %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mainmatter  % Switch to Arabic numbering and reset page count
+
+% \include{chapter_01}       % Chapter 1
+% \include{chapter_02}       % Chapter 2
+\include{chapter_03}       % Chapter 3
+% \include{chapter_04}       % Chapter 4
+% \include{chapter_05}       % Chapter 5
+% \include{chapter_06}       % Chapter 6
+% \include{chapter_07}       % Chapter 7
+% \include{chapter_08}       % Chapter 8
+% \include{chapter_09}       % Chapter 9
+
+
+% Print the bibliography
+\newpage
+\null
+\newpage
+
+\ClearShipoutPicture
+\AddToShipoutPicture{%
+  \AtPageLowerLeft{%
+    \checkoddpage
+    \ifoddpage
+      \begin{tikzpicture}[remember picture,overlay] % Odd page → right edge
+        \draw[line width=80pt, white] 
+             (\paperwidth,0) -- (\paperwidth,\paperheight);
+      \end{tikzpicture}%
+    \else
+      \begin{tikzpicture}[remember picture,overlay] % Even page → left edge
+        \draw[line width=80pt, white] 
+             (0,0) -- (0,\paperheight);
+      \end{tikzpicture}%
+    \fi
+  }%
+}
+
+\bibliographystyle{ams}
+\bibliography{references} % References file
+
+\end{document}
