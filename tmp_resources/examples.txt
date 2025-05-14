@@ -26,21 +26,6 @@ Decore partem \marginpara{This is the mini-paragraph in the wide margin. It is a
 \label{eq:equation_example}
 \end{equation}
 
-
-% INSERT TEXT INSIDE A COLOURED BOX
-\begin{tcolorbox}[
-  colframe=custompink,  % Use the custom HEX color for the vertical line
-  colback=custompink,        % Background color remains white
-  sharp corners,        % Remove rounded corners
-  left=3mm,             % Space inside the box
-  right=3mm,            % Space inside the box
-  boxrule=1mm           % Thickness of the vertical line
-]
-{\color{custom_grey} {\setlength{\parindent}{1.0em} Sample text.}}
-\end{tcolorbox}
-
-[width=\textwidth]
-
 % INSERT COLOURED VERTICAL LINE TO TEH LEFT OF A TEXT
 \begin{tcolorbox}[
   colframe=custom_fuchsia,  % Use the custom HEX color for the vertical line
