@@ -1,22 +1,4 @@
-% To add coloured edge to the pages in the chapter
-\ClearShipoutPicture
-\AddToShipoutPicture{%
-  \AtPageLowerLeft{%
-    \checkoddpage
-    \ifoddpage
-      \begin{tikzpicture}[remember picture,overlay] % Odd page → right edge
-        \draw[line width=80pt, colour_chapter7_page] 
-             (\paperwidth,0) -- (\paperwidth,\paperheight);
-      \end{tikzpicture}%
-    \else
-      \begin{tikzpicture}[remember picture,overlay] % Even page → left edge
-        \draw[line width=80pt, colour_chapter7_page] 
-             (0,0) -- (0,\paperheight);
-      \end{tikzpicture}%
-    \fi
-  }%
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\chapter{Data-driven probability of flood: what predictability?}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\chapter{Data-driven probability of flood: what predictability?}
 \label{predictability_PoFF}
+\graphicspath{{chapter_07/figures}{chapter_07/tables}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
