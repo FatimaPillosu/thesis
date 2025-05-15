@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Datasets}
-\label{Datasets}
+\label{datasets}
 \graphicspath{{chapter_03/figures}{chapter_03/tables}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -101,10 +101,29 @@ Finally, equation \ref{eq:swvl_perc} computes the percentage of soil saturation:
 \text{swvl\_perc} = \frac{\text{swvl}}{\text{max\_sat\_field}}
 \end{equation}
 
-Figure \ref{} shows the 
+Figure \ref{eq:perc_soil_saturation_sr} shows an example of 
 
-ML-model input feature: ERA5’s percentage of soil saturation
-Dynamical field, VT: 31-08-2021 12 UTC to 01-09-2021 00 UTC
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.65]{03_perc_soil_saturation_sr.png}
+\caption{\textbf{Percentage of soil saturation} Panel (a) shows the spatial distribution over the CONUS of the soil type categories in ERA5. Panel (b) shows an example of the percentage of soil saturation for the short-range ERA5 for a VT between 31-08-2021 12 UTC and 01-09-2021 00 UTC.}
+\label{fig:perc_soil_saturation_sr}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \subsection{Slope of the orography}
@@ -146,6 +165,7 @@ While ERA5 provides a comprenhensive suite of hydro-meteorological variables, it
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flash flood impact observations: Storm Event Database over CONUS}
+\label{storm_event_database}
 
 \subsection{Dataset Description}
 
