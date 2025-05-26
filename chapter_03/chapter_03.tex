@@ -23,7 +23,7 @@ This research establishes the CONUS as the primary study domain for the flash-fl
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.65]{01_conus_domain_orography.png}
+\includegraphics[scale=0.65]{conus_domain_orography.png}
 \caption{\textbf{CONUS domain.} The figure shows the orography at 1 km resolution (in shades of green and brown) and the location of the 25 most populated cities (black dots) over the CONUS.}
 \label{fig:conus_domain}
 \end{figure}
@@ -101,19 +101,24 @@ Finally, equation \ref{eq:swvl_perc} computes the percentage of soil saturation:
 \text{swvl\_perc} = \frac{\text{swvl}}{\text{max\_sat\_field}}
 \end{equation}
 
-Figure \ref{fig:perc_soil_saturation_sr} shows a map plot for the percentage of soil saturation.
+Figure \ref{fig:perc_soil_saturation} shows a map plot for the percentage of soil saturation.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{03_perc_soil_saturation_sr.png}
+\includegraphics[width=\textwidth]{perc_soil_saturation.png}
 \caption{\textbf{Percentage of soil saturation} Panel (a) shows the spatial distribution over the CONUS of the soil type categories in ERA5. Panel (b) shows an example of the percentage of soil saturation for the short-range ERA5 for a VT between 31-08-2021 12 UTC and 01-09-2021 00 UTC.}
-\label{fig:perc_soil_saturation_sr}
+\label{fig:perc_soil_saturation}
 \end{figure}
 
 
 \subsection{Parameters to represent orography}
 
-
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{orography.png}
+\caption{\textbf{Variables to represent orography in the data-driven model to predict areas at risk of flash floods.} Panel (a) shows the map plot for the slope of sub-grid orography in ERA5. Panel (b) shows the map plot for the standard deviation of the filtered sub-grid orography.}
+\label{fig:orography}
+\end{figure}
 
 
 \subsection{Vegetation}
