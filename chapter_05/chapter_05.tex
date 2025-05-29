@@ -237,6 +237,18 @@ This configuration reflects a model that prioritises stability and generalisatio
 
 \subsection{Extension of regional training to global application}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{sensitivity_analysis_global_extension.png}
+\caption{\textbf{Global extension performance of regionally-trained XGBoost under different U.S. training data sampling strategies.} Violin plots show predicted probability distributions, whilst dots indicate percentage change in flash flood detection capability relative to climatological baseline. Three approaches tested: random sampling (Approach 1), domain-restricted training (Approach 2), and sub-regional training (Approach 3).}
+\label{fig:hydro_based_ff_cross_validation_optuna_breakdown_scores}
+\end{figure}
+
+The extension of the regionally-trained artificial neural network to global flash flood forecasting was evaluated through three distinct approaches, each employing different spatial sampling strategies for training data inclusion (Figure 4.X). The baseline configuration utilising all available U.S. flash flood reports (247,953 events) produced a conservative probability distribution, with most predictions remaining below 10\% and minimal grid boxes exceeding the climatological average flash flood probability. This full-data approach achieved a modest improvement of 1.42\% in correctly identifying flash flood events compared to climatological expectations.
+
+Approach 1, which implemented stratified sampling by randomly reducing flash flood reports to predetermined percentages (90\%, 50\%, and 10\%) across the entire U.S. domain, demonstrated variable performance. The 90\% sampling configuration marginally reduced the detection capability by 9.56\%, whilst the 50\% sampling showed a substantial degradation of 36.50\%. Surprisingly, the 10\% sampling configuration exhibited only a 13.75\% reduction, suggesting non-linear relationships between training data volume and model performance.
+
+Approaches 2 and 3 explored spatially-constrained training strategies. When training was restricted to portions of the domain (Approach 2), the model's probability distributions shifted towards higher values, particularly evident in the increased whisker extents reaching 10-12\%. However, this shift was accompanied by performance degradation ranging from 1.18\% to 52.04\%, with the most severe reduction occurring when training data were most geographically limited. Approach 3, utilising only flash flood reports from specific sub-regions, produced the most pronounced probability distribution changes, with substantially higher predicted probabilities compared to other approaches. Whilst some configurations showed improved detection rates (up to 1.42\% improvement), others experienced severe performance degradation, with reductions reaching 39.00\%. The inconsistent performance across different regional subsets highlights the critical importance of training data representativeness for successful global model deployment. These results suggest that whilst data reduction strategies can maintain reasonable performance under certain conditions, the spatial distribution and diversity of training data play a more crucial role than absolute data volume in determining the transferability of regional flash flood forecasting models to global applications.
 
 %%%%%%%%%
 \section{Catalogue of flash flood events}
