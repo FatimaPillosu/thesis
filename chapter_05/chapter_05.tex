@@ -173,8 +173,8 @@ Figure \ref{} illustrates the optimisation history for a representative outer fo
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{dummy_optuna.png}
-\caption{\textbf{Overall scores to estimate the model performance during the nested stratified k-fold cross validation.} Panels (a) to (d) show the values for, respectively, the area under the ROC curve, recall, F1-score, and training + hyperparameter optimisation time per outer fold. The solid colour lines represent the different models: gradient boosting - XGBoost implementation - in blue, gradient boosting - LightGBM implementation - in red, gradient boosting - CatBoost implementation - in cyan, random forest - XGBoost implementation - in orange, random forest - LightGBM implementation - in green, and feed forward neural network in yellow.}
-\label{fig:hydro_based_ff_cross_validation_optuna_overall_scores}
+\caption{\textbf{Convergence of Optuna hyperparameter optimisation during nested stratified 5 × 3 cross-validation} Panels (a) to (e) correspond to the outer folds. Within each panel, the three coloured staircase lines show the running best validation area under ROC curve returned from the three inner folds over the 20 trials of the hyper-parameter search. A sharp improvement is typically found between trials \sim8–13, after which the curves flatten, indicating that the optimiser converges.}
+\label{fig:dummy_optuna}
 \end{figure}
 
 \subsection{Training progression and convergence}
