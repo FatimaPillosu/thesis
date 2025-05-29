@@ -141,6 +141,50 @@ The reliability diagrams get closer to the diagonal line (indicating perfect bia
 
 \subsection{Model training}
 
+\subsubsection{Training methodology}
+
+The development of the data-driven predictions of areas at risk of flash floods employed a systematic training approach designed to optimise predictive performance whilst ensuring generalisability due to the severe imbalance problem in the training dataset. 
+
+The model architectures comprised decision-tree-based algorithms such as random forest and gradient boosting (XGBoost and CatBoost), and a feed-forward neural network. We considered 7 input features such as the probability of exceeding a certain rainfall return period, the maximum probability of exceeding a certain rainfall return period in the adjacent grid-boxes within a radius, the antecedent soil moisture, the steepness of the orography, and the vegetation coverage. 
+
+The training dataset comprises 53,245 yes-events over 19,746,990 grid-boxes (0.27\% of yes-events), spanning the years between 2001 to 2020. 
+
+To ensure a robust model evaluation and prevent overfitting, a nested cross-validation strategy was implemented, employing 5-fold cross-validation for the outer loop and 3-fold for hyperparameter optimisation in the inner loop. 
+
+The input feature set underwent normalisation for the neural network, calculated independently for each training fold to prevent data leakage.
+
+No missing values strategies was applied to the dataset as there not were any by design.
+
+
+\subsubsection{Hyperparameter optimisation}
+
+
+
+\subsection{Training progression and convergence}
+
+
+\subsubsection{Computation requirements}
+
+
+
+\subsubsection{Final model selection}
+
+The final model configuration was selected based on the performance metrics across all cross-validation folds. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \subsection{Comparative performance analysis with the rainfall-based predictions}
 \subsubsection{Discrimination ability}
 \subsubsection{Reliability}
