@@ -157,8 +157,25 @@ No missing values strategies was applied to the dataset as there not were any by
 
 
 \subsubsection{Hyperparameter optimisation}
+Hyperparameter selection employed Optuna (version 4.3.0), a state-of-the-art hyperparameter optimisation framework utilising tree-structured Parzen estimator (TPE) sampling. This Bayesian optimisation approach was integrated within the inner loop of the nested k-fold cross-validation procedure, ensuring unbiased performance estimates whilst identifying optimal hyperparameter configurations.
 
+For each outer fold, an independent Optuna study was initiated with 20 trials, allowing the algorithm to explore the hyperparameter space. The objective function maximised the mean AROC across the inner k-fold cross-validation splits, with early pruning implemented via Optuna's MedianPruner to terminate unpromising trials and reduce computational overhead.
 
+The hyperparameter search space was defined as stated in Table .:
+
+[Parameter 1]: Log-uniform distribution over [[min], [max]]
+[Parameter 2]: Uniform distribution over [[min], [max]]
+[Parameter 3]: Categorical distribution over [options]
+[Parameter 4]: Integer uniform distribution over [[min], [max]]
+
+Figure \ref{} illustrates the optimisation history for a representative outer fold, demonstrating the TPE algorithm's efficiency in identifying high-performing configurations. The solid lines track the trail with the "best value" for the objective. Convergence towards optimal values typically occurred within 10 and 15 trials. Optuna run the full set of 20 trials for all outer loops as shown in Figure \ref{}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{dummy_optuna.png}
+\caption{\textbf{Overall scores to estimate the model performance during the nested stratified k-fold cross validation.} Panels (a) to (d) show the values for, respectively, the area under the ROC curve, recall, F1-score, and training + hyperparameter optimisation time per outer fold. The solid colour lines represent the different models: gradient boosting - XGBoost implementation - in blue, gradient boosting - LightGBM implementation - in red, gradient boosting - CatBoost implementation - in cyan, random forest - XGBoost implementation - in orange, random forest - LightGBM implementation - in green, and feed forward neural network in yellow.}
+\label{fig:hydro_based_ff_cross_validation_optuna_overall_scores}
+\end{figure}
 
 \subsection{Training progression and convergence}
 
@@ -169,7 +186,7 @@ No missing values strategies was applied to the dataset as there not were any by
 
 \subsubsection{Final model selection}
 
-The final model configuration was selected based on the performance metrics across all cross-validation folds. Figure \ref{fig:hydro_based_ff_cross_validation_optuna} summarises the overall performance statistics for all the considered models, highlighting the superior stability and performance of the XGBoost implementation of the gradient boosting model. 
+The final model configuration was selected based on the performance metrics across all cross-validation folds. Figure \ref{fig:hydro_based_ff_cross_validation_optuna_overall_scores} summarises the overall performance statistics for all the considered models, highlighting the superior stability and performance of the XGBoost implementation of the gradient boosting model. 
 
 For each outer loop, the figure shows the average values obtained for each score in the inner loops. Overall, the decision-tree-based models provide a better performance than the neural networks. 
 
@@ -177,16 +194,17 @@ No trends in model performance across the chronologically ordered outer folds is
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{hydro_based_ff_cross_validation_optuna.png}
-\caption{\textbf{Model performance during the nested stratified k-fold cross validation for model training and hyperparameter optimisation.} Panels (a) to (d) show the values for, respectively, the area under the ROC curve, recall, F1-score, and training + hyperparameter optimisation time per outer fold. The solid colour lines represent the different models: gradient boosting - XGBoost implementation - in blue, gradient boosting - LightGBM implementation - in red, gradient boosting - CatBoost implementation - in cyan, random forest - XGBoost implementation - in orange, random forest - LightGBM implementation - in green, and feed forward neural network in yellow.}
-\label{fig:hydro_based_ff_cross_validation_optuna}
+\includegraphics[width=\textwidth]{hydro_based_ff_cross_validation_optuna_overall_scores.png}
+\caption{\textbf{Overall scores to estimate the model performance during the nested stratified k-fold cross validation.} Panels (a) to (d) show the values for, respectively, the area under the ROC curve, recall, F1-score, and training + hyperparameter optimisation time per outer fold. The solid colour lines represent the different models: gradient boosting - XGBoost implementation - in blue, gradient boosting - LightGBM implementation - in red, gradient boosting - CatBoost implementation - in cyan, random forest - XGBoost implementation - in orange, random forest - LightGBM implementation - in green, and feed forward neural network in yellow.}
+\label{fig:hydro_based_ff_cross_validation_optuna_overall_scores}
 \end{figure}
 
-
-
-
-
-
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{hydro_based_ff_cross_validation_optuna_breakdown_scores.png}
+\caption{\textbf{Breakdown scores to estimate the model performance during the nested stratified k-fold cross validation.} Figures in panel (a) show the ROC curves for all the outer loops for gradient boosting - XGBoost implementation - in blue, gradient boosting - LightGBM implementation - in red, gradient boosting - CatBoost implementation - in cyan, random forest - XGBoost implementation - in orange, random forest - LightGBM implementation - in green, and feed forward neural network in yellow. Figures in panel (b) show the reliability diagrams for each outer loop (rows) and each model (columns).}
+\label{fig:hydro_based_ff_cross_validation_optuna_breakdown_scores}
+\end{figure}
 
 \subsection{Comparative performance analysis with the rainfall-based predictions}
 \subsubsection{Discrimination ability}
