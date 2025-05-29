@@ -169,15 +169,18 @@ No missing values strategies was applied to the dataset as there not were any by
 
 \subsubsection{Final model selection}
 
-The final model configuration was selected based on the performance metrics across all cross-validation folds. 
+The final model configuration was selected based on the performance metrics across all cross-validation folds. Figure \ref{fig:hydro_based_ff_cross_validation_optuna} summarises the overall performance statistics for all the considered models, highlighting the superior stability and performance of the XGBoost implementation of the gradient boosting model. 
 
+For each outer loop, the figure shows the average values obtained for each score in the inner loops. Overall, the decision-tree-based models provide a better performance than the neural networks. 
 
+No trends in model performance across the chronologically ordered outer folds is observed, suggesting stationarity in the underlying relationships.  
 
-
-
-
-
-
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{hydro_based_ff_cross_validation_optuna.png}
+\caption{\textbf{Model performance during the nested stratified k-fold cross validation for model training and hyperparameter optimisation.} Panels (a) to (d) show the values for, respectively, the area under the ROC curve, recall, F1-score, and training + hyperparameter optimisation time per outer fold. The solid colour lines represent the different models: gradient boosting - XGBoost implementation - in blue, gradient boosting - LightGBM implementation - in red, gradient boosting - CatBoost implementation - in cyan, random forest - XGBoost implementation - in orange, random forest - LightGBM implementation - in green, and feed forward neural network in yellow.}
+\label{fig:hydro_based_ff_cross_validation_optuna}
+\end{figure}
 
 
 
