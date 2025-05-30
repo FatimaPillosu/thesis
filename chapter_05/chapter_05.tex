@@ -224,10 +224,24 @@ This configuration reflects a model that prioritises stability and generalisatio
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Assessment of short- and long-range data-driven hydro-meteorological predictions of areas at risk of flash floods}
 
-\subsubsection{Discrimination ability}
+\subsubsection{Overall verification scores}
 
-\subsubsection{Reliability}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{hydro_based_ff_verif_overall_scores.png}
+\caption{\textbf{Overall verification scores for data-driven, hydro-meteorological forecasts.} Panel (a) shows the Area under the ROC curve for the short-range forecasts (i.e., reanalysis, lead time = 0), and the long-range forecasts (lead time = 1 - t+24, lead time = 2 - t+48, lead time = 3 - t+72, lead time = 4, t+96, lead time = 5, t+120). Panels (b) to (c) show, respectively, the frequency bias, the recall, and the F1-score.}
+\label{fig:hydro_based_ff_verif_overall_scores}
+\end{figure}
 
+
+\subsubsection{Breakdown verification scores}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{hydro_based_ff_verif_breakdown_scores_rel_diag.png}
+\caption{\textbf{Breakdown verification scores for data-driven, hydro-meteorological forecasts - Reliability diagrams} Panels (a) to (f) show the reliability diagrams, respectively, for the short-range forecasts (i.e., reanalysis), for the long range forecasts at t+24 (day 1), t+48 (day 2), t+72 (day 3), t+96 (day 4), and t+120 (day 5).}
+\label{fig:hydro_based_ff_verif_breakdown_scores_rel_diag}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
