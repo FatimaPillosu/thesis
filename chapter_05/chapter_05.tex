@@ -224,10 +224,46 @@ This configuration reflects a model that prioritises stability and generalisatio
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Assessment of short- and long-range data-driven hydro-meteorological predictions of areas at risk of flash floods}
 
-\subsubsection{Discrimination ability}
+\subsubsection{Overall verification scores}
 
-\subsubsection{Reliability}
+Figure \ref{fig:hydro_based_ff_verif_overall_scores} presents the results of the objective verification analysis carried out on the hydro-meteorological, data-driven predictions of areas at risk of flash floods. It shows distinct performance characteristics between the short-range forecasts (also known as reanalysis) and the long-range forecasts (up to t +120, day 5). It is worth noticing that day 1 forecasts (t+24) have a very similar value compared to those for day 0 (short-range) forecasts, in all verification scores. 
 
+The area under the ROC curve (Figure \ref{fig:hydro_based_ff_verif_overall_scores}a) shows forecasts with strong discrimination ability, maintaining values above 0.75 across all lead times. The short-range forecast (lead time 0) and day 1 forecasts achieve the highest discrimination performance with an AROC of approximately 0.83, indicating excellent ability to distinguish between flash flood and non-flash flood events. As lead time increases, the AROC exhibits a gradual linear decline, reaching \sim0.77 at day 5 forecasts (\sim7\% reduction in discrimination ability from day 0). Such a small reduction, especially compared to the rainfall-based forecasts, represents a modest degradation considering the extended forecast range, suggesting that the model maintains substantial predictive skill even at longer lead times.
+
+The frequency bias (Figure \ref{fig:hydro_based_ff_verif_overall_scores}b) reveals a dramatic shift in forecast behaviour between short-range and long-range predictions. The day 1 forecasts show nearly identical frequency bias compared to day 0 (short-range) forecasts, i.e, \sim15. From day 2 forecasts, the frequency bias starts increasing, reaching a frequency bias that doubles the one at day 1 (\sim 31) at day 4. Comparing these results to the rainfall-based forecasts, where the frequency bias remains mostly constant over the different lead times, it would not be reasonable to think that the degradation of the frequency bias in the hydro-meteorological, data-driven forecasts are mainly due to variations in skill of the soil moisture with lead time, as the other parameters adopted in the data-driven model (orography and vegetation cover, are either static or climatological).
+
+The recall (Figure \ref{fig:hydro_based_ff_verif_overall_scores}c) and F1-score (Figure \ref{fig:hydro_based_ff_verif_overall_scores}d) show a similar pattern. The day 1 forecasts show a slightly higher value compared to the one at day 0 (\sim 0.11 for recall and 0.08 for F1-score). From day 2, both scores half around day 5. This means that, according to both metrics, the model's ability to detect true positives deteriorates significantly beyond day 2, with the 5-day forecast detecting \sim half the events identified by the short-range forecast or the day 1 forecasts.
+
+These verification metrics collectively indicate that the data-driven approach performs optimally at 0-1 day lead times, with acceptable performance extending to day 2. Beyond this threshold, whilst discrimination ability (AROC) remains reasonable, the operational utility diminishes substantially due to excessive false alarm rates and reduced detection capability, suggesting to further adjust the lead-time-dependent probability thresholds or alternative modelling strategies for extended-range flash flood forecasting.
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{hydro_based_ff_verif_overall_scores.png}
+\caption{\textbf{Overall verification scores for data-driven, hydro-meteorological forecasts.} Panel (a) shows the Area under the ROC curve for the short-range forecasts (i.e., reanalysis, lead time = 0), and the long-range forecasts (lead time = 1 - t+24, lead time = 2 - t+48, lead time = 3 - t+72, lead time = 4, t+96, lead time = 5, t+120). Panels (b) to (c) show, respectively, the frequency bias, the recall, and the F1-score.}
+\label{fig:hydro_based_ff_verif_overall_scores}
+\end{figure}
+
+
+\subsubsection{Breakdown verification scores}
+
+As seen in the overall verification scores, also the ROC curve for a day 1 (Figure \ref{fig:hydro_based_ff_verif_breakdown_scores_roc}, dashed line) forecast is nearly identical (almost perfect overlap) with day 0 forecasts (\ref{fig:hydro_based_ff_verif_breakdown_scores_roc}, solid and thicker line). Then, there is a small and gradual worsening of the ROC for longer-range forecasts observed by the flattening of the ROC curves towards the diagram's diagonal. Such flattening means that for a similar hit rate, the false alarms increase slightly, around 0.1.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{hydro_based_ff_verif_breakdown_scores_roc.png}
+\caption{\textbf{Breakdown verification scores for data-driven, hydro-meteorological forecasts - ROC curves} Panels (a) to (f) show the ROC curves, respectively, for the short-range forecasts (i.e., reanalysis), for the long range forecasts at t+24 (day 1), t+48 (day 2), t+72 (day 3), t+96 (day 4), and t+120 (day 5).}
+\label{fig:hydro_based_ff_verif_breakdown_scores_roc}
+\end{figure}
+
+From the reliability diagrams (Figure \ref{fig:hydro_based_ff_verif_breakdown_scores_rel_diag}) it is possible to understand better why the frequency bias increases significantly with the lead time \ref{fig:hydro_based_ff_verif_overall_scores}b. The reliability diagrams for day 0 (\ref{fig:hydro_based_ff_verif_breakdown_scores_rel_diag}a) and for day 1 (\ref{fig:hydro_based_ff_verif_breakdown_scores_rel_diag}b) are very similar. However, day 0 reliability shows a wider range of probabilities (up to \sim 15\%) with predicted probabilities similar to those observed than day 1 (with probabilities with this similar behaviour only up to \sim 10\%). At day 2 forecasts, the range of well calibrated probabilities diminishes up to 5\%, and from day 3, the predictions show mostly overestimation of the observed frequencies from forecasts probabilities exceeding 1\%. It is worth noticing how, also in the case of the rainfall-based forecasts, also the data-driven forecasts do not show a reduction of the issued probabilities with increasing lead times. As discussed in relevant section, this is due to the fact that we are using a rainfall forecasts that post-processed a deterministic system.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{hydro_based_ff_verif_breakdown_scores_rel_diag.png}
+\caption{\textbf{Breakdown verification scores for data-driven, hydro-meteorological forecasts - Reliability diagrams} Panels (a) to (f) show the reliability diagrams, respectively, for the short-range forecasts (i.e., reanalysis), for the long range forecasts at t+24 (day 1), t+48 (day 2), t+72 (day 3), t+96 (day 4), and t+120 (day 5).}
+\label{fig:hydro_based_ff_verif_breakdown_scores_rel_diag}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
