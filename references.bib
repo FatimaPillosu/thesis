@@ -1,4 +1,230 @@
 
+@article{Luo_2025a,
+	title = {Improving {GBDT} performance on imbalanced datasets: {An} empirical study of class-balanced loss functions},
+	volume = {634},
+	issn = {09252312},
+	shorttitle = {Improving {GBDT} performance on imbalanced datasets},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S0925231225005685},
+	doi = {10.1016/j.neucom.2025.129896},
+	abstract = {Class imbalance poses a persistent challenge in machine learning, particularly for tabular data classification tasks. While Gradient Boosting Decision Trees (GBDT) models are widely regarded as state-of-the-art for these tasks, their effectiveness diminishes in the presence of imbalanced datasets. This paper is the first to comprehensively explore the integration of class-balanced loss functions into three popular GBDT algorithms, addressing binary, multi-class, and multi-label classification. We present a novel benchmark, derived from extensive experiments across diverse datasets, to evaluate the performance gains from class-balanced losses in GBDT models. Our findings establish the efficacy of these loss functions in enhancing model performance under class imbalance, providing actionable insights for practitioners tackling real-world imbalanced data challenges. To bridge the gap between research and practice, we introduce an open-source Python package that simplifies the application of class-balanced loss functions within GBDT workflows, democratizing access to these advanced methodologies. The code is available at https://github.com/Luojiaqimath/ClassbalancedLoss4GBDT.},
+	language = {en},
+	urldate = {2025-06-02},
+	journal = {Neurocomputing},
+	author = {Luo, Jiaqi and Yuan, Yuan and Xu, Shixin},
+	month = jun,
+	year = {2025},
+	pages = {129896},
+}
+
+@article{Xu_2022,
+	title = {A {Comparative} {Study} of {Shallow} {Machine} {Learning} {Models} and {Deep} {Learning} {Models} for {Landslide} {Susceptibility} {Assessment} {Based} on {Imbalanced} {Data}},
+	volume = {13},
+	doi = {10.3390/f13111908},
+	abstract = {A landslide is a type of geological disaster that poses a threat to human lives and property. Landslide susceptibility assessment (LSA) is a crucial tool for landslide prevention. This paper’s primary objective is to compare the performances of conventional shallow machine learning methods and deep learning methods in LSA based on imbalanced data to evaluate the applicability of the two types of LSA models when class-weighted strategies are applied. In this article, logistic regression (LR), random forest (RF), deep fully connected neural network (DFCNN), and long short-term memory (LSTM) neural networks were employed for modeling in the Zigui-Badong area of the Three Gorges Reservoir area, China. Eighteen landslide influence factors were introduced to compare the performance of four models under a class balanced strategy versus a class imbalanced strategy. The Spearman rank correlation coefficient (SRCC) was applied for factor correlation analysis. The results reveal that the elevation and distance to rivers play a dominant role in LSA tasks. It was observed that DFCNN (AUC = 0.87, F1-score = 0.60) and LSTM (AUC = 0.89, F1-score = 0.61) significantly outperformed LR (AUC = 0.89, F1-score = 0.50) and RF (AUC = 0.88, F1-score = 0.50) under the class imbalanced strategy. The RF model achieved comparable outcomes (AUC = 0.90, F1-score = 0.61) to deep learning models under the class balanced strategy and ran at a faster training speed (up to 63 times faster than deep learning models). The LR model performance was inferior to that of the other three models under the balanced strategy. Meanwhile, the deep learning models and the shallow machine learning models showed significant differences in susceptibility spatial patterns. This paper’s findings will aid researchers in selecting appropriate LSA models. It is also valuable for land management policy making and disaster prevention and mitigation.},
+	number = {11},
+	journal = {Forests},
+	author = {Xu, Shiluo and Song, Yingxu and Hao, Xiulan},
+	year = {2022},
+	pages = {1908},
+}
+
+@article{Kumar_2021,
+	title = {Classification of {Imbalanced} {Data}:{Review} of {Methods} and {Applications}},
+	volume = {1099},
+	doi = {10.1088/1757-899X/1099/1/012077},
+	abstract = {Imbalance in dataset enforces numerous challenges to implement data analytic in all existing real world applications using machine learning. Data imbalance occurs when sample size from a class is very small or large then another class. Performance of predicted models is greatly affected when dataset is highly imbalanced and sample size increases. Overall, Imbalanced training data have a major negative impact on performance. Leading machine learning technique combat with imbalanced dataset by focusing on avoiding the minority class and reducing the inaccuracy for the majority class. This article presents a review of different approaches to classify imbalanced dataset and their application areas.},
+	number = {012077},
+	journal = {IOP Conference Series: Materials Science and Engineering},
+	author = {Kumar, Pradeep and Bhatnagar, Roheet and Gaur, Kuntal and Bhatnagar, Anurag},
+	year = {2021},
+	pages = {1--8},
+}
+
+@article{Hewson_2021,
+	title = {A low-cost post-processing technique improves weather forecasts around the world},
+	volume = {2},
+	doi = {10.1038/s43247-021-00185-9},
+	abstract = {Computer-generated weather forecasts divide the Earth’s surface into gridboxes, each currently spanning about 400 km2, and predict one value per gridbox. If weather varies markedly within a gridbox, forecasts for specific sites inevitably fail. Here we present a statistical post-processing method for ensemble forecasts that accounts for the degree of variation within each gridbox, bias on the gridbox scale, and the weather dependence of each. When applying this post-processing, skill improves substantially across the globe; for extreme rainfall, for example, useful forecasts extend 5 days ahead, compared to less than 1 day without post-processing. Skill improvements are attributed to creation of huge calibration datasets by aggregating, globally rather than locally, forecast-observation differences wherever and whenever the observed “weather type” was similar. A strong focus on meteorological understanding also contributes. We suggest that applications for our methodology include improved flash flood warnings, physics-related insights into model weaknesses and global pointwise re-analyses.},
+	number = {1},
+	journal = {Communications Earth \& Environment},
+	author = {Hewson, Timothy David and Pillosu, Fatima Maria},
+	year = {2021},
+	pages = {1--10},
+}
+
+@article{Gascón_2024,
+	title = {Post-processing output from ensembles with and without parametrised convection, to create accurate, blended, high-fidelity rainfall forecasts},
+	volume = {150},
+	doi = {10.1002/qj.4753},
+	abstract = {Flash flooding is a significant societal problem, but related precipitation forecasts are often poor. To address, one can try to use output from convection-parametrising (global) ensembles, post-processed to forecast at point-scale, or convection-resolving limited area ensembles. The new methodology described here combines both. We apply “ecPoint-rainfall” post-processing to the ECMWF global ensemble. Alongside we use 2.2 km COSMO LAM ensemble output (centred on Italy), and also post-process that, using a scale-selective neighbourhood approach to compensate for insufficient members and to preserve consistently forecast local details. The two resulting scale-compatible components then undergo lead-time-weighted blending, to create the final probabilistic 6 h rainfall forecasts. Product creation for forecasters, in this way, constituted the “Italy Flash Flood use case” within the EU-funded MISTRAL project; real-time delivery of open access products is ongoing. One year of verification shows that, of the five components (2 {\textbackslash} {\textbackslash}times {\textbackslash} raw, 2 {\textbackslash} {\textbackslash}times {\textbackslash} post-processed and blended), ecPoint is the most skilful. The post-processed COSMO ensemble adds most value to summer convective events in the evening, when the global model has an underprediction bias. In two typical heavy rainfall case studies we observed underestimation of the largest point totals in the raw ECMWF ensemble, and overestimation in the raw COSMO ensemble. However, ecPoint elevated the ECMWF maxima and highlighted best the most affected areas and merged products seemed to be the most skilful of all. Even though our LAM post-processing does not include (or arguably need) bias-correction, this study still provides a unique blueprint for successfully combining ensemble rainfall forecasts from global and LAM systems around the world. It also has important implications for forecast products as global ensembles move ever closer to having convection-permitting resolution.},
+	number = {762},
+	journal = {Quarterly Journal of the Royal Meteorological Society},
+	author = {Gascón, Estíbaliz and Montani, Andrea and Hewson, Tim D.},
+	year = {2024},
+	pages = {3117--3145},
+}
+
+@article{Vannitsem_2021,
+	title = {Statistical {Postprocessing} for {Weather} {Forecasts}: {Review}, {Challenges}, and {Avenues} in a {Big} {Data} {World}},
+	volume = {102},
+	doi = {10.1175/BAMS-D-19-0308.1},
+	abstract = {Statistical postprocessing techniques are nowadays key components of the forecasting suites in many national meteorological services (NMS), with, for most of them, the objective of correcting the impact of different types of errors on the forecasts. The final aim is to provide optimal, automated, seamless forecasts for end users. Many techniques are now flourishing in the statistical, meteorological, climatological, hydrological, and engineering communities. The methods range in complexity from simple bias corrections to very sophisticated distribution-adjusting techniques that incorporate correlations among the prognostic variables. The paper is an attempt to summarize the main activities going on in this area from theoretical developments to operational applications, with a focus on the current challenges and potential avenues in the field. Among these challenges is the shift in NMS toward running ensemble numerical weather prediction (NWP) systems at the kilometer scale that produce very large datasets and require high-density high-quality observations, the necessity to preserve space–time correlation of high-dimensional corrected fields, the need to reduce the impact of model changes affecting the parameters of the corrections, the necessity for techniques to merge different types of forecasts and ensembles with different behaviors, and finally the ability to transfer research on statistical postprocessing to operations. Potential new avenues are also discussed.},
+	number = {3},
+	journal = {Bulletin of the American Meteorological Society},
+	author = {Vannitsem, Stéphane and Bremnes, John Bjørnar and Demaeyer, Jonathan and Evans, Gavin R. and Flowerdew, Jonathan and Hemri, Stephan and Lerch, Sebastian and Roberts, Nigel and Theis, Susanne and Atencia, Aitor and Bouallègue, Zied Ben and Bhend, Jonas and Dabernig, Markus and Cruz, Lesley De and Hieta, Leila and Mestre, Olivier and Moret, Lionel and Plenković, Iris Odak and Schmeits, Maurice and Taillardat, Maxime and Bergh, Joris Van den and Schaeybroeck, Bert Van and Whan, Kirien and Ylhaisi, Jussi},
+	year = {2021},
+	pages = {E681--E699},
+}
+
+@article{Maybee_2024,
+	title = {{FOREWARNS}: development and multifaceted verification of enhanced regional-scale surface water flood forecasts},
+	volume = {24},
+	doi = {10.5194/nhess-24-1415-2024},
+	abstract = {Surface water flooding (SWF) is a severe hazard associated with extreme convective rainfall, whose spatial and temporal sparsity belie the significant impacts it has on populations and infrastructure. Forecasting the intense convective rainfall that causes most SWF on the temporal and spatial scales required for effective flood forecasting remains extremely challenging. National-scale flood forecasts are currently issued for the UK and are well regarded amongst flood responders, but there is a need for complementary enhanced regional information. Here we present a novel SWF-forecasting method, FOREWARNS (Flood fOREcasts for Surface WAter at a RegioNal Scale), that aims to fill this gap in forecast provision. FOREWARNS compares reasonable worst-case rainfall from a neighbourhood-processed, convection-permitting ensemble forecast system against pre-simulated flood scenarios, issuing a categorical forecast of SWF severity. We report findings from a workshop structured around three historical flood events in Northern England, in which forecast users indicated they found the forecasts helpful and would use FOREWARNS to complement national guidance for action planning in advance of anticipated events. We also present results from objective verification of forecasts for 82 recorded flood events in Northern England from 2013–2022, as well as 725 daily forecasts spanning 2019–2022, using a combination of flood records and precipitation proxies. We demonstrate that FOREWARNS offers good skill in forecasting SWF risk, with high spatial hit rates and low temporal false alarm rates, confirming that user confidence is justified and that FOREWARNS would be suitable for meeting the user requirements of an enhanced operational forecast.},
+	number = {4},
+	journal = {Natural Hazards and Earth System Sciences},
+	author = {Maybee, Ben and Birch, Cathryn E. and Böing, Steven J. and Willis, Thomas and Speight, Linda and Porson, Aurore N. and Pilling, Charlie and Shelton, Kay L. and Trigg, Mark A.},
+	year = {2024},
+	pages = {1415--1436},
+}
+
+@article{Alfieri_2015a,
+	title = {A {European} precipitation index for extreme rain-storm and flash flood early warning},
+	volume = {22},
+	doi = {10.1002/met.1328},
+	abstract = {Extreme rain storms are known for triggering devastating flash floods in various regions of Europe and particularly along the Mediterranean coasts. Despite recent notable advances in weather forecasting, most operational early warning systems for extreme rainstorms and flash floods are still based on rainfall measurements from rain gauges and weather radars, rather than on forecasts. As a result, warning lead times are bounded to a few hours and warnings are usually issued when the event is already taking place.
+This work proposes a novel early warning system for heavy precipitation events in Europe, aimed at identifying forecasts of extreme rainfall accumulations over short durations and within small-size catchments prone to flash flooding. The system is based on the recently developed European Precipitation Index based on simulated Climatology (EPIC), which is calculated using COSMO-LEPS ensemble weather forecasts and subsequently fitted with gamma distributions at each time step of the forecast horizon. Probabilistic exceedence of warning thresholds is calculated and alert points are generated where potentially extreme events are detected. Comparison of daily runs over 22 months with observed rainstorm events and flash floods in Europe denotes a probability of detection up to 90\%, corresponding to 45 events correctly predicted, with average lead time of 32 h. Copyright © 2012 Royal Meteorological Society},
+	number = {1},
+	journal = {Meteorological Applications},
+	author = {Alfieri, L. and Thielen, J.},
+	year = {2015},
+	pages = {3--13},
+}
+
+@misc{UN_2022,
+	title = {Early {Warnings} for {All}},
+	url = {https://www.un.org/en/climatechange/early-warnings-for-all},
+	author = {UN},
+	year = {2022},
+}
+
+@article{WMO_2025,
+	title = {State of the climate 2024},
+	url = {https://wmo.int/publication-series/state-of-global-climate-2024},
+	author = {WMO, World Meteorological Organization},
+	year = {2025},
+}
+
+@article{Iqbal_2023,
+	title = {Health {Consequences} of {Natural} {Disasters}: {An} {Overview} of {Recent} {Literature} on {Floods}},
+	volume = {13},
+	doi = {10.32413/pjph.v13i4.1287},
+	abstract = {Disasters, whether arising from natural forces or human activities, engender substantial harm, loss, and, in severe cases, fatalities. The enduring repercussions extend across individuals, animals, societies, ecosystems, and geographical locations. The consequences of disasters on public health are particularly pronounced, manifesting in a spectrum of medical outcomes. This review delves into the specific impact of floods on distinct age groups, scrutinizing the varying vulnerabilities within each demographic. Infants, young children, teenagers, adults, and the elderly encounter distinctive challenges during and post-flood events, encompassing respiratory ailments, waterborne diseases, infections, hunger, physical injuries, and psychological disorders. Floods not only compromise healthcare services but also precipitate shortages in medication and suboptimal treatment. Health issues resulting from floods exhibit divergence among neonates, infants, children, adolescents, and older individuals. The susceptibility to physical injuries, infections, respiratory disorders, healthcare disruptions, mental health issues, malnutrition, and waterborne diseases varies with the unique vulnerabilities of each age group. Disruptions to routine life disproportionately impact children and adolescents, whereas infants and older individuals exhibit heightened susceptibility. Extreme flood events pose the potential for fatalities, with the risk contingent on both the severity of the flood and the age group affected. Older adults, newborns, and infants face a higher likelihood of mortality attributable to flood-related causes. Mitigating the adverse health effects of floods necessitates robust disaster planning, improved infrastructure, and targeted health interventions tailored to the age-related vulnerabilities of the population.},
+	number = {4},
+	journal = {Pakistan Journal of Public Health},
+	author = {Iqbal, Jamshaid and Bux, Hazor and Sahitia, Sundeep},
+	year = {2023},
+	pages = {192--199},
+}
+
+@article{Lee_2020,
+	title = {Water-related disasters and their health impacts: {A} global review},
+	volume = {8},
+	doi = {10.1016/j.pdisas.2020.100123},
+	abstract = {While the frequency and intensity of floods and droughts have dramatically increased over the past century, there is limited epidemiological evidence on the health impacts of these disasters. The paper examines the global trends and main health impacts of these events based on databases and case studies, identifies gaps in the Sustainable Development Goals (SDGs) indicator framework for monitoring health impacts of disasters and suggests recommendations to address these gaps. Natural disaster data and 38 case studies published from 2008 to 2018 were reviewed, and measures of association (Risk Ratio, Odds Ratio, and Incidence Rate Ratio) were extracted from the case studies for quantitative analysis. The findings of the review indicate that the SDGs lack of multifactorial disease and mental health risk factors, as well as water-borne disease indicators, misses critical health-associated impacts of floods and droughts. In particular, the narrow focus on suicide as an indicator of mental health overlooks how anxiety disorders or post-traumatic stress disorder (PTSD) can also have severe consequences for those affected by disasters. Health must be included in resilience-building initiatives at the individual, community, and national levels. The findings of the study suggest that further implementation research of the Sendai Framework and disaster risk reduction (DRR) efforts can contribute to the development of the broadly framed concept of health resilience to meet the needs of people at risk in disasters.},
+	number = {100123},
+	journal = {Progress in Disaster Science},
+	author = {Lee, Jiseon and Perera, Duminda and Glickman, Talia and Taing, Lina},
+	year = {2020},
+	pages = {1--17},
+}
+
+@article{Douglas_2017,
+	title = {Flooding in {African} cities, scales of causes, teleconnections, risks, vulnerability and impacts},
+	volume = {26},
+	doi = {10.1016/j.ijdrr.2017.09.024},
+	abstract = {Understanding what can be done about flooding involves examining how everyday urban activities exacerbate flood risks, and how to reduce the inequitable exposure to flood risks at all scales from the individual household to national governments and international river basin management. Those who change the landscape in ways that make flooding worse are not usually those who suffer the consequences of such changes. Understanding of the inter-relations between both geophysical processes and human drivers and human victims at multiple scales is required. Teleconnections mean that the global, the rural and the urban all affect one another. Across Africa, as in other continents, flooding may arise locally within built-up areas from debris blocking streams and from overflowing sewers. Nevertheless, many cities are flooded by major rivers that carry extreme flows of water from surrounding regions and even distant mountains. The causes and impacts of floods, human vulnerability, possibilities of risk reduction and political and management responsibilities vary from the household and community levels up to sub-continental hydrologic systems and the global climate system. Co-ordinated action must take account of the differing scales of flood problems ranging from those arising from highly localised thunderstorms to the huge flood flows on major rivers produced by tropical cyclones. Urban flood management needs local, regional or national action at appropriate scales, with communities dealing with problems entirely with their areas, local governments acting on issues that are totally within their boundaries and national governments or international river basin organizations dealing with problems across many administrations.},
+	journal = {International Journal of Disaster Risk Reduction},
+	author = {Douglas, Ian},
+	year = {2017},
+	pages = {34--42},
+}
+
+@article{Duchenne-Moutien_2021,
+	title = {Climate {Change} and {Emerging} {Food} {Safety} {Issues}: {A} {Review}},
+	volume = {84},
+	doi = {10.4315/JFP-21-141},
+	abstract = {Throughout the past decades, climate change has been one of the most complex global issues. Characterized by worldwide alterations in weather patterns, along with a concomitant increase in the temperature of the Earth, climate change will undoubtedly have significant effects on food security and food safety. Climate change engenders climate variability: significant variations in weather variables and their frequency. Both climate variability and climate change are thought to threaten the safety of the food supply chain through different pathways. One such pathway is the ability to exacerbate foodborne diseases by influencing the occurrence, persistence, virulence and, in some cases, toxicity of certain groups of disease-causing microorganisms. Food safety can also be compromised by various chemical hazards, such as pesticides, mycotoxins, and heavy metals. With changes in weather patterns, such as lower rainfall, higher air temperature, and higher frequency of extreme weather events among others, this translates to emerging food safety concerns. These include the shortage of safe water for irrigation of agricultural produce, greater use of pesticides due to pest resistance, increased difficulty in achieving a well-controlled cold chain resulting in temperature abuse, or the occurrence of flash floods, which cause runoff of chemical contaminants in natural water courses. Together, these can result in foodborne infection, intoxication, antimicrobial resistance, and long-term bioaccumulation of chemicals and heavy metals in the human body. Furthermore, severe climate variability can result in extreme weather events and natural calamities, which directly or indirectly impair food safety. This review discusses the causes and impacts of climate change and variability on existing and emerging food safety risks and also considers mitigation and adaptation strategies to address the global warming and climate change problem.},
+	number = {11},
+	journal = {Journal of Food Protection},
+	author = {Duchenne-Moutien, Ramona A. and Neetoo, Hudaa},
+	year = {2021},
+	pages = {1884--1897},
+}
+
+@article{Liu_2024a,
+	title = {Global, regional and national trends and impacts of natural floods, 1990–2022},
+	volume = {102},
+	doi = {10.2471/BLT.23.290243},
+	abstract = {Objective
+To assess global, regional and national trends in the impact of floods from 1990 to 2022 and determine factors influencing flood-related deaths.
+
+Methods
+We used data on flood disasters from the International Disaster Database for 1990–2022 from 168 countries. We calculated the annual percentage change to estimate trends in the rates of people affected and killed by floods by study period, World Health Organization (WHO) region, country income level and flood type. We used multivariable logistic regression analysis to assess the factors associated with death from floods.
+
+Findings
+From 1990 to 2022, 4713 floods were recorded in 168 countries, which affected {\textgreater} 3.2 billion people, caused 218 353 deaths and were responsible for more than 1.3 trillion United States dollars of economic losses. The WHO Western Pacific Region had the most people affected by floods ({\textgreater} 2.0 billion), accounting for 63.19\% (2 024 599 380/3 203 944 965) of all affected populations. The South-East Asia Region had the most deaths (71 713, 32.84\%). The African and Eastern Mediterranean Regions had the highest number of people affected and killed by floods per 100 000 population in 2022. The odds of floods causing more than 50 deaths were significantly higher in low-income countries (adjusted odds ratio: 14.34; 95\% confidence interval: 7.46 to 30.04) compared with high-income countries. Numbers of people affected and mortality due to floods declined over time.
+
+Conclusion
+Despite the decreases in populations affected and deaths, floods still have a serious impact on people and economies globally, particularly in lower-income countries. Action is needed to improve disaster risk management and flood mitigation.},
+	number = {6},
+	journal = {Bulletin of the World Health Organization},
+	author = {Liu, Qiao and Du, Min and Wang, Yaping and Deng, Jie and Yan, Wenxin and Qin, Chenyuan and Liu, Min and Liu, Jue},
+	year = {2024},
+	pages = {410--420},
+}
+
+@article{Zhao_2025a,
+	title = {Evaluation of rainfall‑threshold methods for flash flood warnings based on soil moisture conditions},
+	doi = {10.1007/s11069-025-07272-6},
+	abstract = {Accurate flash flood warning is crucial for hazard risk management. Rainfall threshold is one of the most effective approaches for flash flood early warning. However, the capability of different rainfall-threshold methods has been insufficiently evaluated and validated, and the influence of data limitations on the model performance still needs to be explored. In this work, we comprehensively evaluate and compare three rainfall-threshold methods (empirical, hydrological, and probabilistic) based on soil moisture conditions for flash flood warnings in two small mountainous catchments with different data features. Results show that all three methods obtain good accuracy (Hit Rate (HR) {\textgreater} 0.80, False Alarm Rate (FAR) {\textless} 0.20) in both catchments, indicating that rainfall threshold is an efficient warning approach for flash flood management. Especially, the hydrological method shows the best predictive performance, with the highest Critical Success Index (CSI) (0.61 and 0.41, respectively in the two study catchments) and the lowest FAR (0.07 and 0.12), suggesting it is the most appropriate method for catchments where the hydrological model can be properly calibrated. Empirical and probabilistic methods are not far behind, showing comparable performance (CSI = 0.53 and 0.53, respectively for the Qingxi River (QXH) catchment). Catchment data availability, which reflects the representativeness of the relevant flash flood process conditions, greatly impacts the forecasting and model application. The results of this work improve our understanding of the applicability and reliability of these methods under various conditions, and aid in selecting or establishing a robust rainfall-threshold method for flash flood warning under complex environments.},
+	journal = {Natural Hazards},
+	author = {Zhao, Yuting and Wu, Xuemei and Guo, Li and Qin, Guanghua and Li, Xiaodong and Li, Hongxia},
+	year = {2025},
+	keywords = {Data availability, Drought, Early warning, Flash flood, Flooding, Hydrogeology, Rainfall thresholds, Soil and Water Protection, Wetting},
+}
+
+@article{Pechlivanidis_2025,
+	title = {Enhancing {Research}-to-{Operations} in {Hydrological} {Forecasting}: {Innovations} across {Scales} and {Horizons}},
+	volume = {106},
+	doi = {10.1175/BAMS-D-24-0322.1},
+	abstract = {Over the past 20 years, the Hydrological Ensemble Prediction Experiment (HEPEX) international community of practice has advanced the science and practice of hydrological ensemble prediction and its application in impact- and risk-based decision-making, fostering innovations through cutting-edge techniques and data that enhance water-related sectors. Here, we present insights from those 20 years on the key priorities for (co)creating broadly applicable hydrological forecasting systems that add value across spatial scales and time horizons. We highlight the advancement of hydrological forecasting chains through rigorous data management that incorporates diverse, high-quality data sources, data assimilation techniques, and the application of artificial intelligence (AI) to improve predictive accuracy. HEPEX has played a critical role in enhancing the reliability of water resources and water-related risk management globally by standardizing ensemble forecasting. This effort complements HEPEX’s broader initiative to strengthen research to operations, making innovative forecasting solutions both practical and accessible. Additionally, efforts have been made toward supporting the United Nations Early Warnings for All initiative through developing robust and reliable early warning systems by means of global training, education and capacity development, and the sharing of technology. Finally, we note that the integration of advanced science, user-centric methods, and global collaboration can provide a solid framework for improving the prediction and management of hydrological extremes, aligning forecasting systems with the dynamic needs of water resource and risk management in a changing climate. To effectively meet future demands, it is crucial to accelerate the integration of innovative science within operational frameworks, fostering adaptable and resilient hydrological forecasting systems globally.},
+	number = {5},
+	journal = {Bulletin of the American Meteorological Society},
+	author = {Pechlivanidis, Ilias G. and Du, Yiheng and Bennett, James and Boucher, Marie-Amélie and Chang, Annie Y. Y. and Slater, Louise and Crochemore, Louise and Dasgupta, Antara and Baldassarre, Giuliano Di and Luterbacher, Jürg and Pappenberger, Florian and Ramos, Maria-Helena and Uhlenbrook, Stefan and Wetterhall, Fredrik and Wood, Andrew and Lavado-Casimiro, Waldo and Yoshimura, Kei and Imhoff, Ruben and Oevelen, Peter J. van and Cantone, Carolina and Cattoën, Céline and Pimentel, Rafael and Werner, Micha},
+	year = {2025},
+	keywords = {Communications/decision making, Emergency preparedness, Ensembles, Forecasting, Hydrology, Water resources},
+	pages = {E894--E919},
+}
+
+@article{Ding_2025,
+	title = {Holistic risk assessment using a hybrid approach in a flash flood disaster-prone area of the poyang lake basin},
+	doi = {10.1007/s11069-025-07306-z},
+	abstract = {Flash floods, as prevalent and destructive natural disasters, pose significant threats to societal and economic systems. This study developed a holistic framework for flash flood risk assessment that integrates machine learning with multi-criteria decision analysis, while incorporating novel explainable artificial intelligence techniques, and applied it to assess flash flood risk in the Rao River Basin, a representative flash flood-prone area within the Poyang Lake system. Three ensemble learning models were employed for the evaluation of flash flood hazard, with their performance assessed via classification evaluation metrics and the results interpreted through explainability analysis. Multi-criteria decision analysis was used to assign weights to vulnerability-related factors, supporting the analysis of vulnerability. By synthesizing hazard and vulnerability assessments, a spatially explicit flash flood risk map was developed. The results show that the boosting model outperforms the other models in terms of hazard prediction, achieving superior performance in key metrics such as the F1-score(0.935) and AUC (0.977). Factors such as drainage density andruggedness number were found to significantly influence hazard levels. The proportions of cropland and impervious land areas, along with the urbanization level, were identified as significant contributors to vulnerability. The moderate to high-risk areas in the basin are predominantly found in settlement clusters located within hilly terrain. The analysis of historical flash flood events revealed that 77.7\% of disaster events occurred in high-risk and very high-risk zones. Additionally, field surveys corroborated the reliability of the model outcomes. These findings offer insights into disaster prevention and management efforts in such regions.},
+	journal = {Natural Hazards},
+	author = {Ding, Jiawei and Wang, Xiekang and Zhou, Sufen and Lei, Sheng},
+	year = {2025},
+	keywords = {Caries risk assessment, Ensemble learning, Flash flood, Flooding, Multi-criteria decision analysis, Natural Hazards, Risk Management, Risk Theory, Shapley additive explanation, Vulnerability analysis},
+}
+
+@misc{Dordevic_2020,
+	title = {Flash {Flood} {Guidance} {System}: {Response} to one of the deadliest hazards},
+	url = {https://wmo.int/media/magazine-article/flash-flood-guidance-system-response-one-of-deadliest-hazards},
+	journal = {World Meteorological Organization},
+	author = {Dordevic, Milica and Mutic, Petra and Kim, Hwirin},
+	year = {2020},
+}
+
 @book{Wilks_2020,
 	edition = {Fourth},
 	title = {Statistical {Methods} in the {Atmospheric} {Sciences}},
@@ -43,19 +269,6 @@
 	author = {Marchi, L. and Borga, M. and Preciso, E. and Gaume, E.},
 	year = {2010},
 	pages = {118--133},
-}
-
-@article{Alfieri_2012,
-	title = {A {European} precipitation index for extreme rain-storm and flash flood early warning},
-	volume = {22},
-	doi = {10.1002/met.1328},
-	abstract = {Extreme rain storms are known for triggering devastating flash floods in various regions of Europe and particularly along the Mediterranean coasts. Despite recent notable advances in weather forecasting, most operational early warning systems for extreme rainstorms and flash floods are still based on rainfall measurements from rain gauges and weather radars, rather than on forecasts. As a result, warning lead times are bounded to a few hours and warnings are usually issued when the event is already taking place.
-This work proposes a novel early warning system for heavy precipitation events in Europe, aimed at identifying forecasts of extreme rainfall accumulations over short durations and within small-size catchments prone to flash flooding. The system is based on the recently developed European Precipitation Index based on simulated Climatology (EPIC), which is calculated using COSMO-LEPS ensemble weather forecasts and subsequently fitted with gamma distributions at each time step of the forecast horizon. Probabilistic exceedence of warning thresholds is calculated and alert points are generated where potentially extreme events are detected. Comparison of daily runs over 22 months with observed rainstorm events and flash floods in Europe denotes a probability of detection up to 90\%, corresponding to 45 events correctly predicted, with average lead time of 32 h. Copyright © 2012 Royal Meteorological Society},
-	number = {1},
-	journal = {Meteorological Applications},
-	author = {Alfieri, L. and Thielen, J.},
-	year = {2012},
-	pages = {3--13},
 }
 
 @article{WMO_2015,
@@ -1186,13 +1399,6 @@ The system is tested for a high flow event occurred in Catalonia (Spain) in Nove
 	journal = {J. Flood Risk Manag},
 	author = {Wobus, C. and Lawson, M. and Jones, R. and Smith, J. and Martinich, J.},
 	year = {2014},
-}
-
-@article{WMO_2024,
-	title = {State of the climate 2024},
-	url = {https://wmo.int/publication-series/state-of-global-climate-2024},
-	author = {WMO, World Meteorological Organization},
-	year = {2025},
 }
 
 @article{WMO_2021,
@@ -5782,16 +5988,6 @@ The system is tested for a high flow event occurred in Catalonia (Spain) in Nove
 	author = {Douinot, Audrey and Roux, Hélène and Garambois, Pierre André and Larnier, Kévin and Labat, David and Dartus, Denis},
 	year = {2016},
 	pages = {24},
-}
-
-@article{Dordevic_2020,
-	title = {Flash flood guidance system: {Response} to one of the deadliest hazards},
-	volume = {69},
-	number = {1},
-	journal = {WMO Bulletin},
-	author = {Dordevic, Milica and Mutic, Petra and Kim, Hwirin},
-	year = {2020},
-	pages = {37--41},
 }
 
 @article{Dipankar_2020,
