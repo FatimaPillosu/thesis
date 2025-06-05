@@ -1,231 +1,100 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Datasets}
-\label{datasets}
+\chapter{Experimental design}
+\label{experimental_design}
 \graphicspath{{chapter_03/figures}{chapter_03/tables}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-To develop accurate and reliable flash flood prediction models, it is essential to consider various parameters that influence flash flood occurrence, such as rainfall, soil moisture, vegetation type, and the slope of the orography, among others. This thesis will use such parameters for short- and medium-range forecasts from the ERA5 reanalysis computed at ECMWF.
-
-The ERA5 reanalysis offers a spatially and temporally consistent and high-quality reconstruction of past atmospheric and land surface conditions, crucial for training data-driven models. However, the spatial resolution of rainfall from ERA5 (\textasciitilde31 km) is not sufficiently high for flash flood applications. Hence, the ecPoint post-processing technique is employed in this thesis to address the limitations of the coarse spatial resolution of the raw rainfall ERA5 short- and long-range forecasts. The ecPoint methodology uses a decision-tree-based algorithm to anticipate sub-grid variability and correct biases in the raw NWP model outputs, producing probabilistic point-scale rainfall predictions that are more skilful and reliable against point verification, especially in the case of extreme localised rainfall. Such characteristics make ERA5-ecPoint rainfall short- and medium-range forecasts better suited for flash flood applications. 
-
-Extensive observational records of flash flood impacts play a crucial role in developing and validating the data-driven flash flood prediction model. Global impact models exist, such as EM-DAT and DesInventar. However, they largely underrepresented flash flood frequency due to their event inclusion protocols and not uniform spatial coverage around the world \citep{Panwar_2020}. This thesis will, therefore, use a higher-density regional flash flood impact database developed in the US, the Storm Event Database. 
-
-The \marginpara{Chapter structure} remainder of this chapter is structured as follows. \textbf{Section 2} focuses on the raw datasets used in this research, namely the ECMWF Ensemble Forecasts and the ERA5 Reanalysis, and it provides an overview of their characteristics. The verification of the raw datasets will be discussed together with the post-processed data in Section 3. \textbf{Section 3} is divided into three subsections: \textit{section 3.1} describing the ecPoint post-processing method, including the calibration process, creation of forecasts and reanalysis, and computational requirements; \textit{section 3.2} presents the verification of ensemble and ecPoint rainfall forecasts; and \textbf{section 3.3} discusses the verification of ERA5 and ecPoint-ERA5 data. \textbf{Section 4} presents the observational datasets used in this study: \textit{section 4.1} covers rainfall observations, and includes the description of the datasets, their spatial and temporal coverage, strengths, and limitations, data availability and gaps; \textit{section 4.2} covers flash flood impact observations from global databases such as EM-DAT and DesInventar, as well as higher-density national databases from the US and Ecuador, providing description of the datasets and their metadata, analysis of their spatial coverage and granularity to assess relevance in flash flood analysis, strengths and limitations. Finally, \textbf{Section 5} summarizes the key findings of the data chapter, highlighting the strengths and limitations of the datasets used, it discusses potential gaps in the current data landscape, and offers recommendations for future data collection and integration efforts in the field of flash flood prediction. 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%
-\section{Study domain}
-
-This research establishes the CONUS as the primary study domain for the flash-flood-focused rainfall verification, data-driven model development, and predictability assessment of medium-range data-driven predictions of areas at risk of flash floods. The domain considered in this thesis in shown in Figure \ref{fig:conus_domain}. The selection of this geographical region is methodologically justified on several grounds. Foremost is the higher quality and comprehensiveness of the \textit{Storm Event Database} maintained by the National Oceanic and Atmospheric Administration (NOAA). 
+This chapter articulates the sequential experimental strategy designed to produce medium-range predictions of areas at risk of flash floods across a continuous global domain. The strategy follows a three-component approach, where each component builds upon the findings of the previous one (Figure \ref{fig:workflow_dataflow}). 
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.65]{conus_domain_orography.png}
-\caption{\textbf{CONUS domain.} The figure shows the orography at 1 km resolution (in shades of green and brown) and the location of the 25 most populated cities (black dots) over the CONUS.}
-\label{fig:conus_domain}
+\includegraphics[width=\textwidth]{workflow_dataflow.png}
+\caption{\textbf{Overview of the experimental design across the "Main Analysis" chapters (5 to 7).} The infographic delineates the research questions addressed in each chapter, the workflow of data flow across the chapters, and the adopted evaluation strategies to assess the performance of global NWP rainfall forecasts and data-driven flash flood predictions in identifying areas at risk of flash floods.}
+\label{fig:workflow_dataflow}
 \end{figure}
 
-This database systematically records flash flood occurrences with high spatial and temporal resolution, including crucial metadata regarding impact severity, affected areas, and casualty information. The database's consistent reporting protocols and rigorous quality control procedures mitigate the observational uncertainty that typically plagues flash flood research \citep{Panwar_2020}.
+The \marginpara{First methodological component (addressing RQ1): development of a flash-flood-focused verification framework to assess predictions of areas at risk of flash flood} first methodological component addresses the challenge that high-quality rainfall forecasts do not necessarily translate directly to accurate flash flood predictions. It therefore assesses the capability of medium-range global rainfall forecasts to identify areas at risk of flash floods up to medium-range lead times by proposing a flash-flood-focused rainfall verification framework. This initial verification is essential as it establishes the baseline predictive capacity of rainfall predictions from state-of-the-art global NWP models to identify areas at risk of flash flood risk.
 
-The CONUS domain further presents methodological advantages through its diverse hydro-meteorological conditions, encompassing varied topographical features ranging from coastal plains to mountainous terrain, and climatic regimes spanning Mediterranean, continental, subtropical, and desert classifications. This diversity enables the development of a machine learning model exposed to a broad spectrum of flash flood generating mechanisms, from intense convective precipitation to rain-on-snow events, thereby enhancing its potential transferability to global applications.
+The \marginpara{Second methodological component (addressing RQ2): development of short-range data-driven hydro-meteorological predictions of areas at risk of flash floods - Regional prototype and global transferability assessment} second methodological component develops a data-driven framework to identify areas at risk of flash floods over the CONUS. This data-driven approach represents a departure from traditional physically based hydrological modelling of flash floods, which often struggle with computational demands and parameter uncertainty. This second methodological component also runs a sensitivity analysis to assess which data strategy would be the most appropriate for the global extension of the regional training, so predictions over a continuous global domain can be computed.
 
-Whilst the primary model development utilises the CONUS domain, the global applicability of the methodology necessitates consideration of how domain-specific characteristics might influence model performance when transferred to regions with different hydro-climatological conditions. These considerations are addressed in subsequent sections detailing the global application of the flash flood prediction model.
+The \marginpara{Third methodological component (addressing RQ3): development of medium-range data-driven hydro-meteorological predictions of areas at risk of flash floods - Regional and global prototype} third methodological component extends the application of the data-driven model to medium-range forecasts, enabling the assessment of flash flood predictability beyond typical short-range (day 0) predictions. This component synthesises the findings from the previous two methods, applying the data-driven framework developed in the second stage to longer-range forecast data and the verification framework developed in the first stage of the analysis to evaluate how predictive skill for flash flooding decays with increasing lead times. This evaluation is crucial for understanding the temporal limitations of actionable flash flood predictions.
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{ERA5}
-
-Short- and long-range ERA5 forecasts were acquired at their native resolution (\textasciitilde31 km at the equator), for a period covering the years 1950 to 2024. Table \ref{table:forecasts_types} describes the characteristics of both forecasts (e.g., spatial and temporal resolution, run times, and maximum lead time). The short-range forecasts (also known as "reanalysis") will be used to train the data-driven model. The long-range forecasts will be used to assess the predictability of the data-driven medium-range (i.e., up to day 5) predictions of the areas at risk of flash floods.
-
-\begin{table}[htbp]
-\centering
-\captionof{table}{\textbf{ERA5 short- and long-range forecasts.} The table describes the characteristics of short- and long-range forecasts from ERA5.}
-\includegraphics[width=\textwidth]{01_forecasts_types.png}
-\label{table:forecasts_types}
-\end{table}
-
-From the extensive suite of variables included in ERA5\footnote {The full set of parameters included in the short- and long-range forecasts from ERA5 can be found in the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper}.}, the subset of dynamic and static parameters listed in Table \ref{table:parameters_used} were considered to compute those parameters whose relationship with flash flood occurrence has been established in previous literature, such antecedent soil moisture, slope of the orography, and vegetation. The following sub-sections describe the pre-processing of the raw ERA5 parameters to compute the variables that will be included in the data-driven model.
-
-\begin{table}[htbp]
-\centering
-\captionof{table}{\textbf{Parameters used from ERA5 and ERA5-ecPoint.} Description of the parameters considered for developing the data-driven short- and medium-range predictions of areas at risk of flash floods over a continuous global domain.}
-\includegraphics[width=\textwidth]{02_era5_params.png}
-\label{table:parameters_used}
-\end{table}
+The following sections will detail each methodological component, including data sources, processing techniques, model development procedures, and verification frameworks adopted in this study. 
 
 
-\subsection{Antecedent soil moisture}
-
-For antecedent soil water content, this study considers the percentage of soil maximum saturation in the top 1 m layer of soil, 24 hours prior to a flash-flood-triggering rainfall event. The percentage of soil maximum saturation in the top 1 m of soil is computed considering the pre-established values of maximum soil saturation for different types of soil, and integrating those over layers 1, 2, and 3 of the volumetric soil water. Table \ref{max_saturation} shows the pre-defined values of maximum soil saturation used at ECMWF for different types of soil \citep{Balsamo_2009}:
-
-\begin{table}[htbp]
-\centering
-\captionof{table}{\textbf{Maximum saturation} The table shows the pre-defined values of maximum soil saturation per soil type used at ECMWF \citep{Balsamo_2009}.}
-\includegraphics[width=\textwidth]{03_max_saturation.png}
-\label{table:max_saturation}
-\end{table}
-
-Equations \ref{eq:max_sat_field} and \ref{eq:indicator} show how the fields containing the percentage of soil saturation were computed. 
-
-\begin{align}
-\text{max\_sat\_field}
-  &= \sum_{i=01}^{N} \text{max\_sat}_i \,\mathbf{1}_{\{s=c_i\}}
-     \label{eq:max_sat_field}\\
-\mathbf{1}_{\{s=c_i\}}
-  &=
-  \begin{cases}
-    1, & s=c_i,\\
-    0, & s\neq c_i.
-  \end{cases}
-    \label{eq:indicator}
-\end{align}
-
-where, N goes from 1 to 7, and it represents the codes for the soil type.
-
-Equation \ref{eq:swvl} computes the soil water content over the top 1m layer of the soil:
-
-\begin{equation}
-\label{eq:swvl}
-\text{swvl} = \sum_{j=1}^{M} \text{swvl}_{j}\, \text{depth}_{j}
-\end{equation}
-
-where, M goes from 1 to 3, and it represents the soil layers.
-
-Finally, equation \ref{eq:swvl_perc} computes the percentage of soil saturation:
-
-\begin{equation}
-\label{eq:swvl_perc}
-\text{swvl\_perc} = \frac{\text{swvl}}{\text{max\_sat\_field}}
-\end{equation}
-
-Figure \ref{fig:perc_soil_saturation} shows a map plot for the percentage of soil saturation.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Flash-flood-focused verification framework}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{perc_soil_saturation.png}
-\caption{\textbf{Example of the percentage of soil saturation for the valid time (VT) corresponding to 2021-09-01 at 00 UTC} Panel (a) shows the percentage of soil saturation in ERA5's short-range forecasts (also known as "reanalysis") computed on 2021-08-31 at 18 UTC (t+6). Panels (b) to (f) show ERA5's long-range forecasts for the same VT but computed, respectively, on 2021-08-31 at 00 UTC (t+24 - day 1), 2021-08-30 at 00 UTC (t+48 - day 2), 2021-08-29 at 00 UTC (t+72  - day 3), 2021-08-28 at 00 UTC (t+96 - day 4), and 2021-08-27 at 00 UTC (t+120 - day 5).}
-\label{fig:perc_soil_saturation}
+\includegraphics[width=\textwidth]{workflow_verif_framework.png}
+\caption{\textbf{Workflow for flash-flood-focused verification framework.} Data and methodological framework to assess predictions of areas at risk of flash floods using impact flash flood reports.}
+\label{fig:workflow_verif_framework}
 \end{figure}
 
+\subsection{What observational data are required for flash flood verification?}
 
-\subsection{Parameters to represent orography}
+The selection of appropriate observational data constitutes a critical foundation for any verification framework. This study utilises the Storm Events Database, maintained by the National Oceanic and Atmospheric Administration (NOAA), as the primary source of flash flood observations across the Continental United States (CONUS). This database represents the most comprehensive and systematically maintained record of flash flood impacts available at continental scale, containing detailed spatio-temporal information for events from 1950 to the present (purple area in Figure \ref{fig:workflow_verif_framework}).
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{orography.png}
-\caption{\textbf{Static variables used to represent the orography in the data-driven model that predicts areas at risk of flash floods.} Panel (a) shows the map plot for the slope of sub-grid orography in ERA5. Panel (b) shows the map plot for the standard deviation of the filtered sub-grid orography.}
-\label{fig:orography}
-\end{figure}
+The choice of an impact-based database rather than hydrological measurements reflects the fundamental nature of flash floods as localised phenomena occurring predominantly in ungauged catchments. Traditional gauge-based observations fail to capture the majority of flash flood events due to their sparse spatial distribution and the rapid onset characteristics of these events. Impact databases, whilst subject to reporting biases, provide a more feasible approach for continental-scale verification where the installation and maintenance of dense observational networks remains economically and logistically prohibitive.
 
+The Storm Events Database offers several advantages that justify its selection. First, it provides consistent reporting standards across all US states, enabling uniform analysis across diverse hydro-climatic regions. Second, each report includes precise geolocation data, essential for grid-based verification approaches. Third, the database undergoes quality control procedures by NOAA, reducing, though not eliminating, reporting inconsistencies that might be present in other databases such as ESWD (with clear reporting biases over Germany). These characteristics make it the most suitable dataset for establishing a robust verification framework, acknowledging that similar approaches could be applied to other regional databases such as the European Severe Weather Database or global repositories like EM-DAT and Desinventar, each with their specific limitations and biases.
 
-\subsection{Vegetation}
 
-The leaf area index (LAI) is obtained from the ERA5 monthly averaged data on single levels. It is obtained by combining the variables called “leaf area index, high vegetation” and “leaf area index, low vegetation” on a per-grid-cell basis using the fractions of high and low vegetation prescribed in the model, respectively known as high vegetation cover and low vegetation cover.
+\subsection{Why using ERA5 and ERA5-ecPoint data in the development of predictions of areas at risk of flash floods?}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{lai.png}
-\caption{\textbf{Climatological variable to represent the vegetation coverage.} Panels (a) to (d) show the map plots for the leaf area index in ERA5, respectively, for a day in mid-winter (15th of January), mid-spring (15th of April), mid-summer (15th of July), and mid-autumn (15th of October).}
-\label{fig:lai}
-\end{figure}
+The ERA5 dataset was selected in this thesis as it provides a long-term (from the 1950s to the present), high-quality reconstruction of hydro-meteorological fields over a continuous global domain \citep{Hersbach_2020}. Thus, the short-range forecasts (up to day 0, and also known as \textit{reanalysis}) provide a good dataset for the training of the data-driven predictions. While ERA5 provides a consistent dataset for training over space and time, its coarse resolution makes raw ERA5's rainfall estimates not appropriate for flash flood applications as localised rainfall peaks tend to be underestimated, and severely underestimated in the case of isolated convection. For this reason, the rainfall estimates used for training and verification come from the post-processed ERA5 rainfall estimates with the ecPoint methodology, which provides a probabilistic distribution of how the localised extreme rainfall estimates might be. A more detailed description of the post-processing methodology and the quality of the ecPoint rainfall forecasts can be found in section \ref{ecpoint_rainfall}.
 
+Regarding the longer-range forecasts used to create the medium-range predictions of areas at risk of flash floods, it is common practice to fine-tune the training done with lower-resolution datasets (such as ERA5, at 31 km) to the higher resolution of typically used forecasting systems (such as ECMWF's IFS, at 9 km). In the field of data-driven weather forecasts, this is done in the AIFS, which is trained over ERA5 and fine-tuned over the operational analysis at 9 km to obtain forecasts with a spatial resolution of \sim25 km  \citep{Lang_2024}. This approach was not adopted in this thesis as it would introduce uncertainties in the forecasting chain related to such fine-tuning that would be difficult to dissociate from uncertainties due to the prediction of the hazard itself. Hence, the long-range forecasts from ERA5 and corresponding ecPoint post-processed rainfall estimates were used in this thesis. Even though this approach means creating a low-resolution prototype for flash flood prediction (as the medium-range forecasts remain provided at 31 km resolution), the forecast uncertainties presented in this thesis remain detached from fine-tuning processes and can be related primarily to the physical processes that generate flash floods and the data used to create the short- and medium-range forecats.
 
+\subsection{How should flash flood observations be processed for grid-based verification?}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Post-processed rainfall data}
+The transformation of point-based impact reports into gridded observational fields requires careful consideration of spatial and temporal aggregation methods. This study implements a systematic approach aligned with established severe weather verification methodologies \citep{Tsonevsky_2018, Pillosu_2024}.
 
-While ERA5 provides a comprenhensive suite of hydro-meteorological variables, its native precipitations output echibits known limitations in representing rainfall's sub-grid variability, which is crucial for flash flood prediction.To adress this limitation, this study employs ERA5-ecPoint, a post-processed rainfall forecast that enhances the representation of point-scale rainfall totals within each grid-box.  
+Each flash flood report undergoes temporal aggregation to match the 24-hour accumulation periods of the forecast products, beginning at 00 UTC. This alignment ensures consistent comparison between observations and predictions whilst acknowledging that flash floods may occur at any time within the accumulation window. The choice of 24-hour periods balances the need for sufficient temporal resolution with the practical constraints of forecast product availability and the typical duration of flash flood events.
 
-\subsection{The ecPoint post-processing method}
+Spatial assignment of reports to the ERA5 grid (approximately 31 km resolution) employs a nearest-neighbour approach for point reports and polygon inclusion for events with spatial extent. Given the relatively coarse resolution of ERA5 grid boxes compared to typical flash flood scales, additional spatial expansion techniques commonly used in convective-scale verification prove unnecessary. The resulting gridded fields preserve information about event frequency within each grid box, enabling more nuanced verification than binary occurrence fields.
+This processing approach addresses the fundamental challenge of scale mismatch between localised flash flood events and gridded forecast products. The methodology provides a reproducible framework applicable to other grid resolutions and accumulation periods, with detailed implementation provided in chapter \ref{flash_flood_focused_verification_framework}.
 
-\subsubsection{Calibration process}
 
-\subsubsection{Creation of ecPoint-based forecasts and reanalysis}
+\subsection{What verification thresholds enable meaningful assessment of flash flood predictions?}
 
-\subsubsection{Computational requirements}
+The establishment of appropriate verification thresholds represents a critical methodological decision that directly influences all subsequent analyses. 
 
+For rainfall-based predictions, thresholds must reflect the precipitation amounts capable of generating flash floods across diverse hydro-climatic conditions. In the absence of comprehensive observational networks capturing extreme precipitation at flash flood scales, this study develops a novel approach using ERA5-ecPoint rainfall estimates. ERA5-ecPoint provides bias-corrected, post-processed rainfall estimates that better represent point-scale extremes compared to raw ERA5 data \citep{Pillosu_2025a}. A 30-year climatology (1991-2020) following WMO standards enables the derivation of location-specific rainfall thresholds corresponding to various return periods. This approach captures the spatial heterogeneity of flash flood susceptibility, recognising that identical rainfall amounts may produce vastly different impacts depending on local conditions. The selection of multiple threshold percentiles allows examination of forecast performance across the full spectrum of flash flood severity. Lower percentiles capture more frequent, lower-impact events, whilst higher percentiles focus on rare, catastrophic floods. This multi-threshold approach provides insights into how forecast skill varies with event rarity and severity, essential information for operational implementation where different stakeholders may have varying risk tolerances.
 
-\subsection{Verification of ecPoint Rainfall forecasts}
+For hydro-meteorological, data-driven predictions, the verifying thresholds emerge directly from the machine learning algorithms that generated the predictions themselves, applying an optimisation that establishes the probability values that maximise the F1-score when converting a probabilistic prediction into a yes- or non-event. This data-driven threshold selection represents a departure from traditional approaches based, for example, on assumptions about the severity of the triggering events (as done for the rainfall-based forecasts). It instead allows the data-driven models itself to identify optimal decision boundaries to convert the probabilistic forecasts into a yes- or a non-event. As such, the thresholds will be defined based on the frequency of the yes-events in the observational datasets, delivering smaller verifying thresholds for rarer events. 
 
 
-\subsection{Verification of ecPoint-ERA5}
+\subsection{Which verification metrics provide a comprehensive assessment of forecast quality?}
 
+The verification framework employs a suite of metrics designed to evaluate different aspects of forecast performance, recognising that no single metric can fully characterise prediction quality for rare events like flash floods (pink area in Figure \ref{fig:workflow_verif_framework}). The selection of metrics addresses two primary forecast attributes: reliability and discrimination ability.
 
+Reliability assessment examines whether predicted probabilities accurately reflect observed frequencies. The frequency bias provides an aggregate measure of systematic over- or under-prediction, whilst reliability diagrams offer detailed insights into calibration across the full probability spectrum. These metrics prove particularly valuable for understanding how well forecast systems capture the climatological frequency of flash floods, a fundamental requirement for risk-based decision making.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Flash flood impact observations: Storm Event Database over CONUS}
-\label{storm_event_database}
+Discrimination ability quantifies the forecast system's capacity to distinguish between flood and non-flood situations. The Area Under the Receiver Operating Characteristic curve (AROC) provides a threshold-independent summary measure, whilst the full ROC curve reveals performance trade-offs at different probability thresholds. For rare event prediction, discrimination ability often represents the primary challenge, as models must identify subtle signals preceding infrequent occurrences.
 
-\subsection{Dataset Description}
+The choice of probabilistic metrics reflects the inherent uncertainty in flash flood prediction and the need for risk-based decision frameworks in operational contexts. Deterministic metrics prove less suitable given the rarity of events and the importance of capturing forecast uncertainty. Detailed mathematical formulations and computational procedures are provided in the relevant analysis chapters.
 
-The NOAA National Centers for Environmental Information (NCEI) Storm Event Database serves as the US's official repository of severe weather records, including flash floods. This comprehensive database has evolved significantly since its inception in 1950, transforming from county-level tornado reports to a sophisticated system documenting up to 48 different weather phenomena with increasingly precise geospatial representation. For flash flood research and machine learning applications, understanding the database's structure, evolution, and limitations is essential for robust methodology development. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Development of data-driven predictions of areas at risk of flash floods}
 
-The NCEI Storm Event Database began in 1950 as a limited collection focusing primarily on tornado documentation, and since then, the database has undergone significant expansion. Until 1954, it recorded only tornado events, while from 1955 to 1995, its coverage expanded to include tornadoes, thunderstorm winds, and hail events. From 1996, the database expanded to contain a comprehensive documentation of 48 distinct event types, including flash floods\footnote{\url{https://www.ncdc.noaa.gov/stormevents/details.jsp}}. 
 
-This historical progression affects data completeness for different phenomena. Flash flood records only became standardised from 1996 onward, with major geographical precision improvements implemented in 2007 when reporting transitioned from county-level to polygon-based representation\footnote{\url{https://inside.nssl.noaa.gov/flash/database/}}.
+\subsection{How can data-driven models address the extreme class imbalance in flash flood data?}
 
-The database covers the entire United States and territories with a spatial bounding box from 172.0°W to 65.0°E longitude and 18.0°N to 72.0°N latitude\footnote{\url{https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc:C00510}}. Data collection involves a network of 123 NWS Forecast Offices gathering information from emergency management officials, law enforcement, trained SKYWARN spotters, damage surveys, media reports, and public observations\footnote{\url{https://www.ncdc.noaa.gov/stormevents/faq.jsp}}.
+The development of data-driven flash flood prediction models must confront the fundamental challenge of extreme class imbalance, with flash flood events representing approximately 0.2\% of the observational dataset. This imbalance poses significant challenges for machine learning algorithms, which may converge to trivial solutions that never predict positive events.
 
-In this study, we are using version 3.1 of the database, we consider only reports over the CONUS that go from 2001 to 2024.
+This study adopts ensemble learning techniques as the primary strategy for addressing class imbalance. Unlike data-level approaches that modify the training dataset through over- or under-sampling, ensemble methods preserve the original data distribution whilst improving minority class detection through algorithmic diversity. This choice reflects a deliberate decision to maintain the integrity of the observational dataset, avoiding the introduction of synthetic samples or the loss of potentially informative negative examples.
 
+The experimental design incorporates multiple ensemble algorithms, including Random Forest, Gradient Boosting variants (XGBoost, LightGBM, CatBoost), neural networks, and ensemble stacking. Each algorithm offers different mechanisms for handling imbalanced datasets, from the inherent bootstrap sampling in Random Forest to the sequential error correction in boosting methods. This diversity enables a comprehensive assessment of which algorithmic approaches best suit the flash flood prediction challenge.
 
-\subsection{Metadata Quality}
 
-The Storm Event provides extensive metadata for flash flood events. Among all the available keys, we considered in this study only the keys described in table 3
+\subsection{What training strategy ensures robust assessment of model performance when working with an extremely imbalanced dataset?}
 
+The validation framework employs nested cross-validation with hyperparameter optimisation to provide unbiased performance estimates whilst maximising model performance. This approach addresses the risk of overfitting inherent in machine learning applications to imbalanced datasets.
 
+The outer cross-validation loop uses stratified k-fold splitting to ensure representative class distributions in all data partitions. Within each outer fold, an inner optimisation loop identifies optimal hyperparameters using Bayesian optimisation via the Optuna framework. This nested structure prevents information leakage between hyperparameter selection and performance evaluation, providing realistic estimates of operational performance.
+The choice of AROC as the optimisation metric during hyperparameter tuning reflects its suitability for imbalanced classification and alignment with the verification framework. Alternative metrics such as F1-score prove less suitable due to their dependence on classification thresholds and potential instability with extreme class imbalance.
 
-
-
-Although professional meteorologists and hydrologists collect flash flood reports to include in the Severe Storm Database, any human augmented reporting system is subject to variations in population density, diurnal cycles of human activity, and more mundane transcription or memory errors that affect the timing and location of reports \citep{Barthold_2015}. Evidence of these issues has been found in assessments of FFG skill \citep{Clark_2014}, and it has been found that the distribution of SED's flash floods reports is affected by the distribution of human population \cite{Marjerison_2016}. 
-
-
-
-\subsection{Coverage, Granularity, and Relevance for Flash Flood Analysis}
-
-\subsection{Strengths and Limitations}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Summary and recommendations}
-
-\subsubsection{Dataset Summary}
-
-\subsubsection{Data Gaps and Limitations}
-
-\subsubsection{Future Recommendations}
+Repeated evaluation across multiple cross-validation folds quantifies performance variability and identifies potential instabilities in model training. This comprehensive validation approach ensures that reported performance metrics reflect genuine predictive capability rather than fortunate data splits or overfitting to specific training samples. Implementation details and computational considerations are discussed in Chapter \ref{feasibility_PoFF}.
