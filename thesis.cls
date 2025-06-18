@@ -37,7 +37,7 @@
 \def\UrlBreaks{\do\/\do-}
 \RequirePackage{nomencl} % Handle acronyms
 \makenomenclature % Enable nomenclature generation
-\renewcommand{\nomname}{Abbreviations}
+\renewcommand{\nomname}{List of Abbreviations}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
