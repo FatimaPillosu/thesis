@@ -122,6 +122,7 @@
   {\@afterindentfalse}
   {\@afterindenttrue}
   {}{}
+  
 \renewcommand\section{%
   \@startsection {section}{1}{\z@}%
     {-1.5ex \@plus -0.2ex \@minus -0.1ex} % Minimal space before the section title
@@ -137,7 +138,11 @@
     {\normalfont\large\bfseries}%
 }
 
-% Customize subsubsection spacing (no additional white space before)
+% Customize subsubsection numbering and spacing (no additional white space before)
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\renewcommand\thesubsubsection{\thesection.\arabic{subsection}.\arabic{subsubsection}}
+
 \renewcommand\subsubsection{%
   \@startsection {subsubsection}{3}{\z@}%
     {-0.5ex \@plus -0.1ex \@minus -0.1ex} % Almost no space before
