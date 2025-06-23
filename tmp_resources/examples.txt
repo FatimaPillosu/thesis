@@ -37,7 +37,7 @@ Decore partem \marginpara{This is the mini-paragraph in the wide margin. It is a
   right=0mm,            % No space on the right
   toprule=0mm,          % Remove the top border
   bottomrule=0mm,       % Remove the bottom border
-  rightrule=-1mm         % Remove the right border
+  rightrule=2mm         % Remove the right border
 ]
 {\color{custom_grey} {\setlength{\parindent}{1.0em} Sample text.}}
 \end{tcolorbox}

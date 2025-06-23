@@ -143,7 +143,7 @@
    \vspace{1ex}] % Space between the lines and the body text
 
 % Adjust spacing before the chapter title
-\titlespacing*{\chapter}{0pt}{-10pt}{100pt} % Left, before, and after spacing:
+\titlespacing*{\chapter}{0pt}{-40pt}{100pt} % Left, before, and after spacing:
 
 % Ensure each chapter starts on a new page
 \makeatletter
@@ -171,6 +171,8 @@
 \fancyfoot[C]{%
   {\footnotesize\color{gray}\thepage}
 }
+
+\setlength{\headsep}{40pt}
 
 % Remove header and footer lines
 \renewcommand{\headrulewidth}{0pt} % Remove the line below the header

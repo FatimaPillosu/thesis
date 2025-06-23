@@ -45,23 +45,52 @@ The first main analysis chapter (Chapter \ref{flash_flood_focused_verification_r
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
+Flash floods cause significant societal, economic, and environmental impacts \citep{Dordevic_2020}. These events arise through two primary mechanisms. The first involves intense, short-duration rainfall events (typically less than 6 hours) that generate rapid surface runoff and channel response, particularly over steep slopes. The second occurs when sustained moderate-to-extreme rainfall over extended periods (> 6 hours) progressively saturates soils, reducing infiltration rates and promoting surface runoff that inundates low-lying areas \citep{Speight_2021}. Short-duration flash flood events typically result from small-scale convective systems, whilst prolonged events are more frequently associated with large-scale, mesoscale convective systems or hurricanes \citep{Doswell_2001}. The distinction between these mechanisms is essential as they exhibit different temporal scales, spatial patterns, and relationships with antecedent catchment conditions, and predictability limits. This study aims to enhance preparedness and mitigation strategies against this escalating threat, particularly in regions with limited resources and data, by assessing the effectiveness of global rainfall forecasts in identifying areas at risk of flash floods.
+
+\begin{tcolorbox}[
+  colframe=colour_chapter5, % Use the custom HEX colour for the vertical line
+  colback=white,            % Background colour remains white
+  sharp corners,            % Ensures sharp edges
+  boxrule=2mm,              % Thickness of the left vertical line
+  left=0mm,                 % Space inside the left margin
+  right=0mm,                % No space on the right
+  toprule=0mm,              % Remove the top border
+  bottomrule=0mm,           % Remove the bottom border
+  rightrule=2mm            % Remove the right border
+]
+{\color{colour_chapter5} {\setlength{\parindent}{1.0em} The term \textbf{"identification of areas at risk of flash floods"} refers to the \textit{prediction of polygons - or areas - that might experience flash flooding due to the expected rainfall}.}}
+\end{tcolorbox}
+
+Forecast-triggered mitigation strategies, such as early warning systems \citep{CoughlanDePerez_2022, ŠakićTrogrlić_2022} and forecast-based financing protocols \citep{Bischiniotis_2019a, Perez_2016}, have been shown to improve resilience, decrease mortality, and lower recovery costs against riverine floods. Yet, these strategies hinge on accurate, timely predictions. In lower-income countries, accurate forecasts with even longer lead times are required to set cost-effective mitigation strategies \citep{Bazo_2019, Kiptum_2023}. 
+
+Over the years, flash flood forecasting systems have been developed at local/regional \citep{Speight_2018, Corral_2019, Ibarreche_2020, RamosFilho_2021, Shuvo_2021}, national \citep{Javelle_2016, Liu_2018}, and continental scales \citep{Gourley_2017, Raynaud_2015}, with varying degrees of model complexity and forecast accuracy. These systems share a reliance on high-density rainfall and discharge observations, and km-scale rainfall forecasts \citep{Braud_2014}. This approach has prevented the development of a flash flood forecasting system that provides medium-range forecasts over a continuous global domain. Radar-derived rainfall predictions remain limited to a few hours ahead \citep{Imhoff_2022}, and kilometre-scale forecasts show substantial skill reduction beyond two days \citep{Barrett_2019}. Moreover, the uneven spatial distribution of these data sources restricts flash flood prediction to a collection of separate regional and national systems, including WMO's "Flash Flood Guidance System with Global Coverage" \citep{Georgakakos_2022}. Consequently, many areas of the world remain without access to flash flood guidance, highlighting the need for alternative approaches to address the challenge of providing medium-range predictions of areas at risk of flash floods over a continuous global domain.
+
+Global NWP models, such as ECMWF’s IFS, are increasingly seen as a viable solution to this challenge. These models provide daily global rainfall predictions up to medium-range leads but have historically struggled to accurately predict extreme localised rainfall events due to their coarse resolution and parametrisation schemes \citep{Emerton_2016, Wen_2021}. Owing to recent improvements in global NWP forecast accuracy \citep{Haiden_2023, Lavers_2021}, the interest in using them to provide flash flood guidance in data-scarce regions and extend predictions’ lead times has recently increased \citep{Bucherie_2022b}. Additionally, the development of state-of-the-art post-processing techniques can enhance the quality of raw forecasts and make them more suitable for flash flood prediction \citep{Vannitsem_2021}. For example, the ecPoint statistical post-processing technique transforms global grid-based forecasts into probabilistic point-scale predictions, improving the reliability and discrimination ability of rainfall forecasts up to day 10, especially for extremes \citep{Hewson_2021}.
+
+Since a significant gap remains in leveraging global rainfall NWP forecasts for flash flood forecasting, this study aims to bridge this gap by evaluating the performance of ERA5-ecPoint rainfall forecasts in identifying areas at risk of flash floods. The CONUS, with its extensive collection of flash flood impact reports within NOAA's Storm Event Database and its varying climate, serves as an ideal test bed for this research. The research question posed in this study is \textit{can post-processed global NWP rainfall forecasts successfully identify areas at risk of flash floods up to medium-range lead times?} The innovation proposed by this research is twofold. It first proposes a flash-flood-focused verification framework for predictions of areas at risk of flash floods, in recognition of the non-linear relationship between flash floods and triggering rainfall events. Hence, this framework can be used as a common framework to benchmark the general capabilities of different systems to predict areas at risk of flash floods. This research also provides a performance benchmark against which more sophisticated modelling approaches - incorporating additional hydrological and topographical parameters - can be measured. Such comparative analysis is essential for determining whether the increased computational demands and data requirements of complex systems yield commensurate improvements in flash flood prediction accuracy, or whether simpler precipitation-based approaches provide sufficient utility for early warning applications.
+
+This chapter is organised as follows. Sections \ref{flash_flood_focused_verification_rainfall_based_ff_DATA} and \ref{flash_flood_focused_verification_rainfall_based_ff_METHODS} describe the data and methods used to develop the flash-flood-focused verification framework. Section \ref{flash_flood_focused_verification_rainfall_based_ff_RESULTS} presents the results of the objective verification analysis, while section \ref{flash_flood_focused_verification_rainfall_based_ff_CASE_STUDY} presents results from a case-study-based subjective verification analysis. Section \ref{flash_flood_focused_verification_rainfall_based_ff_DISCUSSIONS} discusses the verification results, while section \ref{flash_flood_focused_verification_rainfall_based_ff_CONCLUSIONS} draws concluding remarks for the study.
+
 
 %%%%%%%%%%%%%%
 \section{Data}
+\label{flash_flood_focused_verification_rainfall_based_ff_DATA}
 
 
 %%%%%%%%%%%%%%%%%
 \section{Methods}
+\label{flash_flood_focused_verification_rainfall_based_ff_METHODS}
 
 
 %%%%%%%%%%%%%%%%%
 \section{Results}
+\label{flash_flood_focused_verification_rainfall_based_ff_RESULTS}
 
 %%%%%%%%%
-\section{Assessment of rainfall-based predictions of areas at risk of flash floods}
+\subsection{Assessment of rainfall-based predictions of areas at risk of flash floods}
 \label{verif_rainfall_based_fc}
 
-\subsection{Overall verification scores: frequency bias and area under the ROC curve}
+\subsubsection{Overall verification scores: frequency bias and area under the ROC curve}
 
 \begin{figure}[htbp]
 \centering
@@ -71,7 +100,7 @@ The first main analysis chapter (Chapter \ref{flash_flood_focused_verification_r
 \end{figure}
 
 
-\subsection{Discrimination ability}
+\subsubsection{Discrimination ability}
 
 All forecasts for rainfall events exceeding the 1-year return period threshold (Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_roc_1rp}) exhibit a discrimination ability superior to random chance, as the curves are above the diagonal reference line. A systematic degradation in discrimination ability is observed with increasing lead time, with the Area Under the ROC Curve (AROC) values ranging from 0.675 for the short-range forecasts (Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_roc_1rp}a) to 0.612 (\sim9\% reduction) for t+120 (day 5, Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_roc_1rp}f). Despite such a reduction, the forecasts show a good discrimination ability throughout the forecast horizon. Day 1 forecasts (t+24) show a higher discrimination ability than the short-range forecasts, and only from day 2 forecasts (t+48), the discrimination ability of the long-range forecasts goes below that of the reanalysis. The relatively narrow confidence intervals (at 99\% confidence level) suggest that the differences in skill between forecast configurations are statistically meaningful at the considered confidence level.
 
@@ -173,10 +202,16 @@ The reliability diagrams get closer to the diagonal line (indicating perfect bia
 \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%
+\section{Case Study: Storm Irma}
+\label{flash_flood_focused_verification_rainfall_based_ff_CASE_STUDY}
+
 
 %%%%%%%%%%%%%%%%%%%%%
 \section{Discussions}
+\label{flash_flood_focused_verification_rainfall_based_ff_DISCUSSIONS}
 
 
 %%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
+\label{flash_flood_focused_verification_rainfall_based_ff_CONCLUSIONS}
