@@ -26,6 +26,7 @@ Decore partem \marginpara{This is the mini-paragraph in the wide margin. It is a
 \label{eq:equation_example}
 \end{equation}
 
+
 % INSERT COLOURED VERTICAL LINE TO TEH LEFT OF A TEXT
 \begin{tcolorbox}[
   colframe=custom_fuchsia,  % Use the custom HEX color for the vertical line

@@ -13,6 +13,8 @@
 \RequirePackage{amsmath}
 \RequirePackage{booktabs}
 \RequirePackage{ifoddpage}
+\RequirePackage{everypage}
+\RequirePackage{atbegshi} % Needed for \AtBeginShipoutUpperLeft
 \RequirePackage{eso-pic}
 \RequirePackage{tikz}
 \RequirePackage{geometry} % Configure page layout
@@ -42,36 +44,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Define custom colours for the thesis
-\definecolor{colour_chapter1_page}{HTML}{F6F4E6}   
-\definecolor{colour_chapter1_text}{HTML}{D6CC92}
-
-\definecolor{colour_chapter2_page}{HTML}{EDE9CF}   
-\definecolor{colour_chapter2_text}{HTML}{C0B158}
-
-\definecolor{colour_chapter3_page}{HTML}{E0D9AE}   
-\definecolor{colour_chapter3_text}{HTML}{A1933D}
-
-\definecolor{colour_chapter4_page}{HTML}{CFC483}   
-\definecolor{colour_chapter4_text}{HTML}{857933}
-
-\definecolor{colour_chapter5_page}{HTML}{FF595E}   
-\definecolor{colour_chapter5_text}{HTML}{FF595E}
-
-\definecolor{colour_chapter6_page}{HTML}{E68301}   
-\definecolor{colour_chapter6_text}{HTML}{E68301}
-
-\definecolor{colour_chapter7_page}{HTML}{3F37C9}   
-\definecolor{colour_chapter7_text}{HTML}{3F37C9}
-
-\definecolor{colour_chapter8_page}{HTML}{F6EAF1}   
-\definecolor{colour_chapter8_text}{HTML}{D597BD}
-
-\definecolor{colour_chapter9_page}{HTML}{ECD0E1}   
-\definecolor{colour_chapter9_text}{HTML}{C1679F}
-
-\definecolor{table_white}{HTML}{FFFFFF}
-\definecolor{table_grey}{HTML}{E0E0E0}
-\definecolor{header_grey}{HTML}{A0A0A0}
+\definecolor{custom_grey}{HTML}{222222} % colour of body text
+\definecolor{colour_chapter5_page}{HTML}{FF595E} % colour for chapter 5
+\definecolor{colour_chapter6_page}{HTML}{E68301} % colour for chapter 6
+\definecolor{colour_chapter7_page}{HTML}{3F37C9} % colour for chapter 7
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -130,7 +106,7 @@
     {\normalfont\Large\bfseries\@afterindenttrue}%
 }
 
-% Customize subsection spacing (no additional white space before)
+% Customise subsection spacing (no additional white space before)
 \renewcommand\subsection{%
   \@startsection {subsection}{2}{\z@}%
     {-1ex \@plus -0.1ex \@minus -0.1ex} % Very minimal space before
