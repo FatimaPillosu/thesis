@@ -45,9 +45,9 @@
 %
 % Define custom colours for the thesis
 \definecolor{custom_grey}{HTML}{222222} % colour of body text
-\definecolor{colour_chapter5_page}{HTML}{FF595E} % colour for chapter 5
-\definecolor{colour_chapter6_page}{HTML}{E68301} % colour for chapter 6
-\definecolor{colour_chapter7_page}{HTML}{3F37C9} % colour for chapter 7
+\definecolor{colour_chapter5}{HTML}{FF595E} % colour for chapter 5
+\definecolor{colour_chapter6}{HTML}{E68301} % colour for chapter 6
+\definecolor{colour_chapter7}{HTML}{3F37C9} % colour for chapter 7
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

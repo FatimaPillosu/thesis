@@ -1,16 +1,16 @@
-% To add a coloured edge to the pages in the chapter
+% Adding a coloured vertical edge to the pages in the chapter
 \ClearShipoutPicture
 \AddToShipoutPicture{%
   \AtPageLowerLeft{%
     \checkoddpage
     \ifoddpage
       \begin{tikzpicture}[remember picture,overlay] % Odd page → right edge
-        \draw[line width=80pt, colour_chapter6_page] 
+        \draw[line width=80pt, colour_chapter6] 
              (\paperwidth,0) -- (\paperwidth,\paperheight);
       \end{tikzpicture}%
     \else
       \begin{tikzpicture}[remember picture,overlay] % Even page → left edge
-        \draw[line width=80pt, colour_chapter6_page] 
+        \draw[line width=80pt, colour_chapter6] 
              (0,0) -- (0,\paperheight);
       \end{tikzpicture}%
     \fi
@@ -18,22 +18,27 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Data-driven probability of flash flood: how feasible?}
-\label{feasibility_PoFF}
+\chapter{Data-driven predictions of areas at risk of flash flood: from short- to medium-range lead times}
+\label{data_driven_flash_floods_short_medium_range}
 \graphicspath{{chapter_06/figures}{chapter_06/tables}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chaptercolorstripe
+\underline{\textbf{Authors' contribution for this chapter:}} Fatima M. Pillosu designed the study, with advice from Mariana Clare, Florian Pappenberger, Hannah Cloke, and Christel Prudhomme, obtained the datasets, carried out the analysis, and led the writing of the manuscript. All authors assisted with writing the manuscript. Overall, 90\% of the writing was undertaken by Fatima M. Pillosu.
+
+\vspace{\baselineskip}
 
 \section*{PREFACE}
+\addcontentsline{toc}{section}{PREFACE}
 
-Building upon this foundation, the second analytical component introduces a data-driven approach integrating hydro-meteorological parameters to enhance flash flood prediction. Whilst rainfall's magnitude, duration, and location are critical factors, flash flood occurrence depends upon complex interactions between meteorological forcing and catchment characteristics, including antecedent soil moisture conditions, topographical features, and land cover. The data-driven model developed herein incorporates these factors to capture the nonlinear relationships that govern flash flood generation, moving beyond purely meteorological prediction towards a more holistic hydro-meteorological framework.
-
-The temporal dimension of forecast skill forms the third pillar of this analysis. Understanding how predictive capability degrades with increasing lead time is paramount for operational implementation, as it determines the practical warning times available to emergency managers and at-risk communities. This temporal analysis extends up to 5 days ahead, encompassing the full range of lead times relevant to flash flood preparedness and response activities. Day 1 forecasts would be used to activate emergency operation centres, pre-position resources in high-risk areas, and issue public warnings through media channels. Day 2-3 forecasts would be used to support broader preparedness activities, including mobilising regional resources, implementing precautionary evacuations in highly vulnerable areas, and allowing businesses and schools to adjust operations. Day 4-5 forecasts, whilst containing greater uncertainty, permit strategic planning such as adjusting reservoir operations, preparing emergency shelters, and enabling voluntary protective actions by residents, and although forecast skill diminishes at these lead times, the information remains valuable for initial situational awareness. By quantifying skill degradation across different forecast horizons, this analysis establishes realistic expectations for early warning systems and identifies the temporal windows within which different decision-making processes can be reliably supported.
-
-The authors of this paper contributed as follows: Fatima M. Pillosu designed the study, with advice from Hannah Cloke and Christel Prudhomme, obtained the datasets, carried out the analysis, and led the writing of the manuscript. All authors assisted with writing the manuscript. Overall, 90\% of the writing was undertaken by Fatima M. Pillosu.
+The second main analysis chapter (Chapter \ref{data_driven_flash_floods_short_medium_range}) develops a data-driven model that integrates multiple hydro-meteorological parameters to enhance the prediction capabilities of areas at risk of flash floods. Building upon the baseline established in Chapter \ref{flash_flood_focused_verification_rainfall_based_ff}, this investigation recognises that whilst rainfall magnitude, duration, and location constitute critical forcing mechanisms, flash flood occurrence emerges from complex interactions between meteorological inputs and catchment characteristics. The methodology incorporates antecedent soil moisture conditions, topographical features, and land cover properties to capture the nonlinear relationships governing flash flood generation, thereby transitioning from purely meteorological prediction towards a comprehensive hydro-meteorological framework. Furthermore, the chapter undertakes a systematic temporal analysis of forecast skill degradation across lead times extending to five days, establishing the practical boundaries within which operational decisions can be reliably supported. This temporal dimension proves essential for delineating the utility of forecasts across different emergency management phases—from immediate response activation at one-day lead times to strategic preparedness measures at extended horizons. Hence, in this chapter, \textcolor{colour_chapter6}{research question 2 (RQ2) "Is it feasible to develop data-driven predictions of areas at risk of flash flood at regional scale using reanalysis hydro-meteorological data and impact flash flood reports, and if so, up to what lead time?"} is answered. The second research component of this thesis is addressed here, i.e., the development of a proof-of-concept reanalysis-based and forecast-based - up to medium-range (day 5) - hydro-meteorological, data-driven predictions of areas at risk of flash floods.
 
 \clearpage
+
+\section*{ABSTRACT}
+\addcontentsline{toc}{section}{ABSTRACT}
+
+\clearpage
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -216,6 +221,9 @@ From the reliability diagrams (Figure \ref{fig:hydro_based_ff_verif_breakdown_sc
 
 %%%%%%%%%%%%%%%%%%%%%
 \section{Discussions}
+
+The results presented in the subsequent sections document the performance of both rainfall-based and data-driven hydro-meteorological forecasts. Section \ref{verif_rainfall_based_fc} shows the baseline verification results for the prediction of areas at risk of flash floods based using only ERA5-ecPoint short- and long-range rainfall predictions. Section \ref{verif_data_driven_short_fc} shows that the data-driven approach combining hydro-meteorological parameters yields statistically significant improvements in prediction skill, with particularly notable gains in discrimination ability as seen in the provided ROC curves. Section \ref{verif_data_driven_long_fc} shows that the predictive skill of the data-driven forecasts extends to day 5 with my better discrimination ability than its only rainfall-based counterpart. Section \ref{verif_case_study} shows a selection of flash flood events to illustrate the approaches' capacity to identify areas at risk of flash floods (in the US and around the world). Hence, the findings detailed in this chapter contribute to understanding how effectively current technologies can support flash flood warning systems.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%
