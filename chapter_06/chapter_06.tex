@@ -52,6 +52,12 @@ The second main analysis chapter (Chapter \ref{data_driven_flash_floods_short_me
 %%%%%%%%%%%%%%%%%
 \section{Methods}
 
+
+% BUILT ROC CURVES: For the data-driven forecasts, where the forecast probability is provided by the model with continuous numbers between 0 and 1, the decision (probability) thresholds are defined by the user. In this thesis, a discretisation of 0.01 (equivalent to 1\%) and 0.001 (equivalent to 0.1\%) will be considered given the low frequency observed of flash flood events in the observational database. 
+
+
+
+
 For hydro-meteorological, data-driven predictions, the verifying thresholds emerge directly from the machine learning algorithms that generated the predictions themselves, applying an optimisation that establishes the probability values that maximise the F1-score when converting a probabilistic prediction into a yes- or non-event. This data-driven threshold selection represents a departure from traditional approaches based, for example, on assumptions about the severity of the triggering events (as done for the rainfall-based forecasts). It instead allows the data-driven models themselves to identify optimal decision boundaries to convert the probabilistic forecasts into a yes or a non-event. As such, the thresholds will be defined based on the frequency of the yes-events in the observational datasets, delivering smaller verifying thresholds for rarer events. 
 
 
