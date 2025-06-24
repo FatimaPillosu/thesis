@@ -167,12 +167,13 @@
   {\footnotesize\color{gray}\uppercase{\leftmark}}
 }
 
-% Footer: Page X of Y in the centre, smaller font, gry color
+% Footer: Page X of Y in the centre, smaller font, gray color
 \fancyfoot[C]{%
   {\footnotesize\color{gray}\thepage}
 }
 
-\setlength{\headsep}{40pt}
+% White space between header and main body text
+\setlength{\headsep}{35pt}
 
 % Remove header and footer lines
 \renewcommand{\headrulewidth}{0pt} % Remove the line below the header
