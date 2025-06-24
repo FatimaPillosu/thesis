@@ -173,7 +173,7 @@
 }
 
 % White space between header and main body text
-\setlength{\headsep}{35pt}
+\setlength{\headsep}{25pt}
 
 % Remove header and footer lines
 \renewcommand{\headrulewidth}{0pt} % Remove the line below the header
