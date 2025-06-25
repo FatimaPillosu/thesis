@@ -27,17 +27,17 @@ Decore partem \marginpara{This is the mini-paragraph in the wide margin. It is a
 \end{equation}
 
 
-% INSERT COLOURED VERTICAL LINE TO TEH LEFT OF A TEXT
+% INSERT COLOURED VERTICAL LINE TO THE LEFT OF A TEXT
 \begin{tcolorbox}[
-  colframe=custom_fuchsia,  % Use the custom HEX color for the vertical line
-  colback=white,        % Background color remains white
-  sharp corners,        % Ensures sharp edges
-  boxrule=2mm,          % Thickness of the left vertical line
-  left=0mm,             % Space inside the left margin
-  right=0mm,            % No space on the right
-  toprule=0mm,          % Remove the top border
-  bottomrule=0mm,       % Remove the bottom border
-  rightrule=2mm         % Remove the right border
+  colframe=custom_fuchsia,
+  colback=white,
+  sharp corners,
+  boxrule=2mm,
+  left=0mm,
+  right=0mm,
+  toprule=0mm,
+  bottomrule=0mm,
+  rightrule=2mm
 ]
 {\color{custom_grey} {\setlength{\parindent}{1.0em} Sample text.}}
 \end{tcolorbox}

@@ -45,7 +45,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Define custom colours for the thesis
-\definecolor{custom_grey}{HTML}{222222} % colour of body text
+\definecolor{colour_body_text}{HTML}{222222} % colour of body text
 \definecolor{colour_chapter5}{HTML}{FF595E} % colour for chapter 5
 \definecolor{colour_chapter6}{HTML}{E68301} % colour for chapter 6
 \definecolor{colour_chapter7}{HTML}{3F37C9} % colour for chapter 7
@@ -54,7 +54,7 @@
 %
 % Page setup
 \geometry{top=35mm, bottom=35mm, left=35mm, right=65mm} % Margins
-\colorlet{bodytext}{custom_grey} % Body text color: dark gray
+\colorlet{bodytext}{colour_body_text} % Body text color: dark gray
 \color{bodytext} % Apply this globally
 \setmainfont{Arial} % Set body font to Arial
 \setstretch{1.25}   % Line spacing
