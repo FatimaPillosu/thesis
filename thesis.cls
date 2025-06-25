@@ -10,6 +10,7 @@
 %
 % Packages
 \RequirePackage{array}
+\RequirePackage{ulem} % to underline text
 \RequirePackage{amsmath}
 \RequirePackage{booktabs}
 \RequirePackage{ifoddpage}
