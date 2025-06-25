@@ -205,15 +205,14 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Custom command for margin comments
+%Custom command for margin comments
 \newcommand{\marginpara}[1]{%
-  \marginpar[\raggedright\footnotesize\textbf{#1}]% Left margin (even pages)
+  \marginpar[\raggedleft\footnotesize\textbf{#1}]% Left margin (even pages)
   {\raggedright\footnotesize\textbf{#1}}% Right margin (odd pages)
 }
 \endinput
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Sorting the position of figures in the thesis
 
