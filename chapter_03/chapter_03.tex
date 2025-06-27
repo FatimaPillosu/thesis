@@ -15,15 +15,15 @@ This chapter outlines the integrated experimental strategy adopted in this thesi
 \end{figure}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Data requirements and selection}
 \label{integrated_experimental_strategy_data_requirements}
 
-The development of a flash flood prediction system necessitates careful consideration of data requirements across all methodological components, e.g. model development, forecast verification (at different lead times), and future operational implementation. This section outlines the criteria for selecting the required data to develop a proof of concept of a system that produces medium-range forecasts of areas at risk of flash floods over a continuous global domain (Section \ref{experimental_data_requirements_data_selection_criteria}) and provides the final selection within available sources (Section \ref{experimental_data_requirements_final_selection}). 
+The development of a flash flood prediction system necessitates careful consideration of data requirements across all methodological components, e.g. model development, forecast verification (at different lead times), and future operational implementation. This section outlines the criteria for selecting the required data to develop a proof of concept of a system that produces medium-range forecasts of areas at risk of flash floods over a continuous global domain (Section \ref{integrated_experimental_strategy_data_requirements_selection_criteria}) and provides the final selection within available sources (Section \ref{integrated_experimental_strategy_data_requirements_final_selection}). 
 
 
-\subsection{Criteria for data selection}
-\label{experimental_data_requirements_data_selection_criteria}
+\subsection{Requirements for data selection}
+\label{integrated_experimental_strategy_data_requirements_selection_criteria}
 
 \subsubsection{Requirements for observational data}
 
@@ -41,7 +41,7 @@ Whilst \marginpara{Requirement for hydro-meteorological forecasts  n.3: Global c
 
 
 \subsection{Available Data Sources and Final Selection}
-\label{experimental_data_requirements_final_selection}
+\label{integrated_experimental_strategy_data_requirements_final_selection}
 
 \subsubsection{Observational data}
 
@@ -55,14 +55,26 @@ The \marginpara{Chosen reanalysis and forecasting system for hydrological and st
 
 While \marginpara{Chosen reanalysis and forecasting system to represent localised extreme rainfall - ERA5-ecPoint} ERA5 provides a consistent dataset for training and prediction across space and time, its coarse resolution (31 km) renders raw ERA5 rainfall estimates unsuitable for flash flood applications. Localised rainfall peaks tend to be underestimated in the case of large-scale rainfall (whether from stratiform rainfall or large convective systems) or absent in the case of isolated convection. Hence, the rainfall estimates used in this thesis for training, model development, and verification come from the post-processed ERA5 rainfall estimates with the ecPoint methodology (ERA5-ecPoint\footnote{For more details, refer to Section \ref{datasets_era5_ecpoint} in Chapter \ref{datasets}}). ERA5-ecPoint provides a probabilistic distribution of the localised extreme rainfall estimates that might be observed by rain gauges within model grid-boxes, being, therefore, more representative of point-scale rainfall's local maxima.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Forecasts verification strategy}
 \label{integrated_experimental_strategy_verification_strategy}
 
-\subsection{Criteria to robustly evaluate rare events using underreporting observational datasets}
+The verification of predictions for areas at risk of flash floods presents unique challenges arising from the extreme rarity of these events and the systematic underreporting inherent in impact-based observational databases. This section delineates the requirements for robust forecast verification under these constraints (Section \ref{integrated_experimental_strategy_verification_requirements}) and presents the verification strategy adopted throughout this thesis (Section \ref{integrated_experimental_strategy_verification_strategy_final_selection}).
+
+
+\subsection{Requirements to robustly evaluate rare events using underreporting observational datasets}
+\label{integrated_experimental_strategy_verification_strategy_requirements}
+
+The \marginpara{Requirement for forecast verification n.1: evaluation of both main features of probabilistic forecasts: reliability and discrimination ability} operational utility of probabilistic flash flood predictions depends upon both discrimination (the ability to distinguish between events and non-events) while maintaining good reliability (the correspondence between predicted probabilities and observed frequencies). Whilst discrimination ensures that higher probabilities are predicted to locations where events may occur, reliability ensures that these probabilities are similar to the observed frequencies. Such a balance between discrimination ability and reliability is important because a system with excellent discrimination but poor calibration may rank events correctly but provide misleading probability estimates, potentially triggering unnecessary emergency responses. Conversely, well-calibrated forecasts with poor discrimination offer limited operational value despite providing accurate probability estimates because they may not be able to recognise the signal that an event might happen, as in a climatological forecast.
+
+Extreme \marginpara{Requirement for forecast verification n.2: selection of metrics appropriate for highly imbalanced datasets} class imbalance in flash flood verification datasets — where yes-events comprise approximately 0.2\% of all cases — renders traditional accuracy metrics meaningless. A forecast system predicting exclusively non-events would achieve 99.8\% accuracy whilst providing no operational value. The verification strategy must therefore employ metrics that meaningfully capture a system's ability to identify rare positive events whilst managing false alarm rates. 
 
 
 \subsection{Proposed Forecasts verification strategy}
+\label{integrated_experimental_strategy_verification_strategy_final_selection}
+
+The \marginpara{Calibration assessment through reliability diagrams and consistent probability thresholds} assessment of calibration employs reliability diagrams that compare predicted probabilities against observed frequencies within probability bins. However, extreme class imbalance necessitates careful bin selection to ensure sufficient samples in each category, particularly for higher probability ranges where events are predicted. Furthermore, the verification strategy maintains consistent probability thresholds across different lead times and regions when computing contingency tables, enabling meaningful performance comparisons despite varying base rates. This consistency proves essential when evaluating how forecast skill degrades with increasing lead time or when assessing model transferability across hydro-climatically distinct regions.
 
 \begin{figure}[htbp]
 \centering
@@ -71,16 +83,20 @@ While \marginpara{Chosen reanalysis and forecasting system to represent localise
 \label{fig:forecast_evaluatio_strategy}
 \end{figure}
 
-
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{roc_examples.png}
 \caption{\textbf{Examples of ROC and precision-recall curves.} Draft figure.}
-\label{fig:roc_examples}
+\label{fig:roc_pr_examples}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Data-driven model development strategy under imbalanced observational datasets}
+The \marginpara{Complementary use of the precision-recall curve to assess the performance of data-driven predictions trained with severely imbalanced datasets} verification framework complements the set of metrics considered in the previous paragraph with the \textit{precision-recall curve}. The ROC curve and AROC remain relatively insensitive to class imbalance, and it may overstate performance when negative cases vastly outnumber positive ones \citep{Saito_2015}. Therefore, the verification strategy additionally employs precision-recall analysis, where the area under the precision-recall curve (AUPRC) provides a more stringent assessment by focusing on the positive class. The precision-recall framework penalises false alarms more severely than ROC analysis, making it particularly suitable for operational contexts where false alarms carry significant costs \ref{fig:roc_pr_examples}. By employing both frameworks, the verification strategy captures different aspects of forecast quality relevant to various end-user requirements.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data-driven model development strategy 
+under imbalanced observational datasets}
 \label{integrated_experimental_strategy_model_development_imbalanced_data}
 
 The development of data-driven models that predict areas at risk of flash floods must confront the fundamental challenge of training such models with extremely imbalanced observational datasets. The yes-event class (i.e. when a flash flood event is reported) represents \sim0.2\% of the total number of reports in the database\footnote{For more details on the representation of yes-events in NOAA's Storm Event Database, please refer to Section \ref{datasets_storm_event_database} in Chapter \ref{datasets}}, creating one of the most severe class imbalance problems encountered in environmental prediction, comparable to the detection of lightning \citep{Cavaiola_2024} or landslides \citep{Xu_2022, Agrawal_2017, Zhang_2022, Gupta_2023}. 
