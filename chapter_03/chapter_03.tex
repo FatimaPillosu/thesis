@@ -60,11 +60,7 @@ While \marginpara{Chosen reanalysis and forecasting system to represent localise
 \section{Forecasts verification strategy}
 \label{integrated_experimental_strategy_verification_strategy}
 
-The verification of predictions for areas at risk of flash floods presents unique challenges arising from the extreme rarity of these events and the systematic underreporting inherent in impact-based observational databases. This section delineates the requirements for robust forecast verification under these constraints (Section \ref{integrated_experimental_strategy_verification_requirements}) and presents the verification strategy adopted throughout this thesis (Section \ref{integrated_experimental_strategy_verification_strategy_final_selection}).
-
-
 \subsection{Requirements to robustly evaluate rare events using underreporting observational datasets}
-\label{integrated_experimental_strategy_verification_strategy_requirements}
 
 The \marginpara{Requirement for forecast verification n.1: evaluation of both main features of probabilistic forecasts: reliability and discrimination ability} operational utility of probabilistic flash flood predictions depends upon both discrimination (the ability to distinguish between events and non-events) while maintaining good reliability (the correspondence between predicted probabilities and observed frequencies). Whilst discrimination ensures that higher probabilities are predicted to locations where events may occur, reliability ensures that these probabilities are similar to the observed frequencies. Such a balance between discrimination ability and reliability is important because a system with excellent discrimination but poor calibration may rank events correctly but provide misleading probability estimates, potentially triggering unnecessary emergency responses. Conversely, well-calibrated forecasts with poor discrimination offer limited operational value despite providing accurate probability estimates because they may not be able to recognise the signal that an event might happen, as in a climatological forecast.
 
@@ -72,26 +68,24 @@ Extreme \marginpara{Requirement for forecast verification n.2: selection of metr
 
 
 \subsection{Proposed Forecasts verification strategy}
-\label{integrated_experimental_strategy_verification_strategy_final_selection}
 
 The \marginpara{Calibration assessment through reliability diagrams and consistent probability thresholds} assessment of calibration employs reliability diagrams that compare predicted probabilities against observed frequencies within probability bins. However, extreme class imbalance necessitates careful bin selection to ensure sufficient samples in each category, particularly for higher probability ranges where events are predicted. Furthermore, the verification strategy maintains consistent probability thresholds across different lead times and regions when computing contingency tables, enabling meaningful performance comparisons despite varying base rates. This consistency proves essential when evaluating how forecast skill degrades with increasing lead time or when assessing model transferability across hydro-climatically distinct regions.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{forecast_evaluatio_strategy.png}
+\includegraphics[width=\textwidth]{forecast_evaluation_strategy.png}
 \caption{\textbf{Forecast evaluation strategies.} Draft figure.}
 \label{fig:forecast_evaluatio_strategy}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{roc_examples.png}
-\caption{\textbf{Examples of ROC and precision-recall curves.} Draft figure.}
-\label{fig:roc_pr_examples}
+\includegraphics[scale=0.9]{curve_roc_pr_examples.png}
+\caption{\textbf{Examples of Receiver Operating Characteristic (ROC) and Precision-Recall curves: computation from contingency tables and performance characteristics under balanced and imbalanced datasets.} Panel (a) defines the four contingency table elements for a binary classification of probabilistic forecasts at a given probability threshold. The probability density plot displays the distribution of observed yes-events (blue) and observed non-events (pink). The vertical dash-dot line passing over a given probability threshold (purple dot) divides the space in predicted yes-events (to the right, in green) and predicted non-events (to the left, in yellow). The overlaps between the two spaces and the density distributions define the elements of the contingency table: H (area covered by dark green sloping lines), FA (area covered by dark pink), M (area covered by dark brown), and CN (area covered by orange horizontal lines). Panel (b) shows how discrimination ability is represented by ROC curves (which assume balance between the binary classes) across different model performances - perfect, none, and good - with the rightmost panel showing discrimination ability for an imbalanced dataset. Panel (c) shows the same as panel (b), but for precision-recall curves (which do not assume class balance between the binary classes).}
+\label{fig:curve_roc_pr_examples}
 \end{figure}
 
-The \marginpara{Complementary use of the precision-recall curve to assess the performance of data-driven predictions trained with severely imbalanced datasets} verification framework complements the set of metrics considered in the previous paragraph with the \textit{precision-recall curve}. The ROC curve and AROC remain relatively insensitive to class imbalance, and it may overstate performance when negative cases vastly outnumber positive ones \citep{Saito_2015}. Therefore, the verification strategy additionally employs precision-recall analysis, where the area under the precision-recall curve (AUPRC) provides a more stringent assessment by focusing on the positive class. The precision-recall framework penalises false alarms more severely than ROC analysis, making it particularly suitable for operational contexts where false alarms carry significant costs \ref{fig:roc_pr_examples}. By employing both frameworks, the verification strategy captures different aspects of forecast quality relevant to various end-user requirements.
-
+The \marginpara{Complementary use of the precision-recall curve to assess the performance of data-driven predictions trained with severely imbalanced datasets} verification framework complements the set of metrics considered in the previous paragraph with the \textit{precision-recall curve}. The ROC curve and AROC remain relatively insensitive to class imbalance, and it may overstate performance when negative cases vastly outnumber positive ones \citep{Saito_2015}. Therefore, the verification strategy additionally employs precision-recall analysis, where the area under the precision-recall curve (AUPRC) provides a more stringent assessment by focusing on the positive class. The precision-recall framework penalises false alarms more severely than ROC analysis, making it particularly suitable for operational contexts where false alarms carry significant costs \ref{fig:curve_roc_pr_examples}. By employing both frameworks, the verification strategy captures different aspects of forecast quality relevant to various end-user requirements.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
