@@ -1,0 +1,153 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{General discussions}
+\label{general_discussions}
+\graphicspath{{chapter_08/figures}{chapter_08/tables}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Flash \marginpara{Escalating flash flood impacts and climate-change-induced intensification of flash flood risk demand urgent advances in forecasting capabilities} floods represent the deadliest and most devastating form of natural hazard worldwide, causing over 5,000 fatalities annually and accounting for approximately 85\% of global flood incidents. Recent catastrophic events, such as those including (but not limited to) the flash floods in Spain, Libya, Germany, Central Asia, and Brazil, have claimed hundreds of lives, thousands of injuries, and billions in economic losses. As climate change continues to intensify the frequency and severity of extreme rainfall - including in historically low-risk regions - the development of accurate, timely, and globally accessible flash flood predictions has become a critical priority for disaster risk reduction. WMO has identified flash floods as one of its top priority natural hazards. Meanwhile, the UN's 'Early Warnings for All' initiative, launched in 2022 with the ambitious goal of protecting every person on Earth with early warning systems by 2027, places flash floods at the forefront of its agenda.
+
+Significant \marginpara{Thesis aim: addressing technical barriers to medium-range predictions of areas at risk of flash floods over a continuous global domain to provide a viable pathway for protecting vulnerable communities worldwide} technical and methodological obstacles persist in developing medium-range flash flood forecasts over continuous global domains. The overall aim of this thesis was to address the critical gap in global flash flood early warning capabilities and to demonstrate how data-driven approaches, combined with global numerical weather prediction models, can provide a viable pathway for protecting vulnerable communities worldwide, particularly those in data-scarce regions where traditional forecasting approaches face significant limitations. These three interconnected research objectives have been addressed in the main analysis chapters of this thesis:
+
+\begin{tcolorbox}[
+  colframe=colour_chapter5,  
+  colback=white,           
+  sharp corners,        
+  boxrule=2mm,          
+  left=0mm,             
+  right=0mm,            
+  toprule=0mm,          
+  bottomrule=0mm,       
+  rightrule=2mm        
+]
+{\color{colour_chapter5} {\setlength{\parindent}{1.0em} Chapter 5: depart from the traditional rainfall-to-rainfall verification approach and adopt, instead, a \textit{flash-flood-focused verification framework} that directly compares rainfall forecasts with flash flood impact reports to answer research question n.1 (RQ1) "Can post-processed global NWP rainfall forecasts successfully identify areas at risk of flash floods up to medium-range lead times?"}}
+\end{tcolorbox}
+
+\begin{tcolorbox}[
+  colframe=colour_chapter6,  
+  colback=white,           
+  sharp corners,        
+  boxrule=2mm,          
+  left=0mm,             
+  right=0mm,            
+  toprule=0mm,          
+  bottomrule=0mm,       
+  rightrule=2mm        
+]
+{\color{colour_chapter6} {\setlength{\parindent}{1.0em} Chapter 6: develop data-driven models that integrate hydro-meteorological variables from global reanalysis and global medium-range NWP forecasts, and flash flood impact reports to predict areas at risk of flash floods, from short (i.e., day 1) to medium-range lead times (i.e., day 5), to answer research question n.2 (RQ2) "Are medium-range data-driven hydro-meteorological predictions of areas at risk of flash floods feasible with global reanalysis, forecasts, and impact flash flood reports?"}}
+\end{tcolorbox}
+
+\begin{tcolorbox}[
+  colframe=colour_chapter7,  
+  colback=white,           
+  sharp corners,        
+  boxrule=2mm,          
+  left=0mm,             
+  right=0mm,            
+  toprule=0mm,          
+  bottomrule=0mm,       
+  rightrule=2mm        
+]
+{\color{colour_chapter7} {\setlength{\parindent}{1.0em} Chapter 7: assess how varying spatial coverage and data density scenarios may influence training strategies when creating global predictions with regionally-trained data-driven models, to answer research question n.3 (RQ3) "How does coverage-density trade-off influence training data strategies to develop predictions of areas at risk of flash floods over a continuous global domain?"}}
+\end{tcolorbox}
+
+This chapter discusses the outcomes, implications, and limitations of the research from each of these three main analysis chapters, synthesises the broader contributions to flash flood prediction science, and presents recommendations for advancing global early warning capabilities against flash floods that could ultimately save thousands of lives every year and support UN's vision of global early warning coverage - for flash floods.
+
+
+
+
+\section{Development of a flash-flood-focused verification framework for predictions of areas at risk of flash flood against flash flood impact reports}
+
+\subsection{Key insights and contributions}
+
+\subsection{Limitations}
+
+\subsection{Future research directions}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Importance of accurate medium-range flash flood forecasts over a continuous global domain}
+
+Timely prediction of extreme events, particularly flash floods, is crucial for minimising their adverse impacts. Accurate forecasting of these phenomena involves complex processes that integrate meteorological and hydrological data, considering the rapid onset and localised nature of such events. Flash floods often result from intense rainfall over small-scale catchments, necessitating predictive systems capable of rapidly transforming rainfall inputs into actionable flood warnings \citep{Kim2011}.
+
+The complexity of flash flood forecasting is further compounded by the inherent uncertainty in numerical weather prediction models, particularly at the convective scales that govern intense precipitation events. Traditional approaches have relied heavily on deterministic rainfall thresholds and regionalised hydrological models, yet these methods often prove inadequate when confronted with the spatial and temporal variability characteristic of flash-flood-producing storms \citep{Alfieri_2015}. The challenge becomes particularly acute when extending forecast horizons beyond the nowcasting range, where the chaotic nature of atmospheric dynamics introduces substantial uncertainty into precipitation forecasts.
+
+Moreover, the global heterogeneity in data availability presents a fundamental barrier to developing predictions over a continuous global domain. While data-rich regions benefit from dense observational networks and calibrated hydrological models, vast portions of the globe—particularly in developing nations where flash flood vulnerability is often highest—lack the necessary infrastructure for traditional forecasting approaches. This disparity in observational capacity not only limits real-time monitoring but also constrains the development and validation of predictive models, creating a paradox wherein the populations most at risk possess the least capacity for early warning.
+
+In operational flash flood prediction, the focus has been mainly on the prediction of areas at risk of flash flood rather than the prediction of discharge in a river channel, as it is commonly done for riverine flood \citep{Zanchetta_2020}. Traditional flash flood forecasting approaches have predominantly relied upon rainfall-based thresholds as the primary, and often sole, predictive variable, reflecting both historical data limitations and the perceived primacy of precipitation intensity in triggering rapid-onset flooding. This rainfall-centric approach typically employs fixed or seasonally adjusted precipitation thresholds — whether based on rainfall rate, accumulated depth, or return period exceedance — to delineate areas at risk of flash flooding. While in some cases, this approach was the only viable option for producing predictions of areas at risk of flash floods, there are two main issues with this approach. First, such an approach represents a missed opportunity to consider the complex interplay of antecedent soil moisture conditions and catchment-specific characteristics that fundamentally modulate rainfall-runoff transformation processes. The oversimplification inherent in rainfall-only methods becomes particularly problematic when considering that identical precipitation events can produce vastly different hydrological responses depending on factors such as antecedent soil saturation, vegetation cover, urbanisation extent, and topographic configuration. Second, despite this oversimplification, applying this approach globally was impossible since it relied on km-scale rainfall forecasts, which are produced in a patchy fashion by limited-area NWP models. 
+
+In Chapter 5, we discussed the potential for global NWP model outputs to be used as the main input for global predictions of areas at risk of flash floods. The regional verification over the CONUS has shown the potential of post-processed rainfall forecasts to generate fairly reliable and skilful predictions of areas at risk of flash floods. 
+
+With the advent of machine learning and artificial intelligence, there has been a boom of studies exploring the possibility of using data-driven algorithms for the prediction of areas at risk of flash floods, or at least to identify susceptible areas to flash flooding. Even though the majority of these studies remain primarily at catchment level and in the best cases at national scale \citep{Liu_2018}, there has not yet been an application of the currently developed methods at global scale, and for predictions up to medium-range lead times. In Chapter 6, several commonly used data-driven algorithms were tested over the CONUS to create forecasts up to medium-range lead times. In Chapter 7, the expansion of regionally trained models for predictions over a continuous global domain was discussed. These preliminary results show that data-driven approaches can successfully capture the complex relationships between multiple hydro-meteorological variables and flash flood occurrence, achieving skilful predictions beyond traditional rainfall-threshold methods whilst extending forecast horizons to operationally relevant medium-range timescales. The CONUS-based experiments demonstrated that algorithms trained on comprehensive hydro-meteorological datasets—incorporating not only precipitation but also soil moisture, evapotranspiration, and other relevant state variables—consistently outperformed rainfall-based approaches across all examined lead times. Particularly noteworthy was the models' ability to maintain predictive skill at day 5 lead times, suggesting that the integration of global NWP forecast variables with machine learning architectures can effectively capture the evolving atmospheric conditions conducive to flash flooding well beyond the traditional nowcasting window. The global expansion analysis revealed that models trained on data-rich regions retain substantial predictive capability when applied to ungauged or data-sparse areas, provided that the training dataset encompasses sufficient hydro-climatic diversity, such as the CONUS. This transferability, whilst subject to performance degradation in regions with markedly different hydro-meteorological regimes, nonetheless represents a significant advance towards operationalising global flash flood predictions. The coverage-density trade-offs examined in Chapter 7 indicate that strategic selection of training regions, prioritising hydro-climatic representativeness over mere data volume, can optimise model performance across diverse global environments, thereby offering a pragmatic pathway for implementing the UN's Early Warnings for All initiative in the context of flash flood hazards.
+
+The convergence of improved global NWP model outputs and machine learning methodologies has fundamentally transformed the landscape of flash flood forecasting, particularly in addressing the persistent challenge of data scarcity. Contemporary global NWP models, such as those operated by ECMWF and other major centres, provide spatially continuous hydro-meteorological variables at increasingly refined resolutions, offering unprecedented coverage of atmospheric conditions conducive to flash flooding across the whole globe. When coupled with data-driven algorithms, trained on comprehensive datasets from data-rich regions such as the US or Europe, these global forecasts enable the development of predictive models capable of generalising learned relationships between atmospheric forcing and flash flood occurrence to data-sparse areas, as seen in Chapter 7. This transferability principle — whereby statistical patterns identified in data-rich environments can be extrapolated to regions with limited observational infrastructure—represents a paradigm shift in hydrology, as highlighted by \citep{Kratzert_2024} for riverine floods. This approach circumvents traditional limitations imposed by sparse gauge networks and the absence of hydrological observations. Whilst uncertainties inherent in such extrapolation must be carefully quantified, particularly given the heterogeneity in hydro-meteorological processes across different regions, this methodology offers the first viable pathway towards achieving truly global flash flood prediction capabilities at medium-range timescales, thereby addressing the critical gap between local predictions and the need for global early warnings.
+
+Lastly, while various global initiatives aim to develop standardised flash flood forecasting systems through international collaborations, such as the Flash Flood Guidance with Global Coverage, led by organisations like the World Meteorological Organisation (WMO), challenges persist in implementing these still regional systems effectively across diverse geographic settings. These difficulties include handling variability within storm-generated rainfall patterns and improving simulations under conditions where antecedent moisture effects have highly dynamic causal implications on sudden flooding pulses \citep{Buzgaru2021}\citep{Msigwa2024}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Improved decision-making for authorities}
+
+Improved decision-making for authorities in the context of flash flood management is heavily reliant on the development and implementation of precise and timely forecasting systems. These systems, by integrating various meteorological and hydrological factors, provide actionable information that aids disaster managers in minimising societal and environmental impacts of flash floods. The rapidly evolving nature of these systems has enabled authorities to forecast events more accurately; however, challenges remain in effectively translating forecasts into informed decisions. 
+
+As stated in the previous section, accurate flash flood forecasts are crucial for empowering authorities to make informed decisions regarding evacuation orders, resource allocation, and emergency response strategies. Reliable forecasts reduce delays in response times, which is particularly important for flash floods given their short lead times and sudden onset. For instance, the typical response time for a catchment area of approximately 100 km2 can be limited to less than an hour due to the rapid hydrological response caused by excessive rainfall \citep{Maqtan2022a, Maqtan2022b}. This constrains the available window for authorities to disseminate warnings and execute evacuation protocols effectively.
+
+Hydrological models play a critical role in forecasting and informing decision-making by simulating potential scenarios based on rainfall input data. Approaches such as the Flash Flood Guidance (FFG) system have been widely adopted to estimate the amount of rainfall required in a specific area to create hazardous discharge levels. This allows decision-makers to anticipate areas at risk before floodwaters accumulate \citep{Georgakakos_2022}. However, coupled with these advantages are uncertainties in predicting localised extreme rainfall events that substantially impact the reliability of these models. Addressing such uncertainties remains an ongoing challenge; thus, advances in probabilistic systems are essential as they enable authorities to better understand the likelihood and variability of potential outcomes \citep{Yussouf2020}.
+
+The importance of accurate spatial domain analysis cannot be overstated when it comes to localised decision-making. Forecasting systems like the European Flood Awareness System (EFAS), which employs indices such as the European Precipitation Index (EPIC), help focus emergency efforts where they are most needed by providing geographically tailored warnings. These systems highlight how spatially resolved forecasts enable authorities to prioritise areas based on vulnerability and anticipated severity. Nevertheless, decision-makers must contend with the complexities inherent within these outputs, especially those derived from ensemble predictions that provide multiple possible scenarios rather than a deterministic forecast \citep{Silvestro2017}.
+
+Operational decision-making also greatly benefits from strides made in early warning technologies that merge deterministic inputs with probabilistic guidance, extending lead times sufficiently - up to 18–24 hours - to allow critical evaluations by responders, enabling them to refine strategies accordingly \citep{Poolman2014}. Such advancements reduce ambiguity surrounding imminent threats and ensure disaster managers have robust tools at their disposal to assess risks systematically.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reduced vulnerability of at-risk populations}
+
+Understanding how accurate flash flood forecasts contribute to reduced vulnerability among populations at risk requires a comprehensive analysis of multiple interconnected factors. Early warning systems (EWSs) form an integral component in effectively minimising the impacts of flash floods, particularly for vulnerable communities. By enabling the timely dissemination of alerts based on hydro-meteorological conditions, these systems mitigate human and economic losses by improving preparedness and response strategies.
+
+Accurate forecasting reduces the exposure of populations living in high-risk areas by enabling targeted evacuations and resource allocation before and after disasters strike. Prediction models such as those generated by NOAA/NSSL's Warn-on-Forecast System leverage advanced numerical weather computation techniques to enhance forecast precision at shorter time scales, directly aiding local authorities in identifying threats more accurately and quickly. This specificity is crucial, as the probabilistic tools embedded within these systems have demonstrated their utility in building decision-maker confidence within localised contexts. Additionally, reducing false alarms fosters trust in these forecasting tools and ensures their effective utilisation during emergencies \citep{Martinaitis2023}.
+
+Socio-economically exposed communities, including those across Europe, stand to benefit immensely from EWSs incorporating comprehensive datasets for cross-boundary homogeneity. Programs like ReAFFINE integrate hazard simulations with socio-economic factors such as population density, creating adaptable real-time mechanisms for efficient forecasting. This multidimensional approach allows agencies to recognise not only areas prone to flash floods due to hydro-meteorological phenomena but also locations where human settlement intensifies vulnerability. As such models become integrated into broader early-warning frameworks, they improve outreach capabilities for protecting marginalised groups from impending disasters \citep{Ritter2021a}.
+
+Challenges faced in rural or economically underdeveloped regions remain stark due to inadequate data availability and infrastructure limitations. Hydrological models that depend on intricate thresholds tied to rainfall accumulation often require significant technical expertise and hardware sophistication; both elements are frequently absent in developing countries \citep{Javelle2016}\citep{AlRawas2024}. In Latin America's Andean regions or Asia, the scarcity of real-time-based early warning systems limits improvements in system efficacy and restricts overall emergency responsiveness. Thus, while advancements in remote sensing technologies have bolstered predictions with satellite-derived digital elevation maps (DEMs), including these tools where basic infrastructure is missing still poses considerable logistical hurdles \citep{Pham2020}.
+
+Global medium-range predictions, whether rainfall-based (Chapter 5) or based on hydro-meteorological parameters, exploiting the technology offered by data-driven approaches (Chapter 6 and 7), offer transformative potential for vulnerability reduction by fundamentally democratising access to early warning capabilities. These methodologies circumvent traditional infrastructure dependencies by leveraging globally available NWP outputs, thereby extending protective coverage to regions where conventional monitoring systems remain economically or logistically unfeasible. The ability to generate skilful predictions at five-day lead times provides crucial temporal windows for implementing graduated response protocols, from community awareness campaigns to full-scale evacuations, whilst accounting for the inherent uncertainties in forecast evolution. Furthermore, the multivariate nature of the hydro-meteorological approaches developed herein enables more nuanced risk assessments that capture compound flooding scenarios often missed by rainfall-only systems, thereby reducing both missed events and false alarms that erode public trust. The global applicability of these regionally-trained models, as demonstrated through the coverage-density analyses, suggests that data-rich nations can effectively contribute to protecting vulnerable populations in data-sparse regions through knowledge transfer mechanisms embedded within the modelling framework. This represents not merely a technical advancement but a fundamental shift towards equitable disaster risk reduction, wherein sophisticated predictive capabilities developed in well-resourced environments can be systematically deployed to protect the most vulnerable communities worldwide, thereby directly supporting the UN's Early Warnings for All initiative and contributing to substantive reductions in flash flood mortality and morbidity across all socio-economic strata.
+
+Global warming adds further complexity, introducing uncertainties linked to greenhouse gas emission trajectories defined by Representative Concentration Pathways (RCPs) - different RCP levels reflect variable future radiative forcings affecting rainfall intensity. Incorporating such projections in data-driven models of areas at risk of flash flood, or the computation of historical estimates of areas at risk of flash flood - for example using the raw and post-processed ERA5 hydro-meteorological data over the last 85 years - would enhance long-term resilience planning while providing actionable insights under diverse climatic scenarios \citep{AlRawas2024}.
+
+
+%%%%%%%%%%%%%%%%%%%%%
+\section{Future work}
+
+Future advances in flash flood prediction could substantially benefit from the integration of generative, physics-informed neural networks and other hybrid modelling approaches. The benefits of using such models can be twofold.
+
+First, generative physics-informed neural networks could help us expand the prediction of areas at risk of flash floods into the field of predicting actual discharge, which is more common for riverine floods. While this step forward might not be as critical for catchments of areas < 100 km2, it is critical for those "grey" catchments, between 100 and around 500 km2, where the routing component becomes more critical to predict fluvial flash floods. These grey catchments are also underrepresented in global databases, and hence, the applications of complex models such as LSTM or GNNs may come with higher uncertainties for these smaller catchments compared to their larger counterparts \citep{Nearing_2024}. Embedding physical constraints in machine learning architectures offers particular promise for addressing data scarcity challenges by incorporating fundamental hydrological principles — such as mass conservation, energy balance, and momentum equations — directly into the loss functions and network structures of data-driven models. By constraining the solution space to physically plausible outcomes, physics-informed approaches can achieve robust generalisation with significantly reduced training data requirements compared to purely empirical methods. This characteristic proves especially valuable when extending predictions to ungauged basins or regions with limited historical flash flood records, where traditional machine learning models might produce uncalibrated outputs due to insufficient training examples. Furthermore, integrating process-based understanding within neural network frameworks could enhance model interpretability, providing insight into the dominant physical mechanisms governing flash flood generation across different regions. Such advances could ultimately yield prediction systems that maintain physical consistency whilst exploiting the pattern recognition capabilities of modern machine learning, thereby offering more reliable and transferable flash flood forecasts across the full spectrum of global environments, from data-rich to data-sparse regions. Finally, applying physics constraints to generative data-driven architectures, such as GANs, may help create more robust training datasets, which in turn would lead to more robust predictions. 
+
+Despite the scientific advancements demonstrated in this thesis in creating medium-range forecasts with global coverage that support operational services, challenges persist in conveying forecast uncertainties to non-technical stakeholders for informed decision-making. With the available observational data, it is not possible to say which of the different models provides the most reliable predictions of areas at risk of flash floods. At this stage, we can only present probabilistic forecasts to decision-makers and collaborate with them to improve and ultimately choose the approaches that may be most effective in managing emergencies. 
+
+Integration of climate-related variability into predictive models provides another dimension where comprehensive data concerning storm characteristics combined with seasonality insights boosts prediction accuracy further \citep{Kuksina2020}. Authorities utilising such refined tools demonstrably sustain greater preparedness initiatives targeted at minimising structural damage while safeguarding local communities.
+Cumulatively, advancements demonstrate how technological innovations increasingly equip decision-makers with sharper foresight critical under stringent temporal limitations imposed during flash floods - a necessity underscored by their inherently abrupt nature paired alongside variegated regional contexts \citep{Maqtan2022a}\citep{Laudan2020}.
+
+Finally, to sustainably reduce population vulnerability given these evolving risks, investments are needed not only in improving forecast accuracy but also in expanding access to such forecasts across socio-economically disadvantaged locales. Machine learning methodologies combined with Geographic Information Systems (GIS) and Cloud Systems have emerged as valuable methods to allow access to forecasts for disadvantaged and rural communities
