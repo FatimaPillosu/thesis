@@ -28,7 +28,7 @@
 \RequirePackage{setspace} % Line spacing
 \RequirePackage{xcolor}   % Color management
 \RequirePackage{tcolorbox} % Creating a colored vertical line
-\RequirePackage[table]{xcolor}
+\RequirePackage[table,xcdraw]{xcolor}
 \RequirePackage{etoolbox} % Patch commands
 \RequirePackage{natbib} % Handle references
 \RequirePackage{hyperref} % Handle URL rendering
@@ -49,7 +49,6 @@
 \definecolor{colour_chapter5}{HTML}{FF595E} % colour for chapter 5
 \definecolor{colour_chapter6}{HTML}{E68301} % colour for chapter 6
 \definecolor{colour_chapter7}{HTML}{3F37C9} % colour for chapter 7
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Page setup
