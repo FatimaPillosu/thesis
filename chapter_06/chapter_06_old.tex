@@ -56,7 +56,8 @@ The second main analysis chapter (Chapter \ref{data_driven_flash_floods_short_me
 %%%%%%%%%%%%%%
 \section{Data}
 \label{data_driven_flash_floods_short_medium_range_data}
-% To be completed.
+
+The variables considered for the development of the data-driven models comprise three distinct categories based on their temporal characteristics: \textit{dynamic}, \textit{climatological}, and \textit{static}. Dynamic variables vary over time and capture the evolving hydro-meteorological conditions that influence flash flood occurrence. Both hydro-meteorological forecasts and observational data fall in this category. Climatological variables represent conditions that vary seasonally or according to established climate patterns. Whilst these variables change over extended temporal scales, they remain relatively stable within shorter prediction windows. Static variables constitute time-invariant features of the landscape and hydrological system. This category may include geomorphological characteristics, catchment properties, and topographical attributes that remain constant throughout the analysis period.
 
 
 %%%%%%%%%%%%%%%%%
@@ -112,7 +113,57 @@ Due \marginpara{Specialised loss functions for imbalanced datasets} to the sever
 
 
 \subsection{Verification scores}
-%To be completed. Similar to that one in Chapter 5. 
+%To be completed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+% BUILT ROC CURVES: For the data-driven forecasts, where the forecast probability is provided by the model with continuous numbers between 0 and 1, the decision (probability) thresholds are defined by the user. In this thesis, a discretisation of 0.01 (equivalent to 1\%) and 0.001 (equivalent to 0.1\%) will be considered given the low frequency observed of flash flood events in the observational database. 
+
+
+
+
+For hydro-meteorological, data-driven predictions, the verifying thresholds emerge directly from the machine learning algorithms that generated the predictions themselves, applying an optimisation that establishes the probability values that maximise the F1-score when converting a probabilistic prediction into a yes- or non-event. This data-driven threshold selection represents a departure from traditional approaches based, for example, on assumptions about the severity of the triggering events (as done for the rainfall-based forecasts). It instead allows the data-driven models themselves to identify optimal decision boundaries to convert the probabilistic forecasts into a yes or a non-event. As such, the thresholds will be defined based on the frequency of the yes-events in the observational datasets, delivering smaller verifying thresholds for rarer events. 
+
+
+\subsection{Verification metrics to assess forecast quality}
+
+The verification framework employs a suite of metrics designed to evaluate different aspects of forecast performance, recognising that no single metric can fully characterise prediction quality for rare events like flash floods. The selection of metrics addresses two primary forecast attributes: reliability and discrimination ability.
+
+Reliability \marginpara{Assessing reliability: frequency bias (overall score) and reliability diagrams (breakdown score)} assessment examines whether predicted probabilities accurately reflect observed frequencies. The frequency bias provides an aggregate measure of systematic over- or under-prediction, whilst reliability diagrams offer detailed insights into calibration across the full probability spectrum. These metrics prove particularly valuable for understanding how well forecast systems capture the climatological frequency of flash floods, a fundamental requirement for risk-based decision making.
+
+Discrimination \marginpara{Assessing discrimination ability: ROC and Precision-Recall curve (breakdown scores) and area under the ROC and Precision-Recall curve (overall scores)} ability quantifies the forecast system's capacity to distinguish between flood and non-flood situations. The Area Under the Receiver Operating Characteristic curve (AROC) provides a threshold-independent summary measure, whilst the full ROC curve reveals performance trade-offs at different probability thresholds. For rare event prediction, discrimination ability often represents the primary challenge, as models must identify subtle signals preceding infrequent occurrences.
+
+The choice of probabilistic metrics reflects the inherent uncertainty in flash flood prediction and the need for risk-based decision frameworks in operational contexts. Deterministic metrics prove less suitable given the rarity of events and the importance of capturing forecast uncertainty. Detailed mathematical formulations and computational procedures are provided in the relevant analysis chapters.
+
+
+\subsection{What training strategy ensures robust assessment of model performance when working with an extremely imbalanced dataset?}
+
+The validation framework employs nested cross-validation with hyperparameter optimisation to provide unbiased performance estimates whilst maximising model performance. This approach addresses the risk of overfitting inherent in machine learning applications to imbalanced datasets.
+
+The outer cross-validation loop uses stratified k-fold splitting to ensure representative class distributions in all data partitions. Within each outer fold, an inner optimisation loop identifies optimal hyperparameters using Bayesian optimisation via the Optuna framework. This nested structure prevents information leakage between hyperparameter selection and performance evaluation, providing realistic estimates of operational performance.
+The choice of AROC as the optimisation metric during hyperparameter tuning reflects its suitability for imbalanced classification and alignment with the verification framework. Alternative metrics such as F1-score prove less suitable due to their dependence on classification thresholds and potential instability with extreme class imbalance.
+
+Repeated evaluation across multiple cross-validation folds quantifies performance variability and identifies potential instabilities in model training. This comprehensive validation approach ensures that reported performance metrics reflect genuine predictive capability rather than fortunate data splits or overfitting to specific training samples. Implementation details and computational considerations are discussed in Chapter \ref{feasibility_PoFF}.
+
+
+\subsection{How should flash flood observations be processed for grid-based verification?}
+
+The transformation of point-based impact reports into gridded observational fields requires careful consideration of spatial and temporal aggregation methods. This study implements a systematic approach aligned with established severe weather verification methodologies \citep{Tsonevsky_2018, Pillosu_2024}.
+
+Each flash flood report undergoes temporal aggregation to match the 24-hour accumulation periods of the forecast products, beginning at 00 UTC. This alignment ensures consistent comparison between observations and predictions whilst acknowledging that flash floods may occur at any time within the accumulation window. The choice of 24-hour periods balances the need for sufficient temporal resolution with the practical constraints of forecast product availability and the typical duration of flash flood events.
+
+Spatial assignment of reports to the ERA5 grid (approximately 31 km resolution) employs a nearest-neighbour approach for point reports and polygon inclusion for events with spatial extent. Given the relatively coarse resolution of ERA5 grid boxes compared to typical flash flood scales, additional spatial expansion techniques commonly used in convective-scale verification prove unnecessary. The resulting gridded fields preserve information about event frequency within each grid box, enabling more nuanced verification than binary occurrence fields.
+This processing approach addresses the fundamental challenge of scale mismatch between localised flash flood events and gridded forecast products. The methodology provides a reproducible framework applicable to other grid resolutions and accumulation periods, with detailed implementation provided in chapter \ref{flash_flood_focused_verification_framework}.
 
 
 
@@ -120,31 +171,43 @@ Due \marginpara{Specialised loss functions for imbalanced datasets} to the sever
 \section{Results}
 \label{data_driven_flash_floods_short_medium_range_results}
 
+
 \subsection{Model training}
 
+
+
+
+
+
+\subsubsection{Training methodology}
+
+The development of the data-driven predictions of areas at risk of flash floods employed a systematic training approach designed to optimise predictive performance whilst ensuring generalisability due to the severe imbalance problem in the training dataset. 
+
+The model architectures comprised decision-tree-based algorithms such as random forest and gradient boosting (XGBoost and CatBoost), and a feed-forward neural network. We considered 7 input features such as the probability of exceeding a certain rainfall return period, the maximum probability of exceeding a certain rainfall return period in the adjacent grid-boxes within a radius, the antecedent soil moisture, the steepness of the orography, and the vegetation coverage. 
+
+The training dataset comprises 53,245 yes-events over 19,746,990 grid-boxes (0.27\% of yes-events), spanning the years between 2001 to 2020. 
+
+To ensure a robust model evaluation and prevent overfitting, a nested cross-validation strategy was implemented, employing 5-fold cross-validation for the outer loop and 3-fold for hyperparameter optimisation in the inner loop. 
+
+The input feature set underwent normalisation for the neural network, calculated independently for each training fold to prevent data leakage.
+
+No missing values strategies was applied to the dataset as there not were any by design.
+
+
 \subsubsection{Hyperparameter optimisation}
-Random forest implementations ()
 
+Hyperparameter selection employed Optuna (version 4.3.0), a state-of-the-art hyperparameter optimisation framework utilising Tree-structured Parzen Estimator (TPE) sampling. This Bayesian optimisation approach was integrated within the inner loop of the nested k-fold cross-validation procedure, ensuring unbiased performance estimates whilst identifying optimal hyperparameter configurations.
 
+For each outer fold, an independent Optuna study was initiated with 20 trials, allowing the algorithm to explore the hyperparameter space. The objective function maximised the mean AROC across the inner k-fold cross-validation splits, with early pruning implemented via Optuna's MedianPruner to terminate unpromising trials and reduce computational overhead.
 
-The history plot regarding the Optuna's parametrisation of models' hyperparameters shows that 
-
+Figure \ref{fig:optuna_optimasation_convergence} illustrates the optimisation history for the five outer folds, demonstrating the TPE algorithm's efficiency in identifying high-performing configurations from the first iteration. The solid coloured lines track the trails with the "best value" for the objective (i.e. maximising AROC). The best trial appears to be in all cases trial n. 0, until convergence towards optimal values typically occurred within 10 and 15 trials. Optuna run the full set of 20 trials for all outer loops as shown in Figure \ref{fig:optuna_optimasation_convergence}.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{optuna_history.png}
-\caption{\textbf{Optuna's hyperparameter optimisation history.} Evolution of the two evaluation metrics (AUC-ROC, left-most two columns, and AUC-PR, right-most two columns) maximised during the 20 trials run over the \textcolor{colourInnerTraining}{\textit{inner training folds}} to tune the hyperparameters of the six considered models (from top to bottom): random forest XGBoost, random forest LightGBM, gradient boosting XGBoost, gradient boosting LightGBM, gradient boosting CatBoost, and feed-forward neural network. The lines in shades of grey indicate individual trial performances, whilst lines in shades of orange highlight the best-performing hyperparameter set, identified by Optuna's Bayesian optimisation process. The shades of grey and orange represent the values of the evaluation metrics for each outer fold (lightest shade for the first outer fold and darkest for the latest). For each evaluation metric, the left column represents the results obtained using the standard binary cross-entropy loss functions (mostly used for balanced datasets), whilst the right panel presents the outcomes obtained with the weighted loss functions (specifically configured for imbalanced data).}
-\label{fig:optuna_history}
+\includegraphics[width=\textwidth]{optuna_optimasation_convergence.png}
+\caption{\textbf{Convergence of Optuna hyperparameter optimisation during nested stratified 5 × 3 cross-validation} Panels (a) to (e) correspond to the outer folds. Within each panel, the three coloured staircase lines show the running best validation area under ROC curve returned from the three inner folds over the 20 trials of the hyper-parameter search. A sharp improvement is typically found between trials \sim8–13, after which the curves flatten, indicating that the optimiser converges.}
+\label{fig:optuna_optimasation_convergence}
 \end{figure}
-
-
-
-   The x-axis denotes trial numbers (1-20), and the y-axis represents the evaluation metric values averaged across inner validation folds. Notable patterns include the rapid convergence of tree-based models within the first five trials and the greater performance variability observed in neural network architectures, particularly evident in outer fold 5. The weighted loss functions demonstrate marginal improvements in AUC-PR for most models, reflecting enhanced minority class detection capabilities crucial for flash flood prediction where positive events constitute only 0.27% of the training data. The consistency of optimal hyperparameter performance across different outer folds validates the robustness of the nested cross-validation framework.
-
-
-
-
-
 
 The optimisation procedure yielded distinct optimal configurations for each outer fold, reflecting data heterogeneity across splits. Table 4.1 summarises the selected hyperparameter values and corresponding validation performance for each fold, demonstrating reasonable consistency in optimal values despite fold-specific variations.
 
@@ -254,4 +317,3 @@ The results presented in the subsequent sections document the performance of bot
 \section{Conclusions}
 \label{data_driven_flash_floods_short_medium_range_conclusions}
 
-% Still to be completed.
