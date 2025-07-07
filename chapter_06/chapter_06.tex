@@ -123,31 +123,15 @@ Due \marginpara{Specialised loss functions for imbalanced datasets} to the sever
 \subsection{Model training}
 
 \subsubsection{Hyperparameter optimisation}
-Random forest implementations ()
 
-
-
-The history plot regarding the Optuna's parametrisation of models' hyperparameters shows that 
-
+The hyperparameter optimisation history plot (Figure \ref{fig:optuna_history}) shows the overall good performance of the Optuna library in identifying quickly (within the first 10 trial, orange lines) and with relatively small variations (grey lines) the sets of hyperparameters that maximise the chosen evaluation metrics (AUC-ROC and AUC-PR). Performance remains fairly consistent between different outer folds (lines in shades of grey and orange). The optimisation histories for AUC-ROC (Figure \ref{fig:optuna_history}a-l) and AUC-PR (Figure \ref{fig:optuna_history}m-x) are very similar, with plots for loss functions specific for imbalanced datasets (Figure \ref{fig:optuna_history}g-l and s-x) showing more variability, but in general better overall performance, than those for more general loss functions (Figure \ref{fig:optuna_history}a-f and m-r). 
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{optuna_history.png}
-\caption{\textbf{Optuna's hyperparameter optimisation history.} Evolution of the two evaluation metrics (AUC-ROC, left-most two columns, and AUC-PR, right-most two columns) maximised during the 20 trials run over the \textcolor{colourInnerTraining}{\textit{inner training folds}} to tune the hyperparameters of the six considered models (from top to bottom): random forest XGBoost, random forest LightGBM, gradient boosting XGBoost, gradient boosting LightGBM, gradient boosting CatBoost, and feed-forward neural network. The lines in shades of grey indicate individual trial performances, whilst lines in shades of orange highlight the best-performing hyperparameter set, identified by Optuna's Bayesian optimisation process. The shades of grey and orange represent the values of the evaluation metrics for each outer fold (lightest shade for the first outer fold and darkest for the latest). For each evaluation metric, the left column represents the results obtained using the standard binary cross-entropy loss functions (mostly used for balanced datasets), whilst the right panel presents the outcomes obtained with the weighted loss functions (specifically configured for imbalanced data).}
+\caption{\textbf{Optuna's hyperparameter optimisation history.} Evolution of the two evaluation metrics (AUC-ROC, panels (a) to (l) - and AUC-PR, panels (m) to (x)) maximised during the 20 trials run over the \textcolor{colourInnerTraining}{\textit{inner training folds}} to tune the hyperparameters of the six considered models (from top to bottom): random forest XGBoost, random forest LightGBM, gradient boosting XGBoost, gradient boosting LightGBM, gradient boosting CatBoost, and feed-forward neural network. The lines in shades of grey indicate individual trial performances, whilst lines in shades of orange highlight the best-performing hyperparameter set, identified by Optuna's Bayesian optimisation process. The shades of grey and orange represent the values of the evaluation metrics for each outer fold (lightest shade for the first outer fold and darkest for the latest). Panels (a) to (f) and (m) to (r) represents the results obtained using the standard binary cross-entropy loss functions - mostly used for balanced datasets - whilst panels (g) to (l) and (s) to (x) present the outcomes obtained with the weighted loss functions (specifically configured for imbalanced data).}
 \label{fig:optuna_history}
 \end{figure}
-
-
-
-   The x-axis denotes trial numbers (1-20), and the y-axis represents the evaluation metric values averaged across inner validation folds. Notable patterns include the rapid convergence of tree-based models within the first five trials and the greater performance variability observed in neural network architectures, particularly evident in outer fold 5. The weighted loss functions demonstrate marginal improvements in AUC-PR for most models, reflecting enhanced minority class detection capabilities crucial for flash flood prediction where positive events constitute only 0.27% of the training data. The consistency of optimal hyperparameter performance across different outer folds validates the robustness of the nested cross-validation framework.
-
-
-
-
-
-
-The optimisation procedure yielded distinct optimal configurations for each outer fold, reflecting data heterogeneity across splits. Table 4.1 summarises the selected hyperparameter values and corresponding validation performance for each fold, demonstrating reasonable consistency in optimal values despite fold-specific variations.
-
 
 \subsubsection{Training progression and convergence}
 
@@ -248,6 +232,8 @@ From the reliability diagrams (Figure \ref{fig:hydro_based_ff_verif_breakdown_sc
 
 The results presented in the subsequent sections document the performance of both rainfall-based and data-driven hydro-meteorological forecasts. Section \ref{verif_rainfall_based_fc} shows the baseline verification results for the prediction of areas at risk of flash floods based using only ERA5-ecPoint short- and long-range rainfall predictions. Section \ref{verif_data_driven_short_fc} shows that the data-driven approach combining hydro-meteorological parameters yields statistically significant improvements in prediction skill, with particularly notable gains in discrimination ability as seen in the provided ROC curves. Section \ref{verif_data_driven_long_fc} shows that the predictive skill of the data-driven forecasts extends to day 5 with my better discrimination ability than its only rainfall-based counterpart. Section \ref{verif_case_study} shows a selection of flash flood events to illustrate the approaches' capacity to identify areas at risk of flash floods (in the US and around the world). Hence, the findings detailed in this chapter contribute to understanding how effectively current technologies can support flash flood warning systems.
 
+%Optuna hyperparameter optimisation
+% The random forest implementations show the least performance variations, while gradient boosting CatBoost, gradient Boosting LightGBM, and feed-forward neural network show the biggest variations. Reflecting enhanced minority class detection capabilities crucial for flash flood prediction. The consistency of optimal hyperparameter performance across different outer folds validates the robustness of the nested cross-validation framework.
 
 
 %%%%%%%%%%%%%%%%%%%%%
