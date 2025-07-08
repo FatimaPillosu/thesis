@@ -204,12 +204,12 @@ The \marginpara{Hyperparameter importance: feed-forward neural networks} dominan
 \end{figure}
 
 
-\subsection{Verification results}
+\subsection{Verification results over reanalysis data}
 
 To assess the generalisation capabilities of the trained data-driven models, this section compares various performance metrics (presented in Section \ref{data_driven_flash_floods_short_medium_range_methods_verif_scores}) between the \textcolor{colourTraining}{training dataset}, with data from 2001 to 2020, and the independent 
 \textcolor{colourTest}{verification dataset}, with data from 2021 to 2024.
 
-All \marginpara{Verification results: overall scores (AUC-ROC, AUC-PR, and FB)} data-driven models exhibit relatively stable AUC-ROC values around 0.8 for the \textcolor{colourTest}{verification dataset} with minimal decrease from the AUC-ROC values obtained for the \textcolor{colourTraining}{training dataset} (Figure \ref{fig:verif_training_test_overall}, first column). This behaviour is constant across both evaluation metrics (AUC-ROC and AUC-PR) and both types of loss function (general for balanced datasets and specific for imbalanced datasets). Hence, all data-driven models show an overall discrimination ability that generalises well from training to verification datasets. The AUC-PR values demonstrate more variability across data-driven models (Figure \ref{fig:verif_training_test_overall}, second column), with CatBoost showing the highest estimates overall, especially when hyperparameters are tuned maximising the AUC-ROC evaluation metric (for both types of loss function). For all models, however, values of AUC-PR remain relatively small (Close to 0). Even though all models show a tendency to slightly overestimate the frequency of areas at risk of flash flood (FB just above 1, Figure \ref{fig:verif_training_test_overall}, third column), the FB values also show high variability across the data-driven models. When considering the generic loss function, the XGBoost and LightGBM implementations for random forest and gradient boosting obtain the closest values to 1, but increase of ~20\% when considering the loss function specific for imbalanced datasets, showing even greater FB than the other tested models (which maintain similar values than those obtained when considering the generic loss function).
+All \marginpara{Verification results over reanalysis data: overall scores (AUC-ROC, AUC-PR, and FB)} data-driven models exhibit relatively stable AUC-ROC values around 0.8 for the \textcolor{colourTest}{verification dataset} with minimal decrease from the AUC-ROC values obtained for the \textcolor{colourTraining}{training dataset} (Figure \ref{fig:verif_training_test_overall}, first column). This behaviour is constant across both evaluation metrics (AUC-ROC and AUC-PR) and both types of loss function (general for balanced datasets and specific for imbalanced datasets). Hence, all data-driven models show an overall discrimination ability that generalises well from training to verification datasets. The AUC-PR values demonstrate more variability across data-driven models (Figure \ref{fig:verif_training_test_overall}, second column), with CatBoost showing the highest estimates overall, especially when hyperparameters are tuned maximising the AUC-ROC evaluation metric (for both types of loss function). For all models, however, values of AUC-PR remain relatively small (Close to 0). Even though all models show a tendency to slightly overestimate the frequency of areas at risk of flash flood (FB just above 1, Figure \ref{fig:verif_training_test_overall}, third column), the FB values also show high variability across the data-driven models. When considering the generic loss function, the XGBoost and LightGBM implementations for random forest and gradient boosting obtain the closest values to 1, but increase of ~20\% when considering the loss function specific for imbalanced datasets, showing even greater FB than the other tested models (which maintain similar values than those obtained when considering the generic loss function).
 
 \begin{figure}[htbp]
 \centering
@@ -218,44 +218,57 @@ All \marginpara{Verification results: overall scores (AUC-ROC, AUC-PR, and FB)} 
 \label{fig:verif_training_test_overall}
 \end{figure}
 
-\marginpara{Verification results: breakdown scores (ROC curves)}
-
-The ROC curves demonstrate robust generalisation of discrimination ability across all models, with AUC values exhibiting minimal degradation between training and verification datasets. Most architectures maintain AUC-ROC values within 0.05 of their training performance, indicating stable ranking capabilities when distinguishing between flash flood and non-flood events. Random forest implementations show the most consistent performance across both datasets, whilst gradient boosting variants demonstrate slightly higher sensitivity to temporal shifts. Neural networks exhibit the greatest variability between training and verification performance, particularly evident in the curve shapes that suggest altered decision boundaries when confronted with the 2021-2024 data distribution.
+Overall \marginpara{Verification results over reanalysis data: breakdown scores (ROC curves)},
+ROC curves exhibit minimal degradation between \textcolor{colourTraining}{training datasets} and \textcolor{colourTest}{verification datasets} (Figure \ref{fig:verif_training_test_breakdown_roc_curve}). The ROC curve, however, reveals distinct patterns between models trained with balanced \ref{fig:verif_training_test_breakdown_roc_curve}a-f and m-r) versus imbalanced loss functions \ref{fig:verif_training_test_breakdown_roc_curve}g-l and s-x). The ROC curves computed for models employing balanced loss functions maintain a remarkably consistent shape across all data-driven models and evaluation metrics, as well as a consistent relative difference between ROC curves computed using the 1\% discretisation (solid lines) and the 0.01\% (dashed lines). The former ROC curves yield lower AUC-ROC values than the latter due to the "truncation effect" caused by stopping the ROC curve at the 1\% probability threshold. The same does not hold when considering models trained with weighted loss functions, except for CatBoost. These ROC curves achieve higher hit rates, e.g., \sim0.9 for the XGBoost and LightGBM implementations of gradient boosting (Figures \ref{fig:verif_training_test_breakdown_roc_curve}i-j) and \sim0.6 for the feed-forward neural network (Figures \ref{fig:verif_training_test_breakdown_roc_curve}l) compared to 0.4 for their balanced counterparts (Figures \ref{fig:verif_training_test_breakdown_roc_curve}c-d and f), but at the cost of much higher false alarm rates, e.g., \sim0.5 for XGBoost and LightGBM an \sim0.2 for the feed-forward neural network compared to 0.025 in their balanced counterparts. Whilst XGBoost and LightGBM implementations of gradient boosting and the feed-forward neural network show consistent patterns across evaluation metrics, the random forest implementations display metric-dependent responses. Specifically, LightGBM Random Forest shows the altered behaviour when optimised for AUC-ROC, whereas XGBoost Random Forest responds differently under AUC-PR.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{verif_training_test_breakdown_roc_curve.png}
-\caption{\textbf{Verification results: breakdown scores (ROC curves)} }
-\label{fig:verif_training_test_breakdown_reliability_diagram}
+\caption{\textbf{Verification results: breakdown scores (ROC curves)} ROC curves computed for the \textcolor{colourTraining}{training dataset} and the \textcolor{colourTest}{verification dataset}, for six data-driven models (from top to bottom): random forest XGBoost, random forest LightGBM, gradient boosting XGBoost, gradient boosting LightGBM, gradient boosting CatBoost, and feed-forward neural network. The solid lines represent ROC curves computed considering forecast probabilities discretised every 1\%, whilst the dashed lines represent ROC curves computed using a finer discretisation of probabilities (0.01\%). ROC curves are shown for the two evaluation metrics (AUC-ROC - panels (a) to (l) - and AUC-PR - panels (m) to (x)) and types of loss function configurations (balanced and imbalanced datasets) considered during the training of the data-driven models.}
+\label{fig:verif_training_test_breakdown_roc_curve}
 \end{figure}
 
-The precision-recall curves reveal substantially greater performance degradation in minority class detection capabilities during verification. The sharp decline in precision at low recall values indicates that models struggle to maintain their positive predictive value when applied to temporally shifted data. This pattern is particularly pronounced for models trained with balanced loss functions, where the curves rapidly approach the baseline. Weighted loss functions demonstrate improved resilience, maintaining higher precision across broader recall ranges, though all models show compressed precision-recall trade-offs compared to training performance, reflecting the fundamental challenge of rare event detection in operational deployment.
-
-\marginpara{Verification results: breakdown scores (Precision-Recall curves)}
+Overall \marginpara{Verification results over reanalysis data: breakdown scores (Precision-Recall curves)}, the precision-recall curves exhibit minimal degradation between \textcolor{colourTraining}{training datasets} (in solid lines) and \textcolor{colourTest}{verification datasets} (in dashed lines), with the major differences concentrated mainly over recall values smaller than 0.2 (Figure \ref{fig:verif_training_test_breakdown_pr_curve}). All precision-recall curves, while obtaining fairly small values of AUC-PR (see Figure \ref{fig:verif_training_test_overall}, second column), remain away from their corresponding lines of no skill (grey solid lines for the training dataset and grey dashed line for the test dataset, which mostly overlap). Whilst there are some differences between the precision-recall curves attributable to the differences in model training, this time (as opposed to what was seen for the ROC curves), the most considerable differences are observed between the models themselves. In all implementations of gradient boosting (Figures \ref{fig:verif_training_test_breakdown_pr_curve}c-e, i-k, o-q, and u-v), the \textcolor{colourTraining}{training datasets} achieve high precision (between 0.6 and 1) over very small values of recall, while the \textcolor{colourTest}{verification datasets} achieve a precision value between 0.2 and 0.6. Only CatBoost, trained with the weighted loss function, maintains the value of 1. In the feed-forward neural network (\ref{fig:verif_training_test_breakdown_pr_curve}f, l, r, and x), the precision-recall curve remains virtually identical between the \textcolor{colourTraining}{training datasets} and the \textcolor{colourTest}{verification datasets}, including at very low values of recall. Finally, both XGBoost and LightGBM implementations of random forest show very different precision-recall curves. LightGBM (\ref{fig:verif_training_test_breakdown_pr_curve}b, h, n, and t) shows a precision-recall curve that begins at recall values between 0.2 and 0.4, and precision values that do not exceed 0.1. XGBoost shows a similar behaviour when the model is trained using the generic loss function (\ref{fig:verif_training_test_breakdown_pr_curve}a and m), whilst the curves for the models trained with the weighted loss function (\ref{fig:verif_training_test_breakdown_pr_curve}g and s) shows a shape that is similar to that for the corresponding XGBoost implementation of gradient boosting (\ref{fig:verif_training_test_breakdown_pr_curve}i and u).
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{verif_training_test_breakdown_pr_curve.png}
-\caption{\textbf{Verification results: breakdown scores (Precision-Recall curves)} }
-\label{fig:verif_training_test_breakdown_reliability_diagram}
+\caption{\textbf{Verification results: breakdown scores (Precision-Recall curves)} Similar to Figure \ref{fig:verif_training_test_breakdown_roc_curve} but for the Precision-Recall curve} 
+\label{fig:verif_training_test_breakdown_pr_curve}
 \end{figure}
 
-The reliability diagrams expose systematic calibration shifts between training and verification periods. Models trained with balanced loss functions exhibit severe underconfidence, with predicted probabilities consistently lower than observed frequencies, manifesting as curves lying above the diagonal. Conversely, weighted loss functions produce overconfident predictions in the verification period, with curves falling below the diagonal. Gradient boosting implementations demonstrate the most extreme calibration degradation, particularly CatBoost, which shows erratic reliability patterns suggesting unstable probability estimates. These calibration issues indicate that whilst models maintain reasonable discrimination ability, their probability outputs require recalibration for operational use, particularly when temporal distribution shifts are present.
-
-\marginpara{Verification results: breakdown scores (Reliability diagrams)}
-
+Overall \marginpara{Verification results over reanalysis data: breakdown scores (Reliability diagrams)}, the reliability diagrams exhibit minimal degradation between \textcolor{colourTraining}{training datasets} and \textcolor{colourTest}{verification datasets}, but it increases with increasing forecast probabilities (Figure \ref{fig:verif_training_test_breakdown_reliability_diagram}). Models trained with balanced loss functions (Figures \ref{fig:verif_training_test_breakdown_reliability_diagram}a-f and m-r) demonstrate different calibration characteristics compared to those using weighted loss functions \ref{fig:verif_training_test_breakdown_reliability_diagram}g-l and s-x). For models trained with balanced loss functions, the gradient boosting implementations and the feed-forward neural network yield reliable forecast probabilities under 10\% (20\% for XGBoost). At higher probability ranges, where predictions become less frequent and diagrams noisier, distinct patterns emerge. LightGBM and XGBoost show mostly reliable probabilities across all probability ranges (Figures \ref{fig:verif_training_test_breakdown_reliability_diagram}c-d and o-p). CatBoost systematically underestimates forecast probabilities (Figures \ref{fig:verif_training_test_breakdown_reliability_diagram}e and q). The feed-forward neural network shows contrasting behaviour depending on the evaluation metric used during hyperparameter tuning: overestimation occurs when tuned for AUC-ROC (Figure \ref{fig:verif_training_test_breakdown_reliability_diagram}f), while forecast probabilities remain reliable when tuned considering AUC-PR (Figure \ref{fig:verif_training_test_breakdown_reliability_diagram}r). Models trained with weighted loss functions (Figures \ref{fig:verif_training_test_breakdown_reliability_diagram}g-l and s-x) display systematic overestimation across the entire probability spectrum, except for CatBoost, which maintains similar calibration patterns to its balanced function counterpart. Random forest implementations show systematic overestimations independent of the considered loss function \ref{fig:verif_training_test_breakdown_reliability_diagram}a-b, g-h, m-n, and s-t).
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{verif_training_test_breakdown_reliability_diagram.png}
-\caption{\textbf{Verification results: breakdown scores (Reliability diagrams)} }
+\caption{\textbf{Verification results: breakdown scores (Reliability diagrams)} Similar to Figure \ref{fig:verif_training_test_breakdown_roc_curve} but for reliability diagrams.}
 \label{fig:verif_training_test_breakdown_reliability_diagram}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Physical interpretation of the data-driven model behaviour}
-\label{data_driven_flash_floods_short_medium_range_physical_interpretation}
+
+\subsection{Verification results over forecasts data}
 % Still to be completed.
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Physical interpretation of the data-driven model behaviour}
+\label{data_driven_flash_floods_short_medium_range_physical_interpretation}
+
+For the sake of brevity and clarity, the following section will present SHAP-related plots exclusively for the XGBoost implementation of gradient boosting, trained with the balanced loss function and optimised for AUC-ROC. This representative configuration was selected because the feature importance patterns and SHAP value distributions demonstrate remarkable consistency across all model architectures, loss function configurations, and evaluation metrics examined in this study. 
+
+
+Preliminary analysis confirmed that the relative importance rankings and interaction patterns remain substantially unchanged regardless of the specific implementation, thus rendering exhaustive presentation of all permutations redundant without providing additional analytical insights. The selected configuration serves as an exemplar that effectively captures the universal patterns observed across the entire model ensemble, allowing for a focused discussion of the hydro-meteorological drivers of flash flood risk without unnecessary repetition.
+
+
+
+
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%
