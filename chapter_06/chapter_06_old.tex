@@ -312,6 +312,11 @@ From the reliability diagrams (Figure \ref{fig:hydro_based_ff_verif_breakdown_sc
 The results presented in the subsequent sections document the performance of both rainfall-based and data-driven hydro-meteorological forecasts. Section \ref{verif_rainfall_based_fc} shows the baseline verification results for the prediction of areas at risk of flash floods based using only ERA5-ecPoint short- and long-range rainfall predictions. Section \ref{verif_data_driven_short_fc} shows that the data-driven approach combining hydro-meteorological parameters yields statistically significant improvements in prediction skill, with particularly notable gains in discrimination ability as seen in the provided ROC curves. Section \ref{verif_data_driven_long_fc} shows that the predictive skill of the data-driven forecasts extends to day 5 with my better discrimination ability than its only rainfall-based counterpart. Section \ref{verif_case_study} shows a selection of flash flood events to illustrate the approaches' capacity to identify areas at risk of flash floods (in the US and around the world). Hence, the findings detailed in this chapter contribute to understanding how effectively current technologies can support flash flood warning systems.
 
 
+XGBoost's hyperparameter space exhibits robust behaviour that transcends specific optimisation objectives, regardless of whether balanced or imbalanced loss functions are employed or whether AUC-ROC or AUC-PR is optimised. This consistency suggests that XGBoost's hyperparameter space exhibits robust behaviour that transcends specific optimisation objectives, making it particularly suitable for practitioners who require predictable tuning strategies and reliable performance across varying evaluation criteria in operational flash flood prediction systems.
+
+
+Consequently, practitioners must approach CatBoost optimisation with greater flexibility, recognising that the optimal configuration for one performance objective may prove suboptimal for another, necessitating comprehensive re-tuning when evaluation criteria or class distributions change.
+
 
 %%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
