@@ -114,6 +114,7 @@ Due \marginpara{Specialised loss functions for imbalanced datasets} to the sever
 
 
 \subsection{Verification scores}
+\label{data_driven_flash_floods_short_medium_range_methods_verif_scores}
 %To be completed. Similar to that one in Chapter 5. 
 
 
@@ -129,37 +130,88 @@ The \marginpara{Model's hyperparameter optimisation} hyperparameter optimisation
 \begin{figure}[htbp]
 \centering
 \includegraphics[scale=0.85]{optuna_history.png}
-\caption{\textbf{Optuna's hyperparameter optimisation history.} Evolution of the two evaluation metrics (AUC-ROC, panels (a) to (l) - and AUC-PR, panels (m) to (x)) maximised during the 20 trials run over the \textcolor{colourInnerValidation}{\textit{inner validation folds}} to tune the hyperparameters of the six considered models (from top to bottom): random forest XGBoost, random forest LightGBM, gradient boosting XGBoost, gradient boosting LightGBM, gradient boosting CatBoost, and feed-forward neural network. The lines in shades of grey indicate individual trial performances, whilst lines in shades of orange highlight the best-performing hyperparameter set, identified by Optuna's Bayesian optimisation process. The shades of grey and orange represent the values of the evaluation metrics for each outer fold (lightest shade for the first outer fold and darkest for the latest). Panels (a) to (f) and (m) to (r) represents the results obtained using the standard binary cross-entropy loss functions - mostly used for balanced datasets - whilst panels (g) to (l) and (s) to (x) present the outcomes obtained with the weighted loss functions (specifically configured for imbalanced data).}
+\caption{\textbf{Optuna's hyperparameter optimisation history.} Evolution of the two evaluation metrics (AUC-ROC, panels (a) to (l) - and AUC-PR, panels (m) to (x)) maximised during the 20 trials run over the \textcolor{colourInnerValidation}{\textit{inner validation folds}} to tune the hyperparameters of six data-driven models (from top to bottom): random forest XGBoost, random forest LightGBM, gradient boosting XGBoost, gradient boosting LightGBM, gradient boosting CatBoost, and feed-forward neural network. The lines in shades of grey indicate individual trial performances, whilst lines in shades of orange highlight the best-performing hyperparameter set, identified by Optuna's Bayesian optimisation process. The shades of grey and orange represent the values of the evaluation metrics for each outer fold (lightest shade for the first outer fold and darkest for the latest). Panels (a) to (f) and (m) to (r) represents the results obtained using the standard binary cross-entropy loss functions - mostly used for balanced datasets - whilst panels (g) to (l) and (s) to (x) present the outcomes obtained with the weighted loss functions (specifically configured for imbalanced data).}
 \label{fig:optuna_history}
 \end{figure}
 
+The \marginpara{Optuna's training times} training times reveal substantial computational differences across model architectures (Figure \ref{fig:optuna_training_time}). Decision-tree-based implementations (except for CatBoost) demonstrate more efficient training times. On average, the training time per outer fold remains between 75 and 100 seconds, with peaks that do not exceed 500 seconds. CatBoost's training times are around 500 seconds per outer fold, with peaks reaching 2000 seconds. The feed-forward neural network exhibits the longest training times among all models, with an average training time of around 2000 seconds and peaks ranging from 4000 to 6000 seconds. These times indicate that it requires \sim20 minutes per outer fold to optimise hyperparameters and train the decision-tree-based models (except for CatBoost), compared to \sim2.5 and \sim8 hours per outer fold, respectively, for CatBoost and the feed-forward neural network. The choice of loss function and evaluation metric shows minimal impact on training duration across all architectures.
+
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.85]{optuna_training_time.png}
-\caption{\textbf{Optuna's training time.} 
-
-
-
-
-}
-\label{fig:optuna_training_time}
+\includegraphics[scale=0.85]{optuna_time_training.png}
+\caption{\textbf{Optuna's training time.} Evolution of training times (in seconds) for each k\_outer=5 outer folds across the n\_trials = 20 trials run over the \textcolor{colourInnerTraining}{\textit{inner training folds}} (the solid line represents the mean while the shaded area represents the minimum and maximum values). The training times for six data-driven models (from top to bottom) are shown: random forest XGBoost, random forest LightGBM, gradient boosting XGBoost, gradient boosting LightGBM, gradient boosting CatBoost, and feed-forward neural network. Training times are shown for both evaluation metrics (AUC-ROC - panels (a) to (l) - and AUC-PR - panels (m) to (x)) and loss function configurations (balanced and imbalanced datasets). Inset plots provide magnified views where appropriate.}
+\label{fig:optuna_time_training}
 \end{figure}
-
-
-
-
-
 
 The \marginpara{Nested cross-validation: model generalisation} close values for both evaluation metrics (AUC-ROC and AUC-PR) estimated over the \textcolor{colourInnerValidation}{\textit{inner validation folds}} and the \textcolor{colourOuterTest}{\textit{outer test folds}} show the robustness of the nested cross-validation framework in mitigating overfitting during hyperparameter optimisation  (Figure \ref{fig:optuna_evaluation_metrics}). The fact that outer test performance remains generally bounded or close to the performance ranges estimated over the inner validation folds demonstrates that Optuna's Bayesian optimisation successfully identified hyperparameter configurations with robust generalisation capabilities to previously unseen data. The comparative analysis reveals minimal divergence between models trained with standard binary cross-entropy and those employing weighted loss functions (formulated specifically for class-imbalanced datasets). This observation holds for both evaluation metrics. Across the evaluated models, performance metrics demonstrate remarkable consistency, with the notable exception of CatBoost. Specifically, mean AUC-ROC values cluster between 0.7 and 0.8, whilst CatBoost exhibits inferior performance with values between 0.6 and 0.7. Similarly, mean AUC-PR values range from 0.02 to 0.03 across most models, with CatBoost again demonstrating diminished performance with values between 0.01 and 0.02. For both metrics, random forest implementations exhibit the narrowest bands, followed by gradient boosting implementations (except for CatBoost, which displays the widest bands among all models) and the feed-forward neural network. The wider bands for CatBoost exhibit greater sensitivity to hyperparameter choices and require more careful tuning to achieve optimal results. Random forest implementations exhibit the most constrained performance bands, indicating robust hyperparameter spaces that yield consistent results across outer folds. Gradient boosting implementations (except for CatBoost) and the feed-forward neural network demonstrate intermediate variability. CatBoost exhibits the broadest performance bands amongst all evaluated models, suggesting that CatBoost's hyperparameter space possesses heightened sensitivity, necessitating more meticulous optimisation procedures to achieve competitive performance levels.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[scale=0.9]{optuna_evaluation_metrics.png}
+\includegraphics[scale=0.9]{chapter_06/figures/optuna_evaluation_metrics.png}
 \caption{\textbf{Model generalisation from nested cross-validation} Values of the two evaluation metrics (AUC-ROC, panels (a) to (l) - and AUC-PR, panels (m) to (x)) across the 20 trials run over the \textcolor{colourInnerValidation}{\textit{inner validation folds}} (the \textcolor{colourInnerValidation}{solid line} represents the mean while the \textcolor{colourInnerValidation}{shaded area} represents the minimum and maximum values) and the \textcolor{colourOuterTest}{\textit{outer test fold}} (the \textcolor{colourOuterTest}{solid line} correspond to the single realisation per outer fold). Panels (a) to (f) and (m) to (r) represents the results obtained using the standard binary cross-entropy loss functions - mostly used for balanced datasets - whilst panels (g) to (l) and (s) to (x) present the outcomes obtained with the weighted loss functions (specifically configured for imbalanced data).}
 \label{fig:optuna_evaluation_metrics}
 \end{figure}
 
 
+\subsubsection{Hyperparameter importance}
+
+The \marginpara{Hyperparameter importance: gradient boosting implementations} hyperparameter importance analysis for XGBoost and LightGBM gradient boosting implementations reveals that maximum depth and learning rate consistently emerge as the most influential parameters. This aspect suggests that optimal performance depends fundamentally on striking a balance between model complexity and convergence dynamics. Maximum depth controls the model's capacity to capture complex hydro-meteorological interactions, whilst learning rate determines the magnitude of iterative corrections, requiring careful calibration to preserve gradient signals from rare positive events. LightGBM demonstrates additional sensitivity to the number of estimators due to its leaf-wise tree construction, producing more informative individual trees that necessitate precise ensemble size optimisation. In contrast, XGBoost's level-wise approach generates simpler trees that plateau predictably, reducing the criticality of this parameter. Notably, the positive class weight parameter exhibits a generally lower influence across both implementations, suggesting that structural parameters governing tree complexity and learning dynamics exert a greater impact on minority class detection than explicit re-weighting strategies. Thus, this emphasises the primacy of architectural optimisation over class balancing approaches. CatBoost exhibits considerable variability in the hyperparameters that most strongly influence model performance, with this variability dependent on both the chosen evaluation metric and the loss function configuration. When optimising for AUC-ROC, a set of parameters proves critical (e.g. depth and learning rate), yet these same parameters have minimal impact when considering AUC-PR. Furthermore, the implementation of weighted loss functions fundamentally alters the previously seen importance rankings, creating distinct optimisation priorities for balanced versus imbalanced scenarios. Unlike XGBoost and LightGBM, where maximum depth and learning rate consistently dominate, CatBoost lacks such universal governing parameters. The absence of consistent parameter hierarchies suggests that CatBoost's distinctive algorithmic approach generates a more complex hyperparameter space. 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.9]{optuna_parameters_importance_gradient_boosting_xgboost.png}
+\caption{\textbf{Optuna's hyperparameter importance for the XGBoost implementation of gradient boosting.} Normalised absolute Pearson's correlation coefficients obtained for the n\_trials = 20 trials run over the \textcolor{colourInnerTraining}{\textit{inner training folds}} (bars represent mean values, whilst error bars show the minimum and maximum values across the Optuna trials). Feature importance is shown for models trained with loss functions for balanced datasets and specific for imbalanced datasets, and for both evaluation metrics (AUC-ROC and AUC-PR).}
+\label{fig:optuna_parameters_importance_gradient_boosting_xgboost}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.9]{optuna_parameters_importance_gradient_boosting_lightgbm.png}
+\caption{\textbf{Optuna's hyperparameter importance for the LightGBM implementation of gradient boosting.} Similar to Figure \ref{fig:optuna_parameters_importance_gradient_boosting_xgboost}}.
+\label{fig:optuna_parameters_importance_gradient_boosting_lightgbm}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.9]{optuna_parameters_importance_gradient_boosting_catboost.png}
+\caption{\textbf{Optuna's hyperparameter importance for the CatBoost implementation of gradient boosting.} Similar to Figure \ref{fig:optuna_parameters_importance_gradient_boosting_xgboost}}.
+\label{fig:optuna_parameters_importance_gradient_boosting_catboost}
+\end{figure}
+
+In contrast \marginpara{Hyperparameter importance: random forest implementations} to gradient boosting implementations, random forest models exhibit inconsistent hyperparameter importance rankings across different loss functions and evaluation metrics, with parameters such as maximum depth, feature sampling ratios, and the number of estimators alternating in their relative influence depending on whether AUC-ROC or AUC-PR is optimised. This variability suggests that random forest hyperparameter spaces possess multiple viable configurations that achieve similar performance through different mechanisms (some configurations may excel through deeper individual trees, whilst others compensate with more aggressive feature sampling or a larger ensemble size), making the optimisation landscape more flexible but potentially more challenging to navigate systematically.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.9]{optuna_parameters_importance_random_forest_xgboost.png}
+\caption{\textbf{Optuna's hyperparameter importance for the XGBoost implementation of random forest.} Similar to Figure \ref{fig:optuna_parameters_importance_gradient_boosting_xgboost}}.
+\label{fig:optuna_parameters_importance_random_forest_xgboost}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.9]{optuna_parameters_importance_random_forest_lightgbm.png}
+\caption{\textbf{Optuna's hyperparameter importance for the LightGBM implementation of random forest.} Similar to Figure \ref{fig:optuna_parameters_importance_gradient_boosting_xgboost}}.
+\label{fig:optuna_parameters_importance_random_forest_lightgbm}
+\end{figure}
+
+The \marginpara{Hyperparameter importance: feed-forward neural networks} dominance of units\_0, dropout\_0, and learning rate for neural networks suggests that performance is primarily determined by the configuration of the first hidden layer, rather than the overall network depth. The parameter units\_0 controls the initial representational capacity, determining how effectively raw hydro-meteorological features are transformed into meaningful intermediate representations for detecting rare flash flood patterns. This layer must balance sufficient complexity to capture non-linear relationships whilst avoiding overfitting to the sparse positive examples. The high importance of dropout\_0 demonstrates that regularisation at this critical layer is essential for generalisation under extreme class imbalance. By randomly deactivating neurons during training, dropout forces the development of robust, redundant representations that prevent the model from memorising noise in the limited positive examples. The prominence of the learning rate parameter reflects the challenge of navigating an imbalanced dataset, where the gradient signal from rare positive examples can be easily overwhelmed by the abundance of negative cases. The diminished importance of deeper layer parameters suggests that shallow, well-regularised architectures may be the best choice for this application.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.9]{optuna_parameters_importance_feed_forward_nn.png}
+\caption{\textbf{Optuna's hyperparameter importance for feed-forward neural network.} Similar to Figure \ref{fig:optuna_parameters_importance_gradient_boosting_xgboost}}.
+\label{fig:optuna_parameters_importance_feed_forward_nn}
+\end{figure}
+
+
+\subsection{Verification results}
+
+To assess the generalisation capabilities of the trained data-driven models, this section compares various performance metrics (presented in Section \ref{data_driven_flash_floods_short_medium_range_methods_verif_scores}) between the \textcolor{colourTraining}{training dataset}, with data from 2001 to 2020, and the independent 
+\textcolor{colourTest}{verification dataset}, with data from 2021 to 2024.
+
+\marginpara{Verification results: overall scores (AUC-ROC, AUC-PR, and FB)}
+
+All data-driven models exhibit relatively stable AUC-ROC values around 0.8 for the \textcolor{colourTest}{verification dataset} with minimal decrease from the AUC-ROC values obtained for the \textcolor{colourTraining}{training dataset} (Figure \ref{}, first column). This behaviour is constant across both evaluation metrics (AUC-ROC and AUC-PR) and both types of loss function (general for balanced datasets and specific for imbalanced datasets). Hence, all data-driven models show an overall discrimination ability that generalises well from training to verification datasets. The AUC-PR values demonstrate more variability across data-driven models 
 
 
 
@@ -168,11 +220,8 @@ The \marginpara{Nested cross-validation: model generalisation} close values for 
 
 
 
-
-
-
-
-
+However, the AUC-PR metric demonstrates substantially lower values (approximately 0.02-0.03) with greater variability between models, reflecting the persistent challenge of minority class detection in operational settings.
+The frequency bias (FB) metric reveals the most pronounced differences between approaches. Models trained with balanced loss functions consistently underpredict flash flood events (FB < 1), whilst those employing weighted loss functions show improved calibration, with several achieving FB values closer to unity. Random forest implementations demonstrate the most conservative predictions regardless of loss function choice, whereas gradient boosting variants exhibit greater sensitivity to the weighting scheme. Particularly noteworthy is the erratic FB behaviour observed in neural network models, suggesting potential instability in their predictions when confronted with the temporal and potentially distributional shifts present in the verification period. This variability underscores the importance of comprehensive evaluation beyond traditional performance metrics when deploying models for operational flash flood forecasting.
 
 
 
