@@ -249,33 +249,50 @@ Overall \marginpara{Verification results over reanalysis data: breakdown scores 
 
 \subsection{Verification results over forecast data}
 
+The \marginpara{Verification results over forecast data: overall scores (AUC-ROC, AUC-PR, and FB)} area under the ROC curve (AUC-ROC, Figure \ref{fig:verif_long_fc}a) and the area under the precision-recall curve (AUC-PR, Figure \ref{fig:verif_long_fc}b) show a very close performance at day 1 (t+24) to that achieved over the reanalysis data (refer to Figure \ref{fig:verif_training_test_overall}), and it gradually diminishes with increasing lead times. The frequency bias (FB) also slightly deteriorated with increasing lead times, but at day one (t+24), it shows a value that is twice the one obtained for the reanalysis data. 
+
+The \marginpara{Verification results over forecast data: breakdown scores (ROC curves, precision-recall curves, and reliability diagrams)} ROC curve for day 1 forecasts (t+24, Figure \ref{fig:verif_long_fc}d) also shows a very similar behaviour to that for reanalysis data (refer to Figure \ref{fig:verif_training_test_breakdown_roc_curve}), and shows a fairly small deterioration over increasing lead times (Figure \ref{fig:verif_long_fc}e-f). The precision-recall curve for day 1 forecasts (Figure \ref{fig:verif_long_fc}g) also shows a very similar behaviour to that for reanalysis data (refer to Figure \ref{fig:verif_training_test_breakdown_pr_curve}), except for very small values of recall, where in the precision-recall curve built for the reanalysis data the precision is double. As in the ROC curve, the precision-recall curves also show only a fairly small deterioration over increasing lead times (Figure \ref{fig:verif_long_fc}h-i). As in the two previous scores, also the reliability diagram for day 1 forecasts (Figure \ref{fig:verif_long_fc}j) shows a similar behaviour to that computed for reanalysis data (refer to Figure \ref{fig:verif_training_test_breakdown_reliability_diagram}), with reliable probabilities for forecast probabilities under 10\%. For increasing lead times, such a threshold reduces to \sim2\%. For greater probabilities, the reliability diagrams tend to overestimate the observed frequencies of areas at risk of flash floods. 
+
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{chapter_06/figures/verif_long_fc.png}
-\caption{\textbf{Verification results for medium-range forecasts for XGBoost implementation of gradient boosting (trained with the loss function for balanced data and hyperparameters maximised for AUC-ROC).} Panels (a) to (c) show the overall scores, respectively, for the area under the ROC curve (AUC-ROC), the area under the precision-recall curve (AUC-PR), and the frequency bias (FB). The remaining panels show the breakdown scores, respectively, for the ROC curves (Panels (d) to (f)), the Precision-Recall curves (Panels (g) to (i)), and for the Reliability Diagram (Panels (j) to (l)).}
+\includegraphics[width=\textwidth]{verif_long_fc.png}
+\caption{\textbf{Verification results for medium-range forecasts for the XGBoost implementation of gradient boosting (trained with the loss function for balanced data and hyperparameters maximised for AUC-ROC).} Panels (a) to (c) show the overall scores, respectively, for the area under the ROC curve (AUC-ROC), the area under the precision-recall curve (AUC-PR), and the frequency bias (FB). The remaining panels show the breakdown scores, respectively, for the ROC curves (Panels (d) to (f)), the Precision-Recall curves (Panels (g) to (i)), and for the Reliability Diagram (Panels (j) to (l)).}
 \label{fig:verif_long_fc}
 \end{figure}
-
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Physical interpretation of the data-driven model behaviour}
 \label{data_driven_flash_floods_short_medium_range_physical_interpretation}
 
-For the sake of brevity and clarity, the following section will present SHAP-related plots exclusively for the XGBoost implementation of gradient boosting, trained with the balanced loss function and optimised for AUC-ROC. This representative configuration was selected because the feature importance patterns and SHAP value distributions demonstrate remarkable consistency across all model architectures, loss function configurations, and evaluation metrics examined in this study. 
+For the sake of brevity and clarity, the following section will present SHAP-related plots exclusively for the XGBoost implementation of gradient boosting, trained with the balanced loss function and optimised for AUC-ROC. This representative configuration was selected because the feature importance patterns and SHAP value distributions are fairly consistent across all models, loss functions, and evaluation metrics examined in this study. 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{shap.png}
+\caption{\textbf{SHAP ((SHapley Additive exPlanations)) values over the \textcolor{colourTest}{verification dataset} for the  XGBoost implementation of gradient boosting (trained with the loss function for balanced data and hyperparameters maximised for AUC-ROC).} Panel (a) shows the global feature importance ranking (most important features in descending order). The meaning of the features indicated in this plot can be found in Table \ref{}. Panels (b) to (d) show the dependency plots between \textit{tp\_prob\_1} and, respectively, \textit{lai}, \textit{sdfor}, and \textit{swvl}. Panels (e) to (g) show the same, but for \textit{tp\_prob\_50.}}
+\label{fig:shap}
+\end{figure}
+
+The \marginpara{Physical interpretation of model behaviour with SHAP: global feature importance ranking} global feature importance ranking (Figure \ref{fig:shap}a) shows that the rainfall variable for the probability of exceeding the 1-year return period emerges as the most important feature to identify areas at risk of flash flood, contributing to the 80\% of the mean absolute SHAP values. Features regarding the vegetation cover (lai), the orography steepness (sdfor), the antecedent soil moisture (swvl), and the rainfall probabilities of exceeding the 1-year return period in adjacent grid-boxes are also considered important by the model, contributing to 10 to 35\% of the mean absolute SHAP values. The features related to the rainfall probabilities of exceeding the 50-year return period (\textit{tp\_prob\_50} and \textit{tp\_prob\_50\_adj\_gb}) are considered, overall, least important by the model to identify areas at risk of flash flood. 
+
+The \marginpara{Physical interpretation of model behaviour with SHAP: dependency plots} dependency plots show critical threshold behaviours in the model's decision-making process. The rainfall-related feature \textit{tp\_prob\_1} (Figure \ref{fig:shap}b-d) contributes positively to the probabilities of having a flash flood in a grid-box. This contribution increases rapidly (from 0 to +3\%) from probabilities between 0\% and \sim40\%. For greater probability values (>40\%), the contribution of the rainfall parameters plateaus. For the rainfall-related feature \textit{tp\_prob\_50} (Figure \ref{fig:shap}e-g), the behaviour is similar, but the threshold at which the contributions to the SHAP values plateau reduces to \sim7\%. The interactions of the rainfall-related variables with other features (expressed through colour gradients) demonstrate that environmental conditions modify the contributions of rainfall in predicting areas at risk of flash floods. Areas with dense vegetation coverage (higher \textit{lai} values, Figures \ref{fig:shap}b and e), primarily flatter (lower \textit{sdfor} values, Figures \ref{fig:shap}c and f), and with mostly saturated soils (higher \textit{swvl values}, Figures \ref{fig:shap}d and g) enhance sensitivity to rainfall, meaning that lower values of \textit{tp\_prob\_1} are required to trigger higher (positive) SHAP contributions in the probability of having a flash flood in a grid-box.
 
 
-Preliminary analysis confirmed that the relative importance rankings and interaction patterns remain substantially unchanged regardless of the specific implementation, thus rendering exhaustive presentation of all permutations redundant without providing additional analytical insights. The selected configuration serves as an exemplar that effectively captures the universal patterns observed across the entire model ensemble, allowing for a focused discussion of the hydro-meteorological drivers of flash flood risk without unnecessary repetition.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Case Study: Storm Ida}
+\label{flash_flood_focused_verification_rainfall_based_ff_CASE_STUDY}
 
+Storm Ida formed as a tropical storm on 23 August 2021 in the Caribbean, rapidly intensifying to a Category 4 hurricane before making landfall in Louisiana on 29 August. The storm produced catastrophic rainfall across the Gulf Coast states and, after transitioning to an extratropical system, triggered unprecedented flooding from Pennsylvania to New York. Maximum rainfall totals exceeded 15 inches in Louisiana and 10 inches in the Northeast, with New York City recording 3.15 inches in one hour. The storm caused 96 fatalities and \$75 billion in damages. For comprehensive details on Ida's synoptic history, rainfall patterns, and impacts, please refer to Section \ref{flash_flood_focused_verification_rainfall_based_ff_CASE_STUDY} in Chapter \ref{flash_flood_focused_verification_rainfall_based_ff}.
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{case_study_poff.png}
+\caption{\textbf{Areas at risk of flash floods.} Probability of having a flash flood in a grid-box, valid for the 24-hourly accumulation ending on 2021-09-02 at 00 UTC. Panel (a) shows the probabilities computed with reanalysis data, while panels (b) to (f) show the probabilities computed with forecast data, respectively for day 1 (t+0,t+24), day 2 (t+24,48), day 3 (t+48,t+72), day 4 (t+72,t+96), and (t+96,t+120).}
+\label{fig:case_study_poff}
+\end{figure}
 
-
-
-
-
-
+Figure \ref{fig:case_study_poff} illustrates the estimates of areas at risk of flash flood with reanalysis data (Figure \ref{fig:case_study_poff}a) and the evolution of the predictions up to day 5 forecasts (Figures \ref{fig:case_study_poff}b-f). Two different events are highlighted: one due to small convective systems (with the brown circle in Figure \ref{fig:case_study_poff}a) and one due to a large convective system, i.e. Storm Ida (with the brown green circle). The estimates of areas at risk of flash floods, computed using the reanalysis data, can identify the areas where flash floods were reported in the Storm Event Database. The areas at risk of flash floods affected by the large-scale system exhibit high probabilities of experiencing a flash flood (>10\%), and these probabilities are consistently maintained up to medium-range predictions. On the contrary, over the area affected by the small convective system, the probabilities of experiencing a flash flood are much smaller (on average between 1 and 3\%) and more scattered. The signal for the overall area affected can be seen from day 3 (t+72).
 
 %%%%%%%%%%%%%%%%%%%%%
 \section{Discussions}
