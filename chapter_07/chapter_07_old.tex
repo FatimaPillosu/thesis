@@ -44,7 +44,6 @@ global implementation of regionally-trained models}
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-\label{regional_to_global_training_introduction}
 
 The aspiration to develop predictions of areas at risk of flash floods over a continuous global domain confronts a fundamental paradox that extends beyond technical challenges to encompass critical questions of equity in disaster risk reduction and preparedness. Flash floods represent one of the most devastating natural hazards globally, affecting populations in the Global North and Global South equally. However, the observational infrastructure necessary for developing predictive models that can help the population prepare and mitigate the risk against flash floods remains concentrated in a small subset of wealthy nations. This disparity violates the principle that all populations, regardless of their location or economic status, should have access to life-saving flood warnings — a goal central to the UN's 'Early Warnings for All' initiative. Moreover, as flash floods typically occur in poorly gauged catchments, this further reduces the number of observations available for model development and post-hoc event analysis even in data-rich regions in the Global North, thereby hindering our understanding of flash flood generation mechanisms. This inequitable distribution of observational capacity to assess flash flood occurrence creates an urgent need for innovative approaches that can transcend the limitations of traditional catchment-specific modelling paradigms to develop predictive models over a continuous domain able to truly cover all populations around the globe.
 
@@ -61,7 +60,6 @@ This chapter addresses Research Question 3 of this thesis by systematically inve
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methods and Data}
-\label{regional_to_global_training_methods_data}
 
 \subsection{Training approaches}
 The methodological framework examines three distinct training strategies to determine the optimal approach for developing flash flood predictions across a continuous global domain, considering heterogeneous data availability. 
@@ -98,22 +96,36 @@ The verification assessments will conclude with a case-study-based analysis. Thi
 
 %%%%%%%%%%%%%%%%%
 \section{Results}
-\label{regional_to_global_training_results}
 
-
-%\marginpara{Objective verification: overall scores (AUC-ROC, AUC-PR, FB)}
+\subsection{Extension of regional training to global application}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{verif_overall_scores.png}
-\caption{\textbf{Objective verification: overall scores (AUC-ROC, AUC-PR, FB)} Panel (a) shows the area under the ROC curve (AUC-ROC) for predictions computed with the XGBoost implementation of gradient boosting, trained with the loss function for balanced datasets and hyperparameters optimised to maximise AUC-ROC (developed in Chapter \ref{data_driven_flash_floods_short_medium_range}). The solid line shows the scores computed using the three considered training approaches (TA1-3) as described in Figure \ref{fig:training_approaches}. The dashed line represents the score obtained when the model was trained with the full training dataset (refer to Figure \ref{fig:verif_training_test_overall}a. Panels (b) and (c) show, respectively, the area under the precision-recall curve and the frequency bias. Refer to Figures \ref{fig:verif_training_test_overall}e and \ref{fig:verif_training_test_overall}i for the corresponding scores obtained when the model was trained with the full training dataset.}
-\label{fig:verif_overall_scores}
+\includegraphics[width=\textwidth]{sensitivity_analysis_global_extension.png}
+\caption{\textbf{Global extension performance of regionally-trained XGBoost under different U.S. training data sampling strategies.} Violin plots show predicted probability distributions, whilst dots indicate percentage change in flash flood detection capability relative to climatological baseline. Three approaches tested: random sampling (Approach 1), domain-restricted training (Approach 2), and sub-regional training (Approach 3).}
+\label{fig:sensitivity_analysis_global_extension}
 \end{figure}
 
+The global application of the regionally-trained XGBoost was evaluated through three distinct approaches, each employing different spatial sampling strategies for training data inclusion (Figure \ref{fig:sensitivity_analysis_global_extension}). The baseline configuration utilising all available flash flood reports in the Storm Event Database, within the verification period, produced a conservative probability distribution, with most predictions remaining below 10\% and 247,953 grid boxes exceeding the climatological average flash flood probability (0.08\%).
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{verif_breakdown_scores_roc_curve.png}
-\caption{\textbf{Objective verification: breakdown scores (ROC curve)} Panel (a) shows the ROC curve for predictions computed with the XGBoost implementation of gradient boosting, trained with the full trained dataset, with the loss function for balanced datasets and hyperparameters optimised to maximise AUC-ROC (already shown in Figure \ref{fig:verif_training_test_breakdown_roc_curve}c). Panels (b) to (d) show the ROC curves for the same model but trained with the training subset corresponding to training approach 1 (TA1). Panels (e) and (f) show the ROC curves obtained for TA2, while panels (g) and (h) show the ROC curves obtained for TA3. The ROC curves drawn with solid lines correspond to a probability discretisation of 1\%, with probabilities of exceedance from 0 to 99\%. The ROC curves drawn with dashed lines correspond to a probability discretisation of 0.01\%, with probabilities of exceedance from 0 to 99\%.}
-\label{fig:verif_breakdown_scores_roc_curve}
-\end{figure}
+Approach 1, which implemented a random reduction of the flash flood reports to predetermined percentages (90\%, 50\%, and 10\%) uniformly, across the entire U.S. domain, demonstrated variable performance. The 90\% sampling configuration merginally increased the detection capability (i.e. number of flash flood reports exceeding the climatological average of flash flood events) by 1.42\%, while the 50\% and the 90\% reductions showed, respectively, a degradation of 9.56\% and 36.50\%, suggesting non-linear relationships between training data volumes and model performance.
+
+Approach 2 explored a spatially-constrained training strategy where the model was trained only over a certain part of the domain where observations are available. The model did not see at all the other part of the domain, and it was applied to create predictions over the whole CONUS domain. This approach simulates a global training that considers only those areas of the world with good observations during training, but uses the model globally to create predictions over the continuous global domain. The reduction in the predicted probabilities was the smallest over the three approaches, with the biggest  reductions of -13.75\% and -19.96\% when the model was trained using the parts of the domain with the smallest number of flash flood reports i.e., the east and the north, respectively. When using the parts of the domain with the biggest number of reports, i.e., the west and the south, there was an increase of +1.42\% and a minimal reduction of -1.18\% of grid-boxes with a flash flood signal.
+
+Approach 3 explores a similar spatially constrained training, where the model is trained over the whole CONUS but with observations only over a restricted part of the domain. This approach simulates a global training of the model over the whole global domain, and considering all available reports. This is the approach with the biggest reduction in predictive ability, with reductions ranging from -52.04\% when the east side was considered and -16.22\% when the south was considered, where training data is most geographically limited.
+
+The varying performance across different training strategies highlights the critical importance of training data representativeness for successful global model deployment. These results show that the distribution of predicted probabilities and the predictive capabilities do change for different data reduction strategies. In all cases, the probability distributions remain highly skewed towards zero probabilities. Such high concentration near the zero value does not surprise as flash floods are rare events. However, the shape and the spread of the probability values varies greatly, with more compressed distributions (with probability values rarely exceeding 2\%) over those cases that train the model with very little training data (cases 4, 5, and 9). Such compression of the probability distribution suggests that the model becomes increasingly conservative and uncertain with less data. When training instead over regions with higher training data volumes (cases 1, 6, 8, 10, and 12), the model seems to be more willing to predict moderate-to-high probabilities. The shape of the distributions is also important. Overall, the shape does not change compared to the baseline (grey violin plot, case 0) with the training approach 1, while the shapes change for approach 2 and 3. The "bulges" in the middle of the distributions, primarily in approach 2, but also in approach 3 suggest the model learned to produce intermediate probabilities (2-6\%), indicating the model developed a more nuanced risk stratification, without losing the capability to predict larger probabilities unless the training dataset is very poor, as in case 5 and 9 represented by the west coast of the CONUS (the area with the least number of flash flood reports over the CONUS). 
+
+The application of these three training strategies suggest that while global applications can maintain reasonable performance under certain conditions, data volumes play a crucial role in determining the transferability of regional flash flood forecasting models to global applications. Due to the presented results, approach 2 is selected for the global application of the CONUS-focused training, i.e., the regional training over the CONUS, using only the Storm Event Database, is applied to global fields to create predictions of areas at risk of flash floods over a continuous global domain. While it is not possible to run a robust verification analysis over the whole global domain due to the sparse density of global datasets like EM-DAT and DesInventar, section \ref{verif_case_study} will provide a selection of case studies over the CONUS and around the world to examine the performance of the regional and global training.
+
+
+\subsection{Catalogue of flash flood events}
+\label{verif_case_study}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+\section{Discussions}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
