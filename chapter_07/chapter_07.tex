@@ -22,6 +22,9 @@
 global implementation of regionally-trained models}
 \label{regional_to_global_training}
 \graphicspath{{chapter_07/figures}{chapter_07/tables}}
+
+\definecolor{colourTraining}{HTML}{800080}
+\definecolor{colourTest}{HTML}{00B0F0}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \underline{\textbf{Authors' contribution for this chapter:}} Fatima M. Pillosu designed the study, with advice from Hannah Cloke and Christel Prudhomme, obtained the datasets, carried out the analysis, and led the writing of the manuscript. All authors assisted with writing the manuscript. Overall, 90\% of the writing was undertaken by Fatima M. Pillosu.
@@ -101,19 +104,42 @@ The verification assessments will conclude with a case-study-based analysis. Thi
 \label{regional_to_global_training_results}
 
 
-%\marginpara{Objective verification: overall scores (AUC-ROC, AUC-PR, FB)}
+\marginpara{Objective verification: overall scores (AUC-ROC, AUC-PR, FB)}
+
+The area under the ROC curve (AUC-ROC, Figure \ref{fig:verif_overall_scores}a) shows that TA1 and TA3 achieve similar discrimination ability 
+
+
+demonstrates that whilst the baseline model trained on the full dataset achieves a robust score of approximately 0.8 (dashed line), performance deteriorates markedly when training is restricted to certain geographical subsets, with some configurations dropping to values between 0.55 and 0.75. The Area Under the Precision-Recall curve (AUC-PR, panel b) exhibits a similar pattern, though with more modest baseline values around 0.025, reflecting the inherent class imbalance in flash flood data. Notably, one training configuration produces near-zero AUC-PR values, suggesting complete failure to identify positive cases. The frequency bias metric (panel c) reveals perhaps the most dramatic instability, with values ranging from near zero to approximately 1.0 across different spatial restrictions, compared to the baseline value of 1.25. These extreme variations in frequency bias indicate that geographically-constrained training strategies struggle to maintain appropriate prediction frequencies, either severely under-predicting or over-predicting flash flood occurrences. The collective evidence from these three metrics underscores the critical importance of spatial coverage in training data, demonstrating that whilst some regional restrictions maintain reasonable discriminative ability, they often fail to preserve the appropriate calibration necessary for operational flash flood prediction systems.
+
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{verif_overall_scores.png}
-\caption{\textbf{Objective verification: overall scores (AUC-ROC, AUC-PR, FB)} Panel (a) shows the area under the ROC curve (AUC-ROC) for predictions computed with the XGBoost implementation of gradient boosting, trained with the loss function for balanced datasets and hyperparameters optimised to maximise AUC-ROC (developed in Chapter \ref{data_driven_flash_floods_short_medium_range}). The solid line shows the scores computed using the three considered training approaches (TA1-3) as described in Figure \ref{fig:training_approaches}. The dashed line represents the score obtained when the model was trained with the full training dataset (refer to Figure \ref{fig:verif_training_test_overall}a. Panels (b) and (c) show, respectively, the area under the precision-recall curve and the frequency bias. Refer to Figures \ref{fig:verif_training_test_overall}e and \ref{fig:verif_training_test_overall}i for the corresponding scores obtained when the model was trained with the full training dataset.}
+\caption{\textbf{Objective verification: overall scores (AUC-ROC, AUC-PR, FB)} Panel (a) shows the area under the ROC curve (AUC-ROC), computed for the XGBoost implementation of gradient boosting, trained with the loss function for balanced datasets and hyperparameters optimised to maximise AUC-ROC (as developed in Chapter \ref{data_driven_flash_floods_short_medium_range}). The score is computed with data from the \textcolor{colourTest}{verification} dataset (from 2021 to 2024). The solid line shows the scores computed using the three considered training approaches (TA1-3) as described in Figure \ref{fig:training_approaches}. The dashed line represents the score obtained when the model was trained with the full training dataset (refer to Figure \ref{fig:verif_training_test_overall}a. Panels (b) and (c) show, respectively, the area under the precision-recall curve and the frequency bias. Refer to Figures \ref{fig:verif_training_test_overall}e and \ref{fig:verif_training_test_overall}i for the corresponding scores obtained when the model was trained with the full training dataset.}
 \label{fig:verif_overall_scores}
 \end{figure}
 
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{verif_breakdown_scores_roc_curve.png}
-\caption{\textbf{Objective verification: breakdown scores (ROC curve)} Panel (a) shows the ROC curve for predictions computed with the XGBoost implementation of gradient boosting, trained with the full trained dataset, with the loss function for balanced datasets and hyperparameters optimised to maximise AUC-ROC (already shown in Figure \ref{fig:verif_training_test_breakdown_roc_curve}c). Panels (b) to (d) show the ROC curves for the same model but trained with the training subset corresponding to training approach 1 (TA1). Panels (e) and (f) show the ROC curves obtained for TA2, while panels (g) and (h) show the ROC curves obtained for TA3. The ROC curves drawn with solid lines correspond to a probability discretisation of 1\%, with probabilities of exceedance from 0 to 99\%. The ROC curves drawn with dashed lines correspond to a probability discretisation of 0.01\%, with probabilities of exceedance from 0 to 99\%.}
+\includegraphics[scale = 0.95]{verif_breakdown_scores_roc_curve.png}
+\caption{\textbf{Objective verification: breakdown scores (ROC curve)} ROC curves are shown for the XGBoost implementation of gradient boosting, trained with the loss function for balanced datasets and hyperparameters optimised to maximise AUC-ROC (developed in Chapter \ref{data_driven_flash_floods_short_medium_range}). Panel (a) shows the ROC curve for the model trained with the full trained dataset (as shown also in Figure \ref{fig:verif_training_test_breakdown_roc_curve}c, for the \textcolor{colourTraining}{training} dataset (from 2001 to 2020) and the \textcolor{colourTest}{verification} dataset (from 2021 to 2024)). Panels (b) to (d) show the ROC curves for the model trained with the training subset corresponding to training approach 1 (TA1), only for the \textcolor{colourTest}{verification} dataset. Panels (e) and (f) show the ROC curves obtained for TA2, while panels (g) and (h) show the ROC curves obtained for TA3. The ROC curves drawn with solid lines correspond to a probability discretisation of 1\%, with probabilities of exceedance ranging from 0 to 99\%. The ROC curves drawn with dashed lines correspond to a probability discretisation of 0.01\%, with probabilities of exceedance ranging up to values that depend on the TA, and shown in Figure \ref{fig:training_approaches}.}
 \label{fig:verif_breakdown_scores_roc_curve}
+\end{figure}
+
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale = 0.95]{verif_breakdown_scores_pr_curve.png}
+\caption{\textbf{Objective verification: breakdown scores (Precision-Recall curves)} Precision-Recall curves are shown for the XGBoost implementation of gradient boosting, trained with the loss function for balanced datasets and hyperparameters optimised to maximise AUC-ROC (developed in Chapter \ref{data_driven_flash_floods_short_medium_range}). Panel (a) shows the precision-recall curve for the model trained with the full trained dataset (as shown also in Figure \ref{fig:verif_training_test_breakdown_pr_curve}c, for the \textcolor{colourTraining}{training} dataset (from 2001 to 2020) and the \textcolor{colourTest}{verification} dataset (from 2021 to 2024)). Panels (b) to (d) show the precision-recall curves for the model trained with the training subset corresponding to training approach 1 (TA1), only for the \textcolor{colourTest}{verification} dataset. Panels (e) and (f) show the ROC curves obtained for TA2, while panels (g) and (h) show the ROC curves obtained for TA3. The ROC curves drawn with solid lines correspond to a probability discretisation of 1\%, with probabilities of exceedance ranging from 0 to 99\%. The ROC curves drawn with dashed lines correspond to a probability discretisation of 0.01\%, with probabilities of exceedance ranging up to values that depend on the TA, and shown in Figure \ref{fig:training_approaches}.}
+\label{fig:verif_breakdown_scores_pr_curve}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale = 0.95]{verif_breakdown_scores_reliability_diagram.png}
+\caption{\textbf{Objective verification: breakdown scores (Reliability Diagrams)} Precision-Recall curves are shown for the XGBoost implementation of gradient boosting, trained with the loss function for balanced datasets and hyperparameters optimised to maximise AUC-ROC (developed in Chapter \ref{data_driven_flash_floods_short_medium_range}). Panel (a) shows the precision-recall curve for the model trained with the full trained dataset (as shown also in Figure \ref{fig:verif_training_test_breakdown_reliability_diagram}c, for the \textcolor{colourTraining}{training} dataset (from 2001 to 2020) and the \textcolor{colourTest}{verification} dataset (from 2021 to 2024)). Panels (b) to (d) show the precision-recall curves for the model trained with the training subset corresponding to training approach 1 (TA1), only for the \textcolor{colourTest}{verification} dataset. Panels (e) and (f) show the ROC curves obtained for TA2, while panels (g) and (h) show the ROC curves obtained for TA3. The ROC curves drawn with solid lines correspond to a probability discretisation of 1\%, with probabilities of exceedance ranging from 0 to 99\%. The ROC curves drawn with dashed lines correspond to a probability discretisation of 0.01\%, with probabilities of exceedance ranging up to values that depend on the TA, and shown in Figure \ref{fig:training_approaches}.}
+\label{fig:verif_breakdown_scores_reliability_diagram}
 \end{figure}
