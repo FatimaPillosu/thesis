@@ -5,21 +5,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-To develop accurate and reliable flash flood prediction models, it is essential to consider various parameters that influence flash flood occurrence, such as rainfall, soil moisture, vegetation type, and the slope of the orography, among others. This thesis will use such parameters for short- and medium-range forecasts from the ERA5 reanalysis computed at ECMWF.
-
-The ERA5 reanalysis offers a spatially and temporally consistent and high-quality reconstruction of past atmospheric and land surface conditions, crucial for training data-driven models. However, the spatial resolution of rainfall from ERA5 (\textasciitilde31 km) is not sufficiently high for flash flood applications. Hence, the ecPoint post-processing technique is employed in this thesis to address the limitations of the coarse spatial resolution of the raw rainfall ERA5 short- and long-range forecasts. The ecPoint methodology uses a decision-tree-based algorithm to anticipate sub-grid variability and correct biases in the raw NWP model outputs, producing probabilistic point-scale rainfall predictions that are more skilful and reliable against point verification, especially in the case of extreme localised rainfall. Such characteristics make ERA5-ecPoint rainfall short- and medium-range forecasts better suited for flash flood applications. 
-
-Extensive observational records of flash flood impacts play a crucial role in developing and validating the data-driven flash flood prediction model. Global impact models exist, such as EM-DAT and DesInventar. However, they largely underrepresented flash flood frequency due to their event inclusion protocols and not uniform spatial coverage around the world \citep{Panwar_2020}. This thesis will, therefore, use a higher-density regional flash flood impact database developed in the US, the Storm Event Database. 
-
-The \marginpara{Chapter structure} remainder of this chapter is structured as follows. \textbf{Section 2} focuses on the raw datasets used in this research, namely the ECMWF Ensemble Forecasts and the ERA5 Reanalysis, and it provides an overview of their characteristics. The verification of the raw datasets will be discussed together with the post-processed data in Section 3. \textbf{Section 3} is divided into three subsections: \textit{section 3.1} describing the ecPoint post-processing method, including the calibration process, creation of forecasts and reanalysis, and computational requirements; \textit{section 3.2} presents the verification of ensemble and ecPoint rainfall forecasts; and \textbf{section 3.3} discusses the verification of ERA5 and ecPoint-ERA5 data. \textbf{Section 4} presents the observational datasets used in this study: \textit{section 4.1} covers rainfall observations, and includes the description of the datasets, their spatial and temporal coverage, strengths, and limitations, data availability and gaps; \textit{section 4.2} covers flash flood impact observations from global databases such as EM-DAT and DesInventar, as well as higher-density national databases from the US and Ecuador, providing description of the datasets and their metadata, analysis of their spatial coverage and granularity to assess relevance in flash flood analysis, strengths and limitations. Finally, \textbf{Section 5} summarizes the key findings of the data chapter, highlighting the strengths and limitations of the datasets used, it discusses potential gaps in the current data landscape, and offers recommendations for future data collection and integration efforts in the field of flash flood prediction. 
+The development of (data-driven) models for the prediction of areas at risk of flash floods requires considering multiple hydro-meteorological and static parameters that influence flash flood occurrence. This thesis employs the state-of-the-art ERA5 global reanalysis, which provides spatially and temporally consistent reconstructions of atmospheric and land surface conditions, essential for model training. ERA5 forecasts are used at the inference stage. Whilst the spatial resolution of ERA5 data - both reanalysis and forecasts - is low for flash flood applications (\sim31 km at the equator), the use of the same NWP model throughout training and forecast production benefits the analysis in this thesis by eliminating uncertainties due to changes in forecasts' spatial resolution at the inference stage. Moreover, working with lower resolution data is more cost-effective when running multiple experiments, as done in this thesis. Only rainfall estimates - the primary driver of flash flood occurrence - are post-processed to enhance the spatial detail and accuracy of predictions, particularly for extreme localised events. The adopted post-processing technique in this thesis is ECMWF's ecPoint. Additionally, the selection of appropriate observational records of flash flood impacts is crucial for model development and validation. While global impact databases exist (e.g., EMDAT or DesInventar), regional databases with higher spatial density and more comprehensive coverage of smaller-scale flash flood events provide superior data quality. This thesis uses the flash flood impact reports from the Storm Event Database over the CONtiguous United States (CONUS).
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
 \section{Study domain}
+\label{datasets_domain}
 
-This research establishes the CONUS as the primary study domain for the flash-flood-focused rainfall verification, data-driven model development, and predictability assessment of medium-range data-driven predictions of areas at risk of flash floods. The domain considered in this thesis in shown in Figure \ref{fig:conus_domain}. The selection of this geographical region is methodologically justified on several grounds. Foremost is the higher quality and comprehensiveness of the \textit{Storm Event Database} maintained by the National Oceanic and Atmospheric Administration (NOAA). 
+This research establishes the CONUS as the primary study domain for the flash-flood-focused rainfall verification, data-driven model development, and sensitivity analysis for the global extension of the regionally-trained models (Figure \ref{fig:conus_domain}). 
 
 \begin{figure}[htbp]
 \centering
@@ -28,34 +21,61 @@ This research establishes the CONUS as the primary study domain for the flash-fl
 \label{fig:conus_domain}
 \end{figure}
 
-This database systematically records flash flood occurrences with high spatial and temporal resolution, including crucial metadata regarding impact severity, affected areas, and casualty information. The database's consistent reporting protocols and rigorous quality control procedures mitigate the observational uncertainty that typically plagues flash flood research \citep{Panwar_2020}.
+The \marginpara{CONUS primary study domain: justification based on observational data availability} selection of this geographical region is methodologically justified on several grounds. Foremost is the higher quality and comprehensiveness of the Storm Event Database maintained by the National Oceanic and Atmospheric Administration (NOAA). The high spatial and temporal resolution of the events reported, the consistent reporting protocols, and the rigorous quality control procedures adopted to populate this regional database mitigate the high data uncertainty and events underreporting that plagues global databases \citep{Panwar_2020, Gaume_2009}. A detailed description of the Storm Event Database is provided in Section \ref{daatasets_sed_reports}.
 
-The CONUS domain further presents methodological advantages through its diverse hydro-meteorological conditions, encompassing varied topographical features ranging from coastal plains to mountainous terrain, and climatic regimes spanning Mediterranean, continental, subtropical, and desert classifications. This diversity enables the development of a machine learning model exposed to a broad spectrum of flash flood generating mechanisms, from intense convective precipitation to rain-on-snow events, thereby enhancing its potential transferability to global applications.
-
-Whilst the primary model development utilises the CONUS domain, the global applicability of the methodology necessitates consideration of how domain-specific characteristics might influence model performance when transferred to regions with different hydro-climatological conditions. These considerations are addressed in subsequent sections detailing the global application of the flash flood prediction model.
+The \marginpara{CONUS primary study domain: justification based on hydro-meteorological diversity of flash-flood-generating mechanisms} CONUS domain presents diverse hydro-meteorological conditions, encompassing varied topographical features ranging from coastal plains to mountainous terrain, and climatic regimes spanning Mediterranean, continental, subtropical, and desert classifications. This diversity enables the development of a machine learning model exposed to a broad spectrum of flash-flood-generating mechanisms, from intense convective precipitation to rain-on-snow events, to hurricanes, and to large-scale systems such as atmospheric rivers, thereby enhancing its potential transferability to global applications \citep{Dougherty_2019, Saharia_2017}.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{ERA5}
-\label{datasets_era5}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Flash flood impact reports - NOAA's Storm Event Database}
+\label{daatasets_sed_reports}
 
-Short- and long-range ERA5 forecasts were acquired at their native resolution (\textasciitilde31 km at the equator), for a period covering the years 1950 to 2024. Table \ref{table:forecasts_types} describes the characteristics of both forecasts (e.g., spatial and temporal resolution, run times, and maximum lead time). The short-range forecasts (also known as "reanalysis") will be used to train the data-driven model. The long-range forecasts will be used to assess the predictability of the data-driven medium-range (i.e., up to day 5) predictions of the areas at risk of flash floods.
+NOAA's \marginpara{Storm Event Database: general description} National Centers for Environmental Information (NCEI) Storm Event Database serves as the US's official repository of severe weather records. This comprehensive database has evolved significantly since its inception in 1950, transforming from solely county-level tornado reports to a sophisticated system documenting up to 48 different weather phenomena with increasingly precise geospatial representation\footnote{\url{https://www.ncdc.noaa.gov/stormevents/details.jsp}}. Its historical progression affects data completeness for different phenomena. Flash flood records became standardised from 1996 onward, with major geographical precision improvements implemented in 2007 when reporting transitioned from county-level to a polygon-based representation\footnote{\url{https://inside.nssl.noaa.gov/flash/database/}}. The database covers the entire United States and territories with a spatial bounding box from 172.0°W to 65.0°E longitude and 18.0°N to 72.0°N latitude\footnote{\url{https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc:C00510}} (Figure \ref{fig:sed_ff_reports}a). Data collection involves a network of 123 NWS Forecast Offices gathering information from emergency management officials, law enforcement, trained SKYWARN spotters, damage surveys, media reports, and public observations\footnote{\url{https://www.ncdc.noaa.gov/stormevents/faq.jsp}}. This study uses version 3.1 of the database. It considers only reports over the CONUS that go from 2001 to 2024 (Figure \ref{fig:sed_ff_reports}b), as reports before 2001 do not contain latitude/longitude coordinates, which makes them unusable for model development and verification.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.85]{sed_ff_reports.png}
+\caption{\textbf{Description of flash flood reports in the Storm Event Database.} Panel (a) shows the spatial distribution of the frequency of point flash flood impact report counts in each ERA5 grid-box within the CONUS, between 2001 and 2024. The map is divided into four quadrants: North-West (in shades of orange), North-East (in shades of green), South-East (in shades of blue), and South-West (in shades of yellow). The shades (from light to dark) indicate, respectively, frequencies between 0 and 0.1\%, 0.1 and 1\%, and 1 and 10\%. The pie chart indicates the overall frequency of flash floods in the four regions and the total number of point flash flood reports recorded between 2001 and 2024 (equal to 108903). Panel (b) shows the timeseries of the point flood report counts per year between 1950 and 2024 (grey bars), the counts of flash flood reports (dark red bars), and the counts of flash flood reports with latitude/longitude coordinates (light red bars). Panel (c) shows the timeseries of point (in red) and gridded (in black) flash flood report counts in 2021, accumulated over 24-hourly periods ending at 00 UTC. The blue circle highlights the point and gridded reports accumulated over the 24-hourly accumulation period ending on 2021-09-02 at 00 UTC (Storm Ida). Panel (d) represents the spatial distribution of the CONUS of point (red dots) and gridded (black dots) flash flood impact for the same 24-hourly accumulation period. The zoomed-in area focuses attention on the reports recorded around New York.}
+\label{fig:sed_ff_reports}
+\end{figure}
+
+The \marginpara{Storm Event Database: metadata quality} Storm Event provides extensive metadata for flash flood events, compiled by professional meteorologists and hydrologists. Metadata recordings will include impact severity, affected areas, and casualty information. Among all available keys\footnote{Please, refer to https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/Storm-Data-Bulk-csv-Format.pdf for a detailed description of the features (columns) included in the Storm Event Database}, this study considers only those described in Table 3. It is worth noting that, as with any other human augmented reporting system, the Storm Event Database is subject to variations in other variables. \citet{Marjerison_2016} highlight that population density is one of the most important factors affecting the location of flash flood reports. Figure \ref{fig:sed_ff_reports}a shows indeed that the Eastern side of the CONUS - the most densely populated - presents a larger frequency of reports than the Western side. Other factors affecting the location of flash flood reports are diurnal cycles of human activity and more mundane transcription or memory errors that affect the timing and location of reports \citep{Barthold_2015}. Evidence of these issues has been found in assessments of Flash Flood Guidance (FFG) skill \citep{Clark_2014}.
 
 \begin{table}[htbp]
 \centering
-\captionof{table}{\textbf{ERA5 short- and long-range forecasts.} The table describes the characteristics of short- and long-range forecasts from ERA5.}
+\captionof{table}{\textbf{Features used from the Storm Event Database.} The table presents the name of the features, called "Keys" in the database, the variable types (e.g., string, data object, or float), their units, and description.}
+\includegraphics[width=\textwidth]{sed_params.png}
+\label{table:forecasts_types}
+\end{table}
+
+Notwithstanding \marginpara{Storm Event Database: relevance for flash flood prediction and evaluation} the acknowledged limitations in the flash flood event reporting in the Storm Event Database, this dataset demonstrates substantial utility for model development and evaluation compared to global datasets. The data preserves fundamental hydro-climatological signals essential for model training. Figure \ref{{fig:sed_ff_reports}}c (red bars), representative of flash flood report counts for 2021, shows that the underreporting does not compromise the representation of seasonal variability throughout the year - the timeseries shows pronounced peaks during the summer months and the beginning of the autumn when peaks in (flash) flood frequency are expected \citep{Dougherty_2019}. Furthermore, the database maintains sufficient daily report counts over most of the year. This ensures the dataset provides adequate sample sizes for model training and to compute robust statistics during model evaluation. 
+
+As \marginpara{Storm Event Database: point-to-gridded post-processing of flash flood reports and their impact on model training and evaluation} anticipated in Figure \ref{fig:forecast_evaluatio_strategy} in Chapter \ref{integrated_experimental_strategy}, the point flash flood impact reports are post-processed into gridded fields so that they can be compared with the gridded reanalysis and forecast data. Whilst further details about the post-processing approach are provided in Section \ref{flash_flood_focused_verification_rainfall_based_ff_methods_gridded_fields} in Chapter \ref{flash_flood_focused_verification_rainfall_based_ff}, this section focuses on the following observation. Days exhibiting exceptionally high report counts, such as those associated with Storm Ida (red bar within blue circle in Figure \ref{fig:sed_ff_reports}c), typically reflect spatially concentrated events rather than widespread flash flood occurrences across the CONUS (Figure \ref{fig:sed_ff_reports}d). The point-to-grid post-processing is designed to prioritise the accurate representation of flash flood occurrence patterns due to hydro-meteorological factors. As a consequence, the approach treats all grid-boxes containing flash flood reports equally - a grid-box is assigned the "yes-event" label regardless of whether it contains one or multiple point flash flood reports. The result of this methodological approach is exemplified by the height of the black bar within the blue circle in Figure \ref{fig:sed_ff_reports}c being much lower than the red bar. Whilst high report densities contain valuable information for modelling reporting behaviour, incorporating this information into this study could lead the model to learn unwanted patterns driven by factors external to hydro-meteorological processes. For example, report density variations may reflect the nature of the triggering event (hurricane vs. isolated convection, with the first type typically spurring people to contribute more reports in impact databases) or demographic factors (events in densely populated areas naturally produce more reports). 
+
+
+%%%%%%%%%%%%%%%%%%%%%
+\section{ERA5}
+\label{datasets_era5}
+
+ERA5 represents the fifth generation atmospheric reanalysis produced by the European Centre for Medium-Range Weather Forecasts (ECMWF). It provides hourly estimates of numerous atmospheric, land, and oceanic variables from 1940 to present, at approximately 31 km horizontal resolution. This comprehensive reanalysis combines vast quantities of historical observations with advanced numerical weather prediction models through sophisticated data assimilation techniques, yielding physically consistent and spatially complete reconstructions of past weather and climate conditions globally \citep{Hersbach_2020}. The ERA5 system also produces near-real-time forecasts up to day 10. Table \ref{table:forecasts_types} describes the characteristics of both datasets (e.g., spatial and temporal resolution, run times, and maximum lead time).
+
+\begin{table}[htbp]
+\centering
+\captionof{table}{\textbf{ERA5 reanalysis and forecasts.} The table describes the characteristics of the ERA5 reanalysis and forecasts.}
 \includegraphics[width=\textwidth]{01_forecasts_types.png}
 \label{table:forecasts_types}
 \end{table}
 
-From the extensive suite of variables included in ERA5\footnote {The full set of parameters included in the short- and long-range forecasts from ERA5 can be found in the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper}.}, the subset of dynamic and static parameters listed in Table \ref{table:parameters_used} were considered to compute those parameters whose relationship with flash flood occurrence has been established in previous literature, such antecedent soil moisture, slope of the orography, and vegetation. The following sub-sections describe the pre-processing of the raw ERA5 parameters to compute the variables that will be included in the data-driven model.
+ERA5 reanalysis was used to compute the hydrological and static features used to train the data-driven models developed in Chapters \ref{data_driven_flash_floods_short_medium_range} and \ref{regional_to_global_training} to \textit{identify} areas at risk of flash floods. During the inference stage, ERA5 forecasts up to day 5 served as inputs to the trained data-driven models to \textit{predict} areas at risk of flash floods. From the extensive suite of variables available in ERA5\footnote {The full set of parameters available for ERA5 reanalysis and forecasts can be found in the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper}.}, the subset of dynamic and static parameters listed in Table \ref{table:parameters_used} were considered to compute antecedent soil moisture, orography slope, and vegetation coverage. 
 
 \begin{table}[htbp]
 \centering
-\captionof{table}{\textbf{Parameters used from ERA5 and ERA5-ecPoint.} Description of the parameters considered for developing the data-driven short- and medium-range predictions of areas at risk of flash floods over a continuous global domain.}
+\captionof{table}{\textbf{Parameters used from ERA5 and ERA5-ecPoint.} Description of the parameters used to compute the hydrological and static features used in the developed data-driven models to identify and predict areas at risk of flash floods.}
 \includegraphics[width=\textwidth]{02_era5_params.png}
 \label{table:parameters_used}
 \end{table}
+
+The following sub-sections describe the pre-processing of the raw ERA5 parameters to compute the variables that will be included in the data-driven model.
 
 
 \subsection{Antecedent soil moisture}
@@ -157,30 +177,7 @@ While ERA5 provides a comprenhensive suite of hydro-meteorological variables, it
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Flash flood impact observations: Storm Event Database over CONUS}
-\label{storm_event_database}
 
-\subsection{Dataset Description}
-
-The NOAA National Centers for Environmental Information (NCEI) Storm Event Database serves as the US's official repository of severe weather records, including flash floods. This comprehensive database has evolved significantly since its inception in 1950, transforming from county-level tornado reports to a sophisticated system documenting up to 48 different weather phenomena with increasingly precise geospatial representation. For flash flood research and machine learning applications, understanding the database's structure, evolution, and limitations is essential for robust methodology development. 
-
-The NCEI Storm Event Database began in 1950 as a limited collection focusing primarily on tornado documentation, and since then, the database has undergone significant expansion. Until 1954, it recorded only tornado events, while from 1955 to 1995, its coverage expanded to include tornadoes, thunderstorm winds, and hail events. From 1996, the database expanded to contain a comprehensive documentation of 48 distinct event types, including flash floods\footnote{\url{https://www.ncdc.noaa.gov/stormevents/details.jsp}}. 
-
-This historical progression affects data completeness for different phenomena. Flash flood records only became standardised from 1996 onward, with major geographical precision improvements implemented in 2007 when reporting transitioned from county-level to polygon-based representation\footnote{\url{https://inside.nssl.noaa.gov/flash/database/}}.
-
-The database covers the entire United States and territories with a spatial bounding box from 172.0°W to 65.0°E longitude and 18.0°N to 72.0°N latitude\footnote{\url{https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc:C00510}}. Data collection involves a network of 123 NWS Forecast Offices gathering information from emergency management officials, law enforcement, trained SKYWARN spotters, damage surveys, media reports, and public observations\footnote{\url{https://www.ncdc.noaa.gov/stormevents/faq.jsp}}.
-
-In this study, we are using version 3.1 of the database, we consider only reports over the CONUS that go from 2001 to 2024.
-
-
-\subsection{Metadata Quality}
-
-The Storm Event provides extensive metadata for flash flood events. Among all the available keys, we considered in this study only the keys described in table 3. Although professional meteorologists and hydrologists collect flash flood reports to include in the Severe Storm Database, any human augmented reporting system is subject to variations in population density, diurnal cycles of human activity, and more mundane transcription or memory errors that affect the timing and location of reports \citep{Barthold_2015}. Evidence of these issues has been found in assessments of FFG skill \citep{Clark_2014}, and it has been found that the distribution of SED's flash floods reports is affected by the distribution of human population \cite{Marjerison_2016}. 
-
-\subsection{Coverage, Granularity, and Relevance for Flash Flood Analysis}
-
-\subsection{Strengths and Limitations}
 
 
 
