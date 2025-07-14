@@ -66,7 +66,7 @@ ERA5 \marginpara{ERA5 reanalysis and forecasts: general description} represents 
 \label{table:forecasts_types}
 \end{table}
 
-ERA5 \marginpara{ERA5 variables used to compute data-driven model features to identify and predict areas at risk of flash floods} reanalysis was used to compute the hydrological and static features used to train the data-driven models developed in Chapters \ref{data_driven_flash_floods_short_medium_range} and \ref{regional_to_global_training} to \textit{identify} areas at risk of flash floods. During the inference stage, ERA5 forecasts up to day 5 served as inputs to the trained data-driven models to \textit{predict} areas at risk of flash floods. From the extensive suite of variables available in ERA5\footnote {The full set of parameters available for ERA5 reanalysis and forecasts can be found in the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper}.}, the subset of dynamic and static parameters listed in Table \ref{table:parameters_used} were considered to compute antecedent soil moisture, orography slope, and vegetation coverage. 
+ERA5 \marginpara{ERA5 variables used to compute data-driven model features to identify and predict areas at risk of flash floods} reanalysis was used to compute the hydrological and static features used to train the data-driven models developed in Chapters \ref{data_driven_flash_floods_short_medium_range} and \ref{regional_to_global_training} to \textit{identify} areas at risk of flash floods. During the inference stage, ERA5 forecasts up to day 5 served as inputs to the trained data-driven models to \textit{predict} areas at risk of flash floods. From the extensive suite of variables available in ERA5\footnote {The full set of parameters available for ERA5 reanalysis and forecasts can be found in the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper}.}, the subset of dynamic and static parameters listed in Table \ref{table:era5_params} were considered to compute antecedent soil moisture, orography slope, and vegetation coverage. 
 
 \begin{table}[htbp]
 \centering
@@ -80,12 +80,12 @@ The following sub-sections describe the pre-processing of the raw ERA5 parameter
 
 \subsection{Antecedent soil moisture}
 
-For antecedent soil water content, this study considers the percentage of soil maximum saturation in the top 1 m layer of soil, 24 hours prior to a flash-flood-triggering rainfall event. The percentage of soil maximum saturation in the top 1 m of soil is computed considering the pre-established values of maximum soil saturation for different types of soil, and integrating those over layers 1, 2, and 3 of the volumetric soil water. Table \ref{max_saturation} shows the pre-defined values of maximum soil saturation used at ECMWF for different types of soil \citep{Balsamo_2009}:
+For antecedent soil moisture, this study considers the percentage of soil maximum saturation in the top 1 m layer of soil, 24 hours prior to a flash-flood-triggering rainfall event. The percentage of soil maximum saturation in the top 1 m of soil is computed considering the pre-established values of maximum soil saturation for different types of soil, and integrating those over layers 1, 2, and 3 of the volumetric soil water. Table \ref{max_saturation} shows the pre-defined values of maximum soil saturation used at ECMWF for different types of soil \citep{Balsamo_2009}:
 
 \begin{table}[htbp]
 \centering
-\captionof{table}{\textbf{Maximum saturation} The table shows the pre-defined values of maximum soil saturation per soil type used at ECMWF \citep{Balsamo_2009}.}
-\includegraphics[width=\textwidth]{03_max_saturation.png}
+\captionof{table}{\textbf{Maximum soil saturation} The table shows the pre-defined values of maximum soil saturation per soil as suggested by  \citet{Balsamo_2009}.}
+\includegraphics[width=\textwidth]{max_saturation.png}
 \label{table:max_saturation}
 \end{table}
 
@@ -104,7 +104,7 @@ Equations \ref{eq:max_sat_field} and \ref{eq:indicator} show how the fields cont
     \label{eq:indicator}
 \end{align}
 
-where, N goes from 1 to 7, and it represents the codes for the soil type.
+where, N goes from 1 to 7, and it represents the soil type codes.
 
 Equation \ref{eq:swvl} computes the soil water content over the top 1m layer of the soil:
 
@@ -115,20 +115,20 @@ Equation \ref{eq:swvl} computes the soil water content over the top 1m layer of 
 
 where, M goes from 1 to 3, and it represents the soil layers.
 
-Finally, equation \ref{eq:swvl_perc} computes the percentage of soil saturation:
+Equation \ref{eq:swvl_perc} computes the percentage of soil saturation as follows:
 
 \begin{equation}
 \label{eq:swvl_perc}
 \text{swvl\_perc} = \frac{\text{swvl}}{\text{max\_sat\_field}}
 \end{equation}
 
-Figure \ref{fig:perc_soil_saturation} shows a map plot for the percentage of soil saturation.
+Figure \ref{fig:percentage_soil_maximum_saturation} shows an example for the percentage of soil saturation.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{perc_soil_saturation.png}
-\caption{\textbf{Example of the percentage of soil saturation for the valid time (VT) corresponding to 2021-09-01 at 00 UTC} Panel (a) shows the percentage of soil saturation in ERA5's short-range forecasts (also known as "reanalysis") computed on 2021-08-31 at 18 UTC (t+6). Panels (b) to (f) show ERA5's long-range forecasts for the same VT but computed, respectively, on 2021-08-31 at 00 UTC (t+24 - day 1), 2021-08-30 at 00 UTC (t+48 - day 2), 2021-08-29 at 00 UTC (t+72  - day 3), 2021-08-28 at 00 UTC (t+96 - day 4), and 2021-08-27 at 00 UTC (t+120 - day 5).}
-\label{fig:perc_soil_saturation}
+\includegraphics[width=\textwidth]{percentage_soil_maximum_saturation.png}
+\caption{\textbf{Example of the percentage of soil saturation for the valid time (VT) corresponding to 2021-09-01 at 00 UTC} Panel (a) shows the percentage of soil saturation in ERA5 reanalysis computed on 2021-08-31 at 18 UTC (t+6). Panels (b) to (f) show ERA5's forecasts computed, respectively, on 2021-08-31 at 00 UTC (t+24) - day 1, 2021-08-30 at 00 UTC (t+48) - day 2, 2021-08-29 at 00 UTC (t+72) - day 3, 2021-08-28 at 00 UTC (t+96) - day 4, and 2021-08-27 at 00 UTC (t+120) - day 5.}
+\label{fig:percentage_soil_maximum_saturation}
 \end{figure}
 
 
