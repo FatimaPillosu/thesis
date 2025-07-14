@@ -45,7 +45,7 @@ The \marginpara{Storm Event Database: metadata quality} Storm Event provides ext
 \centering
 \captionof{table}{\textbf{Features used from the Storm Event Database.} The table presents the name of the features, called "Keys" in the database, the variable types (e.g., string, data object, or float), their units, and description.}
 \includegraphics[width=\textwidth]{sed_params.png}
-\label{table:forecasts_types}
+\label{table:sed_params}
 \end{table}
 
 Notwithstanding \marginpara{Storm Event Database: relevance for flash flood prediction and evaluation} the acknowledged limitations in the flash flood event reporting in the Storm Event Database, this dataset demonstrates substantial utility for model development and evaluation compared to global datasets. The data preserves fundamental hydro-climatological signals essential for model training. Figure \ref{{fig:sed_ff_reports}}c (red bars), representative of flash flood report counts for 2021, shows that the underreporting does not compromise the representation of seasonal variability throughout the year - the timeseries shows pronounced peaks during the summer months and the beginning of the autumn when peaks in (flash) flood frequency are expected \citep{Dougherty_2019}. Furthermore, the database maintains sufficient daily report counts over most of the year. This ensures the dataset provides adequate sample sizes for model training and to compute robust statistics during model evaluation. 
@@ -57,22 +57,22 @@ As \marginpara{Storm Event Database: point-to-gridded post-processing of flash f
 \section{ERA5}
 \label{datasets_era5}
 
-ERA5 represents the fifth generation atmospheric reanalysis produced by the European Centre for Medium-Range Weather Forecasts (ECMWF). It provides hourly estimates of numerous atmospheric, land, and oceanic variables from 1940 to present, at approximately 31 km horizontal resolution. This comprehensive reanalysis combines vast quantities of historical observations with advanced numerical weather prediction models through sophisticated data assimilation techniques, yielding physically consistent and spatially complete reconstructions of past weather and climate conditions globally \citep{Hersbach_2020}. The ERA5 system also produces near-real-time forecasts up to day 10. Table \ref{table:forecasts_types} describes the characteristics of both datasets (e.g., spatial and temporal resolution, run times, and maximum lead time).
+ERA5 \marginpara{ERA5 reanalysis and forecasts: general description} represents the fifth generation atmospheric reanalysis produced by the European Centre for Medium-Range Weather Forecasts (ECMWF). It provides hourly estimates of numerous atmospheric, land, and oceanic variables from 1940 to present, at approximately 31 km horizontal resolution. This comprehensive reanalysis combines vast quantities of historical observations with advanced numerical weather prediction models through sophisticated data assimilation techniques, yielding physically consistent and spatially complete reconstructions of past weather and climate conditions globally \citep{Hersbach_2020}. The ERA5 system also produces near-real-time forecasts up to day 10. Table \ref{table:forecasts_types} describes the characteristics of both datasets (e.g., spatial and temporal resolution, run times, and maximum lead time).
 
 \begin{table}[htbp]
 \centering
 \captionof{table}{\textbf{ERA5 reanalysis and forecasts.} The table describes the characteristics of the ERA5 reanalysis and forecasts.}
-\includegraphics[width=\textwidth]{01_forecasts_types.png}
+\includegraphics[width=\textwidth]{forecasts_types.png}
 \label{table:forecasts_types}
 \end{table}
 
-ERA5 reanalysis was used to compute the hydrological and static features used to train the data-driven models developed in Chapters \ref{data_driven_flash_floods_short_medium_range} and \ref{regional_to_global_training} to \textit{identify} areas at risk of flash floods. During the inference stage, ERA5 forecasts up to day 5 served as inputs to the trained data-driven models to \textit{predict} areas at risk of flash floods. From the extensive suite of variables available in ERA5\footnote {The full set of parameters available for ERA5 reanalysis and forecasts can be found in the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper}.}, the subset of dynamic and static parameters listed in Table \ref{table:parameters_used} were considered to compute antecedent soil moisture, orography slope, and vegetation coverage. 
+ERA5 \marginpara{ERA5 variables used to compute data-driven model features to identify and predict areas at risk of flash floods} reanalysis was used to compute the hydrological and static features used to train the data-driven models developed in Chapters \ref{data_driven_flash_floods_short_medium_range} and \ref{regional_to_global_training} to \textit{identify} areas at risk of flash floods. During the inference stage, ERA5 forecasts up to day 5 served as inputs to the trained data-driven models to \textit{predict} areas at risk of flash floods. From the extensive suite of variables available in ERA5\footnote {The full set of parameters available for ERA5 reanalysis and forecasts can be found in the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper}.}, the subset of dynamic and static parameters listed in Table \ref{table:parameters_used} were considered to compute antecedent soil moisture, orography slope, and vegetation coverage. 
 
 \begin{table}[htbp]
 \centering
 \captionof{table}{\textbf{Parameters used from ERA5 and ERA5-ecPoint.} Description of the parameters used to compute the hydrological and static features used in the developed data-driven models to identify and predict areas at risk of flash floods.}
-\includegraphics[width=\textwidth]{02_era5_params.png}
-\label{table:parameters_used}
+\includegraphics[width=\textwidth]{era5_params.png}
+\label{table:era5_params}
 \end{table}
 
 The following sub-sections describe the pre-processing of the raw ERA5 parameters to compute the variables that will be included in the data-driven model.
