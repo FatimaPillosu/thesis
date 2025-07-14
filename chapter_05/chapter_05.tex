@@ -70,39 +70,8 @@ This chapter is organised as follows. Sections \ref{flash_flood_focused_verifica
 
 %%%%%%%%%%%%%%
 \section{Data}
-\label{flash_flood_focused_verification_rainfall_based_ff_DATA}
+\label{flash_flood_focused_verification_rainfall_based_ff_data}
 
-
-\subsection{Study domain}
-
-This research establishes the CONUS as the primary study domain (see Figure \ref{fig:conus_domain}). The CONUS domain presents diverse hydro-meteorological conditions, encompassing varied topographical features ranging from coastal plains to mountainous terrain, and climatic regimes spanning Mediterranean, continental, subtropical, and desert classifications. This diversity encompasses a broad spectrum of flash-flood-generating mechanisms, ranging from intense convective precipitation to rain-on-snow events, thereby enhancing the potential for future transferability to global applications.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[scale=0.65]{conus_domain_orography.png}
-\caption{\textbf{CONUS domain.} The figure shows the orography at 1 km resolution (in shades of green and brown) and the location of the 25 most populated cities (black dots) over the CONUS.}
-\label{fig:conus_domain}
-\end{figure}
-
-\subsection{Observations: NOAA's Storm Event Database}
-\label{flash_flood_focused_verification_rainfall_based_ff_DATA_SED}
-
-The selection of the CONUS as the primary domain also lies on the high quality and comprehensiveness of NOAA's Storm Event Database. This database systematically records flash flood occurrences with high spatial and temporal resolution, including crucial metadata regarding impact severity, affected areas, and casualty information. The database's consistent reporting protocols and rigorous quality control procedures mitigate the observational uncertainty that typically plagues flash flood research \citep{Panwar_2020}.
-
-The Storm Event Database serves as the US's official repository of severe weather records, including flash floods. Flash flood records began in 1996, with significant improvements in geographical precision implemented in 2007, when reporting transitioned from county-level to polygon-based representation, later extended to reports from 2001\footnote{\url{https://inside.nssl.noaa.gov/flash/database/}}.
-
-The database covers the entire United States and territories with a spatial bounding box from 172.0°W to 65.0°E longitude and 18.0°N to 72.0°N latitude\footnote{\url{https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc:C00510}}. Data collection involves a network of 123 Natioanl Weather Service Forecast Offices gathering information from emergency management officials, law enforcement, trained SKYWARN spotters, damage surveys, media reports, and public observations\footnote{\url{https://www.ncdc.noaa.gov/stormevents/faq.jsp}}.
-
-The Storm Event provides extensive metadata for flash flood events. Among all the available keys, we considered in this study only the keys described in Table 3. Although professional meteorologists and hydrologists collect flash flood reports to include in the Severe Storm Database, any human augmented reporting system is subject to variations in population density, diurnal cycles of human activity, and more mundane transcription or memory errors that affect the timing and location of reports \citep{Barthold_2015}. Evidence of these issues has been found in assessments of FFG skill \citep{Clark_2014}, and it has been found that the distribution of SED's flash flood reports is affected by the distribution of human population \cite{Marjerison_2016}. 
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[scale = 0.85]{sed_ff_reports.png}
-\caption{\textbf{Flash flood reports from NOAA's Storm Event Database.} Panel (a) displays the timeseries of flood reports from 1950 to 2024, distinguishing between all flood types (grey bars), only flash floods (dark red bars), and only flash flood reports with latitude/longitude coordinates (bright red bars) for the period 2001-2024. Panel (b) presents the spatial distribution of point flash flood report frequency per grid box for the period 2001-2024, shown as percentages (\%) across four geographical quadrants (North-West (NW, in shades of orange), South-West (SW, in shades of yellow), North-East (NE, in shades of green), South-East (SE, in shades of blue)) of the CONUS. The pie chart indicates the relative proportion of reports by region, with a total of 108,903 flash flood events reported in the considered period. Panel (c) illustrates the daily distribution of flash flood reports throughout 2021, showing both point reports (red bars) and gridded reports (black bars) accumulated over 24-hour periods ending at 00 UTC. The highlighted date with the blue circle (2nd September 2021) corresponds to the flash flood reports recorded during Storm Ida. Panel (d) maps the spatial distribution of flash flood reports, accumulated over the 24-hourly period ending at 00 UTC on 2 September 2021, displaying point reports with red dots and gridded reports with black dots. The zoomed-in box shows the reports recorded on the NE coast during Storm Ida.}
-\label{fig:sed_ff_reports}
-\end{figure}
-
-In this study, we are using version 3.1 of the database, and we consider only reports over the CONUS that go from 2001 to 2024. 
 
 \subsection{Rainfall forecasts: ERA5-ecPoint}
 \label{flash_flood_focused_verification_rainfall_based_ff_DATA_ERA5_ecPoint}
@@ -123,13 +92,13 @@ ecPoint is a decision-tree-based statistical post-processing technique that tran
 \label{fig:prob_tp_exceeding_50rp}
 \end{figure}
 
-Figure \ref{fig:prob_tp_exceeding_1rp} and \ref{fig:prob_tp_exceeding_50rp} show examples of the probabilities of exceeding the 1-year and 50-year return period in ERA5-ecPoint reanalysis and forecasts. It is worth noting that the ecPoint technique does not increase or decrease the probabilities of exceeding a certain threshold everywhere in the same way. In the example shown, the NE coast of the CONUS was affected by Storm Ida (a large-scale convective system). In this case, the probabilities of exceeding the 1-year and the 50-year return periods are uniformly large over a large area, indicating that this event might be fairly widespread. The signal remains fairly strong (with probabilities > 60\%) up to day 5 forecasts, showing a good predictability for this particular system. Over the SW quadrant of the CONUS, we can notice a large "bubbly" area of fairly large (> 20\%). The "bubbly" shape indicates the likelihood of very localised intense rainfall events from a small-scale convective system. The predictability of the event varies with increasing lead times, with the area being affected by intense rainfall decreasing for longer lead times, as well as the probabilities of experiencing intense rainfall. In this case, predicting the correct areas that may experience intense rainfall is more difficult as the predictions vary significantly over time.
+Figure \ref{fig:prob_tp_exceeding_1rp} and \ref{fig:prob_tp_exceeding_50rp} show examples of the probabilities of exceeding the 1-year and 50-year return period in ERA5-ecPoint reanalysis and forecasts. It is worth noting that the ecPoint technique does not increase or decrease the probabilities of exceeding a certain threshold everywhere in the same way. In the example shown, the NE coast of the CONUS was affected by Storm Ida (a large-scale convective system). In this case, the probabilities of exceeding the 1-year and the 50-year return periods are uniformly large over a large area, indicating that this event might be fairly widespread. The signal remains fairly strong (with probabilities > 60\%) up to day 5 forecasts, showing a good predictability for this particular system. Over the SW quadrant of the CONUS, we can notice a large "bubbly" area of fairly large (> 20\%). The "bubbly" shape indicates the likelihood of very localised intense rainfall events from a small-scale convective system. The predictability of the event varies with increasing lead times, with the area being affected by intense rainfall decreasing for longer lead times, as well as the probabilities of experiencing intense rainfall. In this case, predicting the correct areas that may experience intense rainfall is more difficult, as the predictions vary significantly over time.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methods: developing an objective flash-flood-focused 
 verification framework for predictions of areas at risk of flash floods}
-\label{flash_flood_focused_verification_rainfall_based_ff_METHODS}
+\label{flash_flood_focused_verification_rainfall_based_ff_methods}
 
 \begin{figure}[htbp]
 \centering
@@ -141,6 +110,8 @@ verification framework for predictions of areas at risk of flash floods}
 \subsection{Data processing}
 
 \subsubsection{Gridded observational fields}
+\label{flash_flood_focused_verification_rainfall_based_ff_methods_gridded_fields}
+
 
 To assess the predictions of areas at risk of flash floods, these predictions must be compared against ground-truth observations. The objective verification framework proposed in this thesis uses flash flood impact reports as ground truth. As indicated in section \ref{flash_flood_focused_verification_rainfall_based_ff_DATA_SED}, this thesis will focus on the use of the Storm Event Database over the CONUS. Notwithstanding, this method can be applied in other geographical regions where regional databases are available, such as over Europe (using the ESWD dataset) or a global domain (considering global datasets such as EM-DAT or DesInventar), while always acknowledging the biases that such impact databases might have. 
 

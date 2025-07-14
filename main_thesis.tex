@@ -82,15 +82,15 @@ Fatima M. Pillosu \\
 
 The UN's "Early Warning for All" initiative, supported by WMO, prioritises flash floods due to their high mortality rates, widespread exposure, major economic impacts, and climate-driven exacerbation. Global medium-range predictions are essential for protecting vulnerable populations. However, despite recent advances in medium-range numerical weather prediction and hydrological modelling, developing medium-range predictions of areas at risk of flash floods over a continuous global domain remains severely constrained by computational requirements, data availability, and the inherent challenge of predicting localised extreme events.
 
-This thesis aims to develop the first proof-of-concept of medium-range (up to day 5) predictions of areas at risk of flash floods over a continuous global domain. To achieve this goal, three interconnected research objectives are addressed using the Continental United States (CONUS) as the primary study region. The selection of CONUS leverages the Storm Event Database, which provides a comprehensive long-term record of flash flood impact reports essential for robust model development and validation. 
+This thesis aims to develop a first proof-of-concept of medium-range (up to day 5) predictions of areas at risk of flash floods over a continuous global domain. To achieve this goal, three interconnected research objectives are addressed using the Continental United States (CONUS) as the primary study region. The selection of CONUS leverages the Storm Event Database, which provides a comprehensive long-term record of flash flood impact reports essential for robust model development and validation. 
 
-First, a flash-flood-focused verification framework, directly comparing rainfall predictions against impact flash flood reports, is developed. This framework is used throughout the thesis, but it is first used to assess whether rainfall forecasts from global NWP models can identify areas at risk of flash floods up to medium-range lead times. ERA5 reanalysis and forecasts, post-processed with the ecPoint technique, show good reliability and discrimination ability up to day 5. 
+First, a flash-flood-focused verification framework, directly comparing rainfall predictions and flash flood impact reports, is developed. This framework is used throughout the thesis, but it is first used to assess whether rainfall forecasts from global NWP models can identify areas at risk of flash floods up to medium-range lead times. The ERA5 reanalysis and ERA5 forecasts, post-processed with the ecPoint technique, show good reliability and discrimination ability up to day 5. 
 
-Second, multiple data-driven models—including random forest, gradient boosting, and neural networks—are evaluated to determine their capacity to extract predictive signals from severely imbalanced observational datasets. These models integrate hydro-meteorological variables from ERA5 reanalysis and forecasts with flash flood impact reports to identify patterns indicative of flash flood risk. When compared to rainfall-based predictions alone, the data-driven hydro-meteorological predictions demonstrate superior performance while maintaining computational efficiency suitable for operational deployment. Among the tested models, the XGBoost implementation of gradient boosting emerges as the best performer.
+Second, multiple data-driven models—including random forest, gradient boosting, and neural networks—are evaluated to determine their capacity to extract predictive signals using severely imbalanced observational datasets. These models integrate hydro-meteorological variables from the ERA5 reanalysis and forecasts with flash flood impact reports to identify patterns indicative of flash flood risk. When compared to rainfall-based predictions alone, the data-driven hydro-meteorological predictions demonstrate superior performance while maintaining computational efficiency suitable for operational deployment. Among the tested models, the XGBoost implementation of gradient boosting emerges as the best performer.
 
 Third, systematic sensitivity analysis demonstrates that it is possible to deploy such a regionally-trained data-driven model with global hydro-meteorological forecasts to produce medium-range predictions of areas at risk of flash floods over a continuous global domain. 
 
-This research helps to establish methodologies to extract valuable predictive information from limited observational datasets and lower-resolution hydro-meteorological forecasts that enhance preparedness and emergency management strategies, contributing to the UN's "Early Warnings for All" initiative. 
+This research helps to establish methodologies to extract valuable predictive information from limited observational datasets and lower-resolution hydro-meteorological forecasts that could enhance preparedness and emergency management strategies, contributing to the UN's "Early Warnings for All" initiative. 
 
 
 % -------------------------------------------------------------------
@@ -108,7 +108,7 @@ I would first and foremost like to extend my deepest gratitude to my supervisors
 
 I am profoundly indebted to Florian Pappenberger and Tim Hewson, who facilitated my appointment as a graduate trainee at ECMWF nearly a decade ago and cultivated my enthusiasm for flash flood prediction, which ultimately inspired this doctoral research. I particularly acknowledge Ivan, whose lunchtime discussions have provided both cherished friendship and invaluable insights into convection. I am equally grateful to Thomas Haiden and David Richardson for their expert guidance in navigating forecast verification. I extend particular gratitude to Mariana Claire for introducing me to machine learning; this thesis would not have taken its current direction without her invaluable support and guidance. Xavi Abellan and Loriano Pagni deserve particular thanks for their assistance with the technical aspects of this thesis. They always helped me when "the computer said no". I finally want to extend my appreciation to my writing coach, Melanie Smith. As a non-English speaker, I had serious difficulties in structuring complex arguments in English at the beginning of my PhD. Through her assistance, I was able to develop my academic writing skills and enjoy writing as I do in my mother tongue.
 
-I am grateful to numerous colleagues and friends at ECMWF and the University of Reading, including Sinead, Alan, Claudia V., Rebecca, Louise, Esti, Cinzia, Calum, Ervin, David, Fernando, Cihan, Axel, Francesca, Fredrik, Claudia DN., Giacomo, Giovanna, and Laura. Even if they were not directly involved in my thesis, they all helped me to go through the most stressful moments of my PhD through a good laugh or (many) pints of cider.
+I am grateful to numerous colleagues and friends at ECMWF and the University of Reading, including Sinead, Alan, Claudia V., Rebecca, Louise, Esti, Cinzia, Calum, Ervin, David, Fernando, Cihan, Axel, Francesca, Fredrik, Claudia DN., Giacomo, Giovanna, and Laura. Even if they were not directly involved in my thesis, they all helped me to go through the most stressful moments of my PhD through a good laugh or (many) pints of cider. It is true, after all, that it takes a village!
 
 Last but not least, I want to acknowledge the unwavering support of my family: my parents, my sister Claudia, and my brother-in-law Adrian. I would not have arrived at the end of this period without my beloved husband, Tim. I do not only owe you what I know about the clouds, radar, and synoptic maps; you have been my rock in the most challenging moments. Most profoundly, I dedicate this achievement to my daughters, Isabel and Sofia, and to the two I was unable to meet, who have been my greatest source of strength during this transformative period. Despite the demands this journey placed upon our family, your enthusiastic support never wavered.
 
@@ -151,12 +151,12 @@ Last but not least, I want to acknowledge the unwavering support of my family: m
 % \include{chapter_01/chapter_01}       % Chapter 1
 % \include{chapter_02/chapter_02}       % Chapter 2
 % \include{chapter_03/chapter_03}       % Chapter 3
-% \include{chapter_04/chapter_04}       % Chapter 4
+\include{chapter_04/chapter_04}       % Chapter 4
 % \include{chapter_05/chapter_05}       % Chapter 5
 % \include{chapter_06/chapter_06}       % Chapter 6
 % \include{chapter_07/chapter_07}       % Chapter 7
-% \include{chapter_08/chapter_08}       % Chapter 8
-\include{chapter_09/chapter_09}       % Chapter 9
+\include{chapter_08/chapter_08}       % Chapter 8
+% \include{chapter_09/chapter_09}       % Chapter 9
 
 
 % Print the bibliography
