@@ -30,19 +30,11 @@
 \definecolor{colourTest}{HTML}{00B0F0}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\underline{\textbf{Authors' contribution for this chapter:}} Fatima M. Pillosu designed the study, with advice from Mariana Clare, Florian Pappenberger, Hannah Cloke, and Christel Prudhomme, obtained the datasets, carried out the analysis, and led the writing of the manuscript. All authors assisted with writing the manuscript. Overall, 90\% of the writing was undertaken by Fatima M. Pillosu.
-
-\vspace{\baselineskip}
 
 \section*{PREFACE}
 \addcontentsline{toc}{section}{PREFACE}
 
 The second main analysis chapter (Chapter \ref{data_driven_flash_floods_short_medium_range}) develops a data-driven model that integrates multiple hydro-meteorological parameters to enhance the prediction capabilities of areas at risk of flash floods. Building upon the baseline established in Chapter \ref{flash_flood_focused_verification_rainfall_based_ff}, this investigation recognises that whilst rainfall magnitude, duration, and location constitute critical forcing mechanisms, flash flood occurrence emerges from complex interactions between meteorological inputs and catchment characteristics. The methodology incorporates antecedent soil moisture conditions, topographical features, and land cover properties to capture the nonlinear relationships governing flash flood generation, thereby transitioning from purely meteorological prediction towards a comprehensive hydro-meteorological framework. Furthermore, the chapter undertakes a systematic temporal analysis of forecast skill degradation across lead times extending to five days, establishing the practical boundaries within which operational decisions can be reliably supported. This temporal dimension proves essential for delineating the utility of forecasts across different emergency management phases—from immediate response activation at one-day lead times to strategic preparedness measures at extended horizons. Hence, in this chapter, \textcolor{colour_chapter6}{research question 2 (RQ2) "Is it feasible to develop data-driven predictions of areas at risk of flash flood at regional scale using reanalysis hydro-meteorological data and impact flash flood reports, and if so, up to what lead time?"} is answered. The second research component of this thesis is addressed here, i.e., the development of a proof-of-concept reanalysis-based and forecast-based - up to medium-range (day 5) - hydro-meteorological, data-driven predictions of areas at risk of flash floods.
-
-\clearpage
-
-\section*{ABSTRACT}
-\addcontentsline{toc}{section}{ABSTRACT}
 
 \clearpage
 
@@ -62,7 +54,8 @@ This study proposes a data-driven approach to provide probabilities of having a 
 %%%%%%%%%%%%%%
 \section{Data}
 \label{data_driven_flash_floods_short_medium_range_data}
-% To be completed. Leaving last as it is mostly descriptive.
+
+The data used in this chapter has already been presented in Chapter \ref{datasets}. The target variable - i.e., flash flood impact reports from the Storm Event Database - are described in Section \ref{datasets_sed_reports}. The hydrological (antecedent soil moisture), climatological (vegetation coverage), and static (orography slope) feature variables are described in Section \ref{datasets_era5}. Finally, the rainfall variables used for the development of the data-driven models are described in Section \ref{datasets_ecpoint}.
 
 
 %%%%%%%%%%%%%%%%%
@@ -119,10 +112,20 @@ For \marginpara{Standard loss functions for balanced datasets} balanced datasets
 Due \marginpara{Specialised loss functions for imbalanced datasets} to the severe class imbalance inherent in the problem considered in this thesis, the \textit{weighted binary cross-entropy (W-BCE) loss function} is also considered. It assigns differential importance to minority class instances through an optimisable positive class weight parameter (i.e., the class weights are themselves a hyperparameter optimised with Optuna), within the range [1.0, 10.0]. This weighting mechanism compensates for the scarcity of positive examples by increasing their contribution to the overall loss calculation, thereby preventing the model from converging to a trivial solution that simply predicts the majority class, i.e., it penalises misclassifications of rare flash flood events more heavily than false positives. The implementation manifests differently across frameworks: XGBoost and LightGBM utilise the \textit{scale\_pos\_weight} parameter to directly multiply the loss contribution of positive instances, whilst CatBoost employs the \textit{CrossEntropy loss function} with inherent class weighting capabilities. For neural networks, the Keras implementation applies \textit{class weights during batch gradient computation}, effectively rebalancing the optimisation landscape to ensure adequate representation of rare events.
 
 
-\subsection{Verification scores}
+\subsection{Objective verification framework}
 \label{data_driven_flash_floods_short_medium_range_methods_verif_scores}
-%To be completed. Similar to that one in Chapter 5. 
+The objective verification framework used in this study is the same as that considered in Chapter \ref{flash_flood_focused_verification_rainfall_based_ff}. Specifically, the reader is referred to Section \ref{flash_flood_focused_verification_rainfall_based_ff_methods} for a detailed description on how to convert point impact reports into gridded fields and what scores use to evaluate the data-driven predictions. 
 
+Two differences can be highlighted between the objective verification framework considered here. In this chapter, only two return periods were considered to define rainfall severity - the 1-year return period and the 50-year return period. The reason for not considering all the thresholds in the development of the data-driven models is that they were correlated. This was established by computing the heat map of the collinearity for all the rainfall thresholds (not shown). In a preliminary analysis to decide which rainfall thresholds to consider, the pair of 1- and 50-year return periods provided the best results. Thus, they were the thresholds kept in the analysis presented here.
+
+The second difference lies in the inclusion of the precision-recall (PR) curve to complement the analysis on the discrimination ability of data-driven predictions provided by ROC curves. PR curves are shown to be more suitable for verifying data-driven outputs generated with imbalanced training datasets. In meteorology, PR curves are better known as \textit{Performance Diagrams}, and are primarily used for deterministic predictions  A detailed description of the PR curves and their comparison with ROC curves can be found in Section \ref{integrated_experimental_strategy_verification_strategy_proposed_scores}.
+
+Finally, it is worth noting that 99\% confidence intervals were computed via bootstrapping with replacement over 1000 repetitions for all scores. However, the confidence intervals were so small that they were not included in the figures presented in the following section.
+
+
+\subsection{Physical interpretation of the data-driven model outputs: Shapley values}
+
+Shapley values, derived from cooperative game theory, have emerged as a powerful technique for interpreting complex data-driven models by quantifying the contribution of each input feature to individual predictions \citep{Rozemberczki_2022}. Shapley values decompose a model's prediction into additive contributions from each predictor variable, revealing how each model feature - in this case, rainfall, antecedent soil moisture, orography slope, and vegetation coverage - combine to produce the final prediction - i.e., areas at risk of flash floods. This decomposition provides crucial physical insights into the decision-making process of the data-driven model. In this way, the model becomes \textit{interpretable} because it is possible to assess which variable yields the most importance in defining a prediction and how a model feature modulates the impact of another one. Moreover, it is possible to diagnose potential issues where the model may be relying on spurious correlations.  
 
 
 %%%%%%%%%%%%%%%%%
@@ -140,7 +143,7 @@ The \marginpara{Model's hyperparameter optimisation} hyperparameter optimisation
 \label{fig:optuna_history}
 \end{figure}
 
-The \marginpara{Optuna's training times} training times reveal substantial computational differences across model architectures (Figure \ref{fig:optuna_training_time}). Decision-tree-based implementations (except for CatBoost) demonstrate more efficient training times. On average, the training time per outer fold remains between 75 and 100 seconds, with peaks that do not exceed 500 seconds. CatBoost's training times are around 500 seconds per outer fold, with peaks reaching 2000 seconds. The feed-forward neural network exhibits the longest training times among all models, with an average training time of around 2000 seconds and peaks ranging from 4000 to 6000 seconds. These times indicate that it requires \sim20 minutes per outer fold to optimise hyperparameters and train the decision-tree-based models (except for CatBoost), compared to \sim2.5 and \sim8 hours per outer fold, respectively, for CatBoost and the feed-forward neural network. The choice of loss function and evaluation metric shows minimal impact on training duration across all architectures.
+The \marginpara{Optuna's training times} training times show substantial computational differences across model architectures (Figure \ref{fig:optuna_training_time}). Decision-tree-based implementations (except for CatBoost) demonstrate more efficient training times. On average, the training time per outer fold remains between 75 and 100 seconds, with peaks that do not exceed 500 seconds. CatBoost's training times are around 500 seconds per outer fold, with peaks reaching 2000 seconds. The feed-forward neural network exhibits the longest training times among all models, with an average training time of around 2000 seconds and peaks ranging from 4000 to 6000 seconds. These times indicate that it requires \sim20 minutes per outer fold to optimise hyperparameters and train the decision-tree-based models (except for CatBoost), compared to \sim2.5 and \sim8 hours per outer fold, respectively, for CatBoost and the feed-forward neural network. The choice of loss function and evaluation metric shows minimal impact on training duration across all architectures.
 
 \begin{figure}[htbp]
 \centering
@@ -254,6 +257,7 @@ Overall \marginpara{Verification results over reanalysis data: breakdown scores 
 
 
 \subsection{Verification results over forecast data}
+\label{data_driven_flash_floods_short_medium_range_results_forecasts}
 
 The \marginpara{Verification results over forecast data: overall scores (AUC-ROC, AUC-PR, and FB)} area under the ROC curve (AUC-ROC, Figure \ref{fig:verif_long_fc}a) and the area under the precision-recall curve (AUC-PR, Figure \ref{fig:verif_long_fc}b) show a very close performance at day 1 (t+24) to that achieved over the reanalysis data (refer to Figure \ref{fig:verif_training_test_overall}), and it gradually diminishes with increasing lead times. The frequency bias (FB) also slightly deteriorated with increasing lead times, but at day one (t+24), it shows a value that is twice the one obtained for the reanalysis data. 
 
@@ -276,7 +280,7 @@ For the sake of brevity and clarity, the following section will present SHAP-rel
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{shap.png}
-\caption{\textbf{SHAP ((SHapley Additive exPlanations)) values over the \textcolor{colourTest}{verification dataset} for the  XGBoost implementation of gradient boosting (trained with the loss function for balanced data and hyperparameters maximised for AUC-ROC).} Panel (a) shows the global feature importance ranking (most important features in descending order). The meaning of the features indicated in this plot can be found in Table \ref{}. Panels (b) to (d) show the dependency plots between \textit{tp\_prob\_1} and, respectively, \textit{lai}, \textit{sdfor}, and \textit{swvl}. Panels (e) to (g) show the same, but for \textit{tp\_prob\_50.}}
+\caption{\textbf{SHAP ((SHapley Additive exPlanations)) values over the \textcolor{colourTest}{verification dataset} for the  XGBoost implementation of gradient boosting (trained with the loss function for balanced data and hyperparameters maximised for AUC-ROC).} Panel (a) shows the global feature importance ranking (most important features in descending order). Panels (b) to (d) show the dependency plots between \textit{tp\_prob\_1} and, respectively, \textit{lai}, \textit{sdfor}, and \textit{swvl}. Panels (e) to (g) show the same, but for \textit{tp\_prob\_50.}}
 \label{fig:shap}
 \end{figure}
 
@@ -289,7 +293,7 @@ The \marginpara{Physical interpretation of model behaviour with SHAP: dependency
 \section{Case Study: Storm Ida}
 \label{flash_flood_focused_verification_rainfall_based_ff_CASE_STUDY}
 
-Storm Ida formed as a tropical storm on 23 August 2021 in the Caribbean, rapidly intensifying to a Category 4 hurricane before making landfall in Louisiana on 29 August. The storm produced catastrophic rainfall across the Gulf Coast states and, after transitioning to an extratropical system, triggered unprecedented flooding from Pennsylvania to New York. Maximum rainfall totals exceeded 15 inches in Louisiana and 10 inches in the Northeast, with New York City recording 3.15 inches in one hour. The storm caused 96 fatalities and \$75 billion in damages. For comprehensive details on Ida's synoptic history, rainfall patterns, and impacts, please refer to Section \ref{flash_flood_focused_verification_rainfall_based_ff_CASE_STUDY} in Chapter \ref{flash_flood_focused_verification_rainfall_based_ff}.
+For comprehensive details on Ida's synoptic history, rainfall patterns, and impacts, please refer to Section \ref{datasets_case_study} in Chapter \ref{datasets}.
 
 \begin{figure}[htbp]
 \centering
@@ -298,6 +302,7 @@ Storm Ida formed as a tropical storm on 23 August 2021 in the Caribbean, rapidly
 \label{fig:case_study_poff}
 \end{figure}
 
+The model used for the case study is the same as that used in Sections \ref{data_driven_flash_floods_short_medium_range_results_forecasts} and \ref{data_driven_flash_floods_short_medium_range_physical_interpretation}. 
 Figure \ref{fig:case_study_poff} illustrates the estimates of areas at risk of flash flood with reanalysis data (Figure \ref{fig:case_study_poff}a) and the evolution of the predictions up to day 5 forecasts (Figures \ref{fig:case_study_poff}b-f). Two different events are highlighted: one due to small convective systems (with the brown circle in Figure \ref{fig:case_study_poff}a) and one due to a large convective system, i.e. Storm Ida (with the brown green circle). The estimates of areas at risk of flash floods, computed using the reanalysis data, can identify the areas where flash floods were reported in the Storm Event Database. The areas at risk of flash floods affected by the large-scale system exhibit high probabilities of experiencing a flash flood (>10\%), and these probabilities are consistently maintained up to medium-range predictions. On the contrary, over the area affected by the small convective system, the probabilities of experiencing a flash flood are much smaller (on average between 1 and 3\%) and more scattered. The signal for the overall area affected can be seen from day 3 (t+72).
 
 %%%%%%%%%%%%%%%%%%%%%
