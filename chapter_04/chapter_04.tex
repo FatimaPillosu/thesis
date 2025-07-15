@@ -127,12 +127,12 @@ Figure \ref{fig:percentage_soil_maximum_saturation} shows an example for the per
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{percentage_soil_maximum_saturation.png}
-\caption{\textbf{Example of the percentage of soil saturation for the valid time (VT) corresponding to 2021-09-01 at 00 UTC} Panel (a) shows the percentage of soil saturation in ERA5 reanalysis computed on 2021-08-31 at 18 UTC (t+6). Panels (b) to (f) show ERA5's forecasts computed, respectively, on 2021-08-31 at 00 UTC (t+24) - day 1, 2021-08-30 at 00 UTC (t+48) - day 2, 2021-08-29 at 00 UTC (t+72) - day 3, 2021-08-28 at 00 UTC (t+96) - day 4, and 2021-08-27 at 00 UTC (t+120) - day 5.}
+\caption{\textbf{Percentage (\%) of maximum soil saturation for the valid time (VT) corresponding to 2021-09-01 at 00 UTC} Panel (a) shows the percentage of soil saturation in ERA5 reanalysis computed on 2021-08-31 at 18 UTC (t+6). Panels (b) to (f) show ERA5's forecasts computed, respectively, on 2021-08-31 at 00 UTC (t+24) - day 1, 2021-08-30 at 00 UTC (t+48) - day 2, 2021-08-29 at 00 UTC (t+72) - day 3, 2021-08-28 at 00 UTC (t+96) - day 4, and 2021-08-27 at 00 UTC (t+120) - day 5.}
 \label{fig:percentage_soil_maximum_saturation}
 \end{figure}
 
 
-\subsection{Parameters to represent orography}
+\subsection{Orography slope}
 
 \begin{figure}[htbp]
 \centering
@@ -142,14 +142,22 @@ Figure \ref{fig:percentage_soil_maximum_saturation} shows an example for the per
 \end{figure}
 
 
-\subsection{Vegetation}
+\subsection{Vegetation coverage}
 
-The leaf area index (LAI) is obtained from the ERA5 monthly averaged data on single levels. It is obtained by combining the variables called “leaf area index, high vegetation” and “leaf area index, low vegetation” on a per-grid-cell basis using the fractions of high and low vegetation prescribed in the model, respectively known as high vegetation cover and low vegetation cover.
+The leaf area index is a parameter that describes land surface vegetation\footnote{https://confluence.ecmwf.int/display/FUG/Section+2.1.4.7+Modelling+vegetation.+Leaf+area+index}. It corresponds to a non-dimensional number representing the square metres of leaf area per square metre of the earth's surface. The leaf area index has a value of 0 over bare ground or where there are no leaves, and it grows as the vegetation coverage increases, typically up to values equal to 7. It is worth noting that the leaf area index in ERA5, as in the ECMWF IFS, varies only with climatology, month by month, and anomalous weather (e.g. winds stripping leaves from trees or widespread fire damage) has no effect on its value. The leaf area index is calculated using the following formula:
+
+\[
+\text{LAI}_{\text{total}} = 
+(\text{LAI}_{\text{high}} \times \text{Cover}_{\text{high}}) + 
+(\text{LAI}_{\text{low}} \times \text{Cover}_{\text{low}})
+\]
+
+An example for the leaf area index values over the CONUS, during the four seasons, is shown in Figure \ref{fig:lai}. 
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{lai.png}
-\caption{\textbf{Climatological variable to represent the vegetation coverage.} Panels (a) to (d) show the map plots for the leaf area index in ERA5, respectively, for a day in mid-winter (15th of January), mid-spring (15th of April), mid-summer (15th of July), and mid-autumn (15th of October).}
+\caption{\textbf{Leaf area index (climatological field).} Panels (a) to (d) show examples of leaf area index values in ERA5, respectively, for a day in mid-winter (15th of January), mid-spring (15th of April), mid-summer (15th of July), and mid-autumn (15th of October).}
 \label{fig:lai}
 \end{figure}
 
