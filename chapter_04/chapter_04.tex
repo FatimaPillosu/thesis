@@ -166,14 +166,11 @@ An example of the leaf area index values over the CONUS, during the four seasons
 \end{figure}
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Post-processed rainfall data}
-\label{ecpoint_rainfall}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Post-processed ERA5 rainfall: ecPoint}
+\label{datasets_ecpoint}
 
 While ERA5 provides a comprehensive suite of hydro-meteorological variables, its native precipitation output exhibits known limitations in representing rainfall's sub-grid variability and can underestimate rainfall peaks - which are crucial in flash flood prediction. To address this limitation, this study employs ERA5-ecPoint, i.e., the post-processed version of ERA5 rainfall reanalysis and forecasts with the ECMWF's ecPoint technique.
-
-ecPoint \marginpara{The ecPoint post-processing method} is a decision-tree-based statistical post-processing technique that transforms global grid-based forecasts into probabilistic point-scale forecasts \citep{Hewson_2021}. The post-processing technique aims to provide forecasts that mirror observations from rain gauges by addressing the two main factors affecting the performance of global NWP model outputs against point verification: systematic biases \citep{Lavers_2021} and lack of information on forecast sub-grid variability \citep{Göber_2008}. For each deterministic realisation or raw ensemble member of a probabilistic system, ecPoint generates an ensemble of X (e.g., 100) point-rainfall values based on the error distributions between forecasts and observations that vary according to different weather scenarios at the grid-box level. For example, when the model is on a grid-box, it primarily predicts large-scale rainfall with light winds. The raw model output tends to be representative of point rainfall totals within that grid-box, and ecPoint generates an ensemble with a smaller spread compared to the case of mainly convective rainfall with light winds. In the latter case, many points within the grid-box are expected to show zero rainfall, while large rainfall amounts may be observed at a few data points. The deterministic realisations of ERA5 reanalysis and forecasts were post-processed, creating a distribution of 100 point-rainfall totals, and distilled in 99 percentiles from 1st to 99th. ecPoint reanalysis and forecasts are provided in the same native grid of ERA5 (reduced Gaussian grid N320, \sim31 km), with forecasts up to day 5, and accumulation periods ending at 00 UTC.
 
 \begin{figure}[htbp]
 \centering
@@ -189,47 +186,6 @@ ecPoint \marginpara{The ecPoint post-processing method} is a decision-tree-based
 \label{fig:prob_tp_exceeding_50rp}
 \end{figure}
 
-Figure \ref{fig:prob_tp_exceeding_1rp} and \ref{fig:prob_tp_exceeding_50rp} show examples of the probabilities of exceeding the 1-year and 50-year return period in ERA5-ecPoint reanalysis and forecasts. It is worth noting that the ecPoint technique does not increase or decrease the probabilities of exceeding a certain threshold everywhere in the same way. In the example shown, the NE coast of the CONUS was affected by Storm Ida (a large-scale convective system). In this case, the probabilities of exceeding the 1-year and the 50-year return periods are uniformly large over a large area, indicating that this event might be fairly widespread. The signal remains fairly strong (with probabilities > 60\%) up to day 5 forecasts, showing a good predictability for this particular system. Over the SW quadrant of the CONUS, we can notice a large "bubbly" area of fairly large (> 20\%). The "bubbly" shape indicates the likelihood of very localised intense rainfall events from a small-scale convective system. The predictability of the event varies with increasing lead times, with the area being affected by intense rainfall decreasing for longer lead times, as well as the probabilities of experiencing intense rainfall. In this case, predicting the correct areas that may experience intense rainfall is more difficult, as the predictions vary significantly over time.
+ecPoint \marginpara{General description of the ecPoint post-processing method} is a decision-tree-based statistical post-processing technique that transforms global grid-based forecasts into probabilistic point-scale forecasts \citep{Hewson_2021}. The post-processing technique aims to provide forecasts that mirror observations from rain gauges by addressing the two main factors affecting the performance of global NWP model outputs against point verification: systematic biases \citep{Lavers_2021} and lack of information on forecast sub-grid variability \citep{Göber_2008}. For each deterministic realisation or raw ensemble member of a probabilistic system, ecPoint generates an ensemble of X (e.g., 100) point-rainfall values based on the error distributions between forecasts and observations that vary according to different weather scenarios at the grid-box level. For example, when the model is on a grid-box, it primarily predicts large-scale rainfall with light winds. The raw model output tends to be representative of point rainfall totals within that grid-box, and ecPoint generates an ensemble with a smaller spread compared to the case of mainly convective rainfall with light winds. In the latter case, many points within the grid-box are expected to show zero rainfall, while large rainfall amounts may be observed at a few data points. The deterministic realisations of ERA5 reanalysis and forecasts were post-processed, creating a distribution of 100 point-rainfall totals, and distilled in 99 percentiles from 1st to 99th. ecPoint reanalysis and forecasts are provided in the same native grid of ERA5 (reduced Gaussian grid N320, \sim31 km), with forecasts up to day 5, and accumulation periods ending at 00 UTC.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Summary and recommendations}
-
-\subsubsection{Dataset Summary}
-
-\subsubsection{Data Gaps and Limitations}
-
-\subsubsection{Future Recommendations}
+Figure \marginpara{ecPoint: example for the probabilities of rainfall exceeding the 1-year and 50-year return period} \ref{fig:prob_tp_exceeding_1rp} and \ref{fig:prob_tp_exceeding_50rp} show examples of the probabilities of exceeding the 1-year and 50-year return period in ERA5-ecPoint reanalysis and forecasts. It is worth noting that the ecPoint technique does not increase or decrease the probabilities of exceeding a certain threshold everywhere in the same way. In the example shown, the NE coast of the CONUS was affected by Storm Ida (a large-scale convective system). In this case, the probabilities of exceeding the 1-year and the 50-year return periods are uniformly large over a large area, indicating that this event might be fairly widespread. The signal remains fairly strong (with probabilities > 60\%) up to day 5 forecasts, showing a good predictability for this particular system. Over the SW quadrant of the CONUS, we can notice a large "bubbly" area of fairly large (> 20\%). The "bubbly" shape indicates the likelihood of very localised intense rainfall events from a small-scale convective system. The predictability of the event varies with increasing lead times, with the area being affected by intense rainfall decreasing for longer lead times, as well as the probabilities of experiencing intense rainfall. In this case, predicting the correct areas that may experience intense rainfall is more difficult, as the predictions vary significantly over time.
