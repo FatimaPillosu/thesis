@@ -15,10 +15,15 @@ The development of (data-driven) models for the prediction of areas at risk of f
 This research establishes the CONUS as the primary study domain for the flash-flood-focused rainfall verification, data-driven model development, and sensitivity analysis for the global extension of the regionally-trained models (Figure \ref{fig:conus_domain}). 
 
 \begin{figure}[htbp]
+\begin{adjustwidth*}{-3.6cm}{-4.4cm}
+\begin{minipage}{16cm}
 \centering
-\includegraphics[scale=0.65]{conus_domain_orography.png}
+\includegraphics[width=\textwidth]{conus_domain_orography.png}
+\captionsetup{width=16cm, justification=Justified}
 \caption{\textbf{CONUS domain.} The figure shows the orography at 1 km resolution (in shades of green and brown) and the location of the 25 most populated cities (black dots) over the CONUS.}
 \label{fig:conus_domain}
+\end{minipage}
+\end{adjustwidth*}
 \end{figure}
 
 The \marginpara{CONUS primary study domain: justification based on observational data availability} selection of this geographical region is methodologically justified on several grounds. Foremost is the higher quality and comprehensiveness of the Storm Event Database maintained by the National Oceanic and Atmospheric Administration (NOAA). The high spatial and temporal resolution of the events reported, the consistent reporting protocols, and the rigorous quality control procedures adopted to populate this regional database mitigate the high data uncertainty and events underreporting that plagues global databases \citep{Panwar_2020, Gaume_2009}. A detailed description of the Storm Event Database is provided in Section \ref{datasets_sed_reports}.
@@ -83,9 +88,9 @@ ERA5 \marginpara{ERA5 variables used to compute data-driven model features to id
 The following sub-sections describe the pre-processing of the raw ERA5 parameters to compute the variables that will be included in the data-driven model.
 
 
-\subsection{Antecedent soil moisture}
+\subsection{Parameter representing antecedent soil moisture}
 
-To \marginpara{ Percentage of soil maximum saturation (representing antecedent soil moisture): general description} estimate the antecedent soil moisture, this study considers the percentage of soil maximum saturation in the top 1 m layer of soil, 24 hours prior to a flash-flood-triggering rainfall event. The percentage of soil maximum saturation in the top 1 m of soil is computed considering the pre-established values of maximum soil saturation for different types of soil, and integrating those over layers 1, 2, and 3 of the volumetric soil water. Table \ref{table:max_saturation} shows the pre-defined values of maximum soil saturation used at ECMWF for different types of soil \citep{Balsamo_2009}:
+To \marginpara{ Percentage of soil maximum saturation (representing antecedent soil moisture): general description} estimate the antecedent soil moisture, this study considers the percentage of soil maximum saturation in the top 1 metre layer of soil, 24 hours prior to a flash-flood-triggering rainfall event. This 1 metre depth corresponds to the active "root zone" represented by the first three layers of the ECMWF's IFS land surface scheme, defined as Layer 1, between 0 and 7 cm, Layer 2, between 7 and 28 cm, and Layer 3, between 28 to 100 cm \citep{ECMWF_2016}. Table \ref{table:max_saturation} shows the pre-defined values of maximum soil saturation used at ECMWF for different types of soil \citep{Balsamo_2009}:
 
 \begin{table}[htbp]
 \centering
@@ -94,7 +99,7 @@ To \marginpara{ Percentage of soil maximum saturation (representing antecedent s
 \label{table:max_saturation}
 \end{table}
 
-Equations \ref{eq:max_sat_field} and \ref{eq:indicator} show how the fields containing the percentage of soil saturation were computed. 
+Equations \ref{eq:max_sat_field} and \ref{eq:indicator} show how the fields containing the percentage of soil saturation were computed:
 
 \begin{align}
 \text{max\_sat\_field}
@@ -109,37 +114,41 @@ Equations \ref{eq:max_sat_field} and \ref{eq:indicator} show how the fields cont
     \label{eq:indicator}
 \end{align}
 
-where, N goes from 1 to 7, and it represents the soil type codes.
+where, N goes from 1 to 7, and it represents the soil type codes. Each grid box is assigned a single, dominant soil type. The indicator function $\mathbf{1}_{\{s=c_i\}}$ acts as a binary filter: it returns 1 only when the grid box's soil type $s$ matches a specific category $c_i$; it returns 0 otherwise.
 
-Equation \ref{eq:swvl} computes the soil water content over the top 1m layer of the soil:
+Equation \ref{eq:swvl} computes the soil water content over the top 1 metre layer of the soil:
 
 \begin{equation}
 \label{eq:swvl}
 \text{swvl} = \sum_{j=1}^{M} \text{swvl}_{j}\, \text{depth}_{j}
 \end{equation}
 
-where, M goes from 1 to 3, and it represents the soil layers.
+where M goes from 1 to 3 (i.e., the three soil layers). The percentage of the soil maximum saturation is considered a dynamic field because the values of \textit{swvl} for the three soil layers change at every reanalysis and forecasts run\footnote{To know how to retrieve the fields for swvl, please, refer to the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper} .}.
 
-Equation \ref{eq:swvl_perc} computes the percentage of soil saturation as follows:
+Finally, the equation \ref{eq:swvl_perc} computes the percentage of soil saturation as follows:
 
 \begin{equation}
 \label{eq:swvl_perc}
 \text{swvl\_perc} = \frac{\text{swvl}}{\text{max\_sat\_field}}
 \end{equation}
 
-Figure \ref{fig:percentage_soil_maximum_saturation} shows an example for the percentage of soil saturation.
-
 \begin{figure}[htbp]
+\begin{adjustwidth*}{-1cm}{-4cm}
+\begin{minipage}{16cm}
 \centering
-\includegraphics[width=\textwidth]{percentage_soil_maximum_saturation.png}
+\includegraphics[width=16cm]{percentage_soil_maximum_saturation.png}
+\captionsetup{width=16cm, justification=Justified}
 \caption{\textbf{Percentage (\%) of maximum soil saturation for the valid time (VT) corresponding to 2021-09-01 at 00 UTC} Panel (a) shows the percentage of soil saturation in ERA5 reanalysis computed on 2021-08-31 at 18 UTC (t+6). Panels (b) to (f) show ERA5's forecasts computed, respectively, on 2021-08-31 at 00 UTC (t+24) - day 1, 2021-08-30 at 00 UTC (t+48) - day 2, 2021-08-29 at 00 UTC (t+72) - day 3, 2021-08-28 at 00 UTC (t+96) - day 4, and 2021-08-27 at 00 UTC (t+120) - day 5.}
 \label{fig:percentage_soil_maximum_saturation}
+\end{minipage}
+\end{adjustwidth*}
 \end{figure}
 
+Figure \marginpara{} \ref{fig:percentage_soil_maximum_saturation} illustrates the spatial distribution of the percentage of soil maximum saturation across the CONUS for the valid time of September 1, 2021, at 00 UTC. Panel (a) presents the reference state derived from ERA5 reanalysis. Panels (b) to (f) display ERA5 forecasts for the same valid time but for different lead times, from t+24 (day 1) to t+120 (day 5). The colour scale indicates soil wetness, with warm colours (brown/yellow) representing dry conditions and cool colours (green/blue) indicating higher saturation. Heavy rainfall from Storm Ida, over the preceding days, caused a distinct area of near-total saturation (approaching 100\%) in the southeastern CONUS. The figure demonstrates the model's ability to capture this saturation pattern up to five days in advance, as the forecast fields remain visually consistent with the reanalysis.
 
-\subsection{Orography slope}
+\subsection{Parameter to represent orographic steepness}
 
-The \marginpara{Standard deviation of the filtered sub-grid orography (representing orography slope): general description} standard deviation of the filtered sub-grid orography is a static, time-invariant field, representing the statistical variability of terrain elevation at higher spatial resolution (typically at 1 km) than the model grid resolution (for ERA5, \sim31 km). It serves as a fundamental component for parametrising unresolved topographic effects in both atmospheric and hydrological modelling. The parameter is expressed in metres. In regions with high values of this parameter (typically above 100-500 meters), the parameter indicates significant topographic heterogeneity within model grid-boxes, representing the presence of valleys, ridges, peaks, and other terrain features that cannot be explicitly resolved.
+This study \marginpara{Standard deviation of the filtered sub-grid orography (representing orography slope): general description} standard deviation of the filtered sub-grid orography is a static, time-invariant field, representing the statistical variability of terrain elevation at higher spatial resolution (typically at 1 km) than the model grid resolution (for ERA5, \sim31 km). It serves as a fundamental component for parametrising unresolved topographic effects in both atmospheric and hydrological modelling. The parameter is expressed in metres. In regions with high values of this parameter (typically above 100-500 meters), the parameter indicates significant topographic heterogeneity within model grid-boxes, representing the presence of valleys, ridges, peaks, and other terrain features that cannot be explicitly resolved.
 
 An example of the standard deviation of the filtered sub-grid orography values over the CONUS is shown in Figure \ref{fig:std_dev_filtered_orog}. 
 
