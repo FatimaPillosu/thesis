@@ -188,66 +188,25 @@ An \marginpara{Seasonal evolution of the LAI values, reflecting the climatologic
 \section{ERA5-ecPoint: the post-processed ERA5 rainfall with the ecPoint post-processing technique}
 \label{datasets_ecpoint}
 
-ERA5's \marginpara{Limitations of ERA5's raw rainfall estimates (reanalysis or forecasts) in the prediction of flash-flood-triggering rainfall events} raw rainfall estimates (reanalysis or forecasts) exhibit known limitations in representing rainfall extremes, which are detrimental for the correct prediction of flash flood events. As any other gridded model output, ERA5 provides a rainfall estimate that represents the average of point values over the grid-box area. This averaging inevitably smooths the localised, high-intensity rainfall peaks, which are the primary drivers of flash floods. To address this structural limitation of the raw ERA5 rainfall estimates, this study employs ERA5-ecPoint, the post-processed version of ERA5 rainfall reanalysis and forecasts with the ecPoint statistical post-processing \citep{Hewson_2021}. By applying ecPoint to the grid-box averaged ERA5's rainfall estimates, we constructed the probabilistic distribution of point-scale rainfall estimates within each grid-box, which verifies better against rain-gauge observations, especially in the case of extremes \citep{Pillosu_2025a}.
+ERA5's \marginpara{Limitations of ERA5's raw rainfall estimates (reanalysis or forecasts) in the prediction of flash-flood-triggering rainfall events} raw rainfall estimates (reanalysis or forecasts) exhibit known limitations in representing rainfall extremes, which are detrimental for the correct prediction of flash flood events. As any other gridded model output, ERA5 provides a rainfall estimate that represents the average of point values over the grid-box area. This averaging inevitably smooths the localised, high-intensity rainfall peaks, which are the primary drivers of flash floods.
 
-ecPoint \marginpara{The ecPoint post-processing technique} is a statistical post-processing technique that transforms global gridded NWP outputs into probabilistic point-scale forecasts \citep{Hewson2021}. The post-processing technique aims to provide post-processed forecasts that mirror observations from rain gauges by addressing the two main factors affecting the performance of global NWP model outputs against point verification: systematic biases \citep{Lavers2021} and lack of representation of sub-grid variability \citep{Gober2008}. The errors between global gridded rainfall forecasts (i.e., up to t+30, control run) and point-rainfall observations (i.e., rain gauges) are computed for a one-year calibration period. The error computed for accumulated variables, like rainfall, is the Forecast Error Ratio (FER), whose formulation is shown in
-Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{a}). The error distribution is named Mapping Function (MF), and its shape is linked to the degree of sub-grid variability and biases at grid scale in the raw forecasts. The MF for all data points in the calibration period is also shown in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{a}, and it shows that ENS both overestimates (green bars) and underestimates (yellow and red bars) versus gage reports. The white bar indicates that only \textasciitilde15\% of the point-rainfall observations were correctly predicted. The MF shape can significantly change according to different weather scenarios at grid-scale (called Grid-box Weather Type, G-WT). The multiple MFs can be visualised with a decision-tree-like representation, where each leaf of the decision tree corresponds to a G-WT and its corresponding MF (Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{b}). When for a grid-box, the raw ENS predicts high totals of mainly large-scale rainfall and strong steering wind speeds (case A in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{b}), the MF takes a Gaussian-like form. This means the raw model output is relatively representative of the point-scale rainfall totals. When the raw ENS predicts mainly convective rainfall with light steering wind speeds (case B in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{b}), the MF might take an exponential-like form. This means that the raw model output is not representative of the point-scale rainfall totals and that the expected degree of sub-grid variability is bigger than in case A. Each raw forecast is converted into a distribution of N point-scale forecasts using the MFs (for example, operationally, for each raw ensemble member, N=100 point-scale forecasts are created).
+\begin{figure}[htbp]
+\begin{adjustwidth*}{-3.6cm}{-4.4cm}
+\begin{minipage}{16cm}
+\centering
+\includegraphics[width=14.5cm]{chapter_04/figures/ecpoint_mapping_function_decision_tree.png}
+\captionsetup{width=16cm, justification=Justified}
+\caption{\textbf{Graphical representation of univariate and multivariate approach for ecPoint.} Panel (a) shows the error formulation for accumulated variables (Forecast Error Ratio, FER) and the error distribution for all cases in the training dataset (Mapping Function, MF). The example pertains to the calibration of 47r3 ECMWF ensemble forecasts for 12-hourly rainfall forecasts. Panel (b) shows the univariate approach for ecPoint (U-ecPoint) represented as a ”single-leaf” decision tree (DT, within the black circle), while the multivariate approach (M-ecPoint) is represented as a ”multiple-leaf” DT (within the grey square).}
+\label{fig:ecpoint_mapping_function_decision_tree}
+\end{minipage}
+\end{adjustwidth*}
+\end{figure}
 
-Suppose all grid-boxes in the raw forecasts were post-processed by sampling only the MF in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{a} (i.e., MF within the black circle at the top of the decision tree in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{b}), the ecPoint post-processing would be following a univariate approach (U-ecPoint). This approach can be represented by a single-leaf decision tree. U-ecPoint generally increases the number of zeros in the distribution of point-rainfall forecasts to correct ENS's tendency to overpredict small rainfall totals \citep{Haiden2023}, as well as generally increasing the amounts in the wet tail of the rainfall distribution to correct for ENS underestimation of high rainfall values \citep{Haiden2023}. 
+ecPoint \marginpara{Description of the ecPoint post-processing technique} is a statistical post-processing technique that transforms global gridded NWP outputs into probabilistic point-scale forecasts \citep{Hewson2021}. The post-processing technique aims to provide post-processed forecasts that mirror observations from rain gauges by addressing the two main factors affecting the performance of global NWP model outputs against point verification: systematic biases \citep{Lavers2021} and lack of representation of sub-grid variability \citep{Gober2008}. The errors between global gridded rainfall forecasts (i.e., up to t+30, control run) and point-rainfall observations (i.e., rain gauges) are computed for a one-year calibration period. The error computed for accumulated variables, like rainfall, is the Forecast Error Ratio (FER), whose formulation is shown in Figure \ref{fig:ecpoint_mapping_function_decision_tree}a. The error distribution is named Mapping Function (MF), and its shape is linked to the degree of sub-grid variability and biases at grid scale in the raw forecasts. The MF for all data points in the calibration period is also shown in Figure \ref{fig:ecpoint_mapping_function_decision_tree}a, and it shows that ECMWF's ENS both overestimates (green bars) and underestimates (yellow and red bars) versus gage reports. The white bar indicates that only \textasciitilde15\% of the point-rainfall observations were correctly predicted. The MF shape can significantly change according to different weather scenarios at grid-scale (called Grid-box Weather Type, G-WT). The multiple MFs can be visualised with a decision-tree-like representation, where each leaf of the decision tree corresponds to a G-WT and its corresponding MF (Figure \ref{fig:ecpoint_mapping_function_decision_tree}b. When for a grid-box, the raw ENS predicts high totals of mainly large-scale rainfall and strong steering wind speeds (case A in Figure \ref{fig:ecpoint_mapping_function_decision_tree}b), the MF takes a Gaussian-like form. This means the raw model output is relatively representative of the point-scale rainfall totals. When the raw ENS predicts mainly convective rainfall with light steering wind speeds (case B in Figure \ref{fig:ecpoint_mapping_function_decision_tree}b), the MF might take an exponential-like form. This means that the raw model output is not representative of the point-scale rainfall totals and that the expected degree of sub-grid variability is bigger than in case A. Each raw forecast is converted into a distribution of N point-scale forecasts using the MFs (for example, operationally, for each raw ensemble member, N=100 point-scale forecasts are created).
 
-When each grid-box in the raw forecast is post-processed differently by using the MF corresponding to the matching G-WT in the decision tree (within the grey square in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{b}), the ecPoint post-processing would be following a multivariate approach (M-ecPoint). M-ecPoint can be seen as a multiple-leaf decision tree, and it corresponds to the original ecPoint system \citep{Hewson2021}. While M-ecPoint increases overall the frequency of small and large rainfall totals in the post-processed forecasts as U-ecPoint does, its adjustments are applied according to the different G-WTs. \cite{Hewson2021} have shown that, due to the G-WT differentiation in the corrections, one of M-ecPoint's features is the ability to shift the location of areas at higher risk of extreme localised rainfall. This feature in U-ecPoint is lost as all grid-boxes are post-processed identically. Figures \ref{fig:02_Data_Example_FC}\hyperref[fig:02_Data_Example_FC]{a-c} show how different the forecast probabilities of exceeding 10 mm/12h can be across the three forecast outputs. Probabilities for ENS (Figure \ref{fig:02_Data_Example_FC}\hyperref[fig:02_Data_Example_FC]{a}) are mostly reduced by U-ecPoint (Figure \ref{fig:02_Data_Example_FC}\hyperref[fig:02_Data_Example_FC]{b}) and M-ecPoint (Figure \ref{fig:02_Data_Example_FC}\hyperref[fig:02_Data_Example_FC]{c}). However, M-ecPoint reduces the probabilities at certain locations more than U-ecPoint; this relates to the fact that corrections are applied differently across the ensemble members rather than uniformly, as done by U-ecPoint.
+Suppose all grid-boxes in the raw forecasts were post-processed by sampling only the MF in Figure \ref{fig:ecpoint_mapping_function_decision_tree}a (i.e., MF within the black circle at the top of the decision tree in Figure \ref{fig:ecpoint_mapping_function_decision_tree}b), the ecPoint post-processing would follow a univariate approach (U-ecPoint). This approach can be represented by a single-leaf decision tree. U-ecPoint generally increases the number of zeros in the distribution of point-rainfall forecasts to correct ENS's tendency to overpredict small rainfall totals \citep{Haiden_2023}, as well as generally increasing the amounts in the wet tail of the rainfall distribution to correct for ENS underestimation of high rainfall values \citep{Haiden_2023}. 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-ecPoint is a decision-tree-based statistical post-processing technique that transforms global grid-based forecasts into probabilistic point-scale forecasts \citep{Hewson_2021}. The post-processing technique aims to provide forecasts that mirror observations from rain gauges by addressing the two main factors affecting the performance of global NWP model outputs against point verification: systematic biases \citep{Lavers_2021} and lack of information on forecast sub-grid variability \citep{Göber_2008}. For each deterministic realisation or raw ensemble member of a probabilistic system, ecPoint generates an ensemble of X (e.g., 100) point-rainfall values based on the error distributions between forecasts and observations that vary according to different weather scenarios at the grid-box level. For example, when the model is on a grid-box, it primarily predicts large-scale rainfall with light winds. The raw model output tends to be representative of point rainfall totals within that grid-box, and ecPoint generates an ensemble with a smaller spread compared to the case of mainly convective rainfall with light winds. In the latter case, many points within the grid-box are expected to show zero rainfall, while large rainfall amounts may be observed at a few data points. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+When each grid-box in the raw forecast is post-processed differently by using the MF corresponding to the matching G-WT in the decision tree (within the grey square in Figure \ref{fig:ecpoint_mapping_function_decision_tree}b), the ecPoint post-processing follows a multivariate approach (M-ecPoint). M-ecPoint can be seen as a multiple-leaf decision tree, and it corresponds to the original ecPoint system \citep{Hewson_2021}. While M-ecPoint increases overall the frequency of small and large rainfall totals in the post-processed forecasts, as U-ecPoint does, its adjustments are applied according to different G-WTs. \cite{Hewson_2021} have shown that, due to the G-WT differentiation in the corrections, one of M-ecPoint's features is the ability to shift the location of areas at higher risk of extreme localised rainfall. This feature in U-ecPoint is lost as all grid-boxes are post-processed identically \citep{Pillosu_2025}. M-ecPoint reduces the probabilities at certain locations more than U-ecPoint; this relates to the fact that corrections are applied differently across the ensemble members rather than uniformly, as done by U-ecPoint.
 
 \begin{figure}[htbp]
 \centering
@@ -255,8 +214,6 @@ ecPoint is a decision-tree-based statistical post-processing technique that tran
 \caption{\textbf{Probability (\%) of exceeding the 1-year return period in ERA5-ecPoint.} Panel (a) displays probabilities in ERA5-ecPoint reanalysis for the valid time (VT) ending on 2021-09-02 at 00 UTC. Panels (b) to (f) represent the probabilities in ERA5-ecPoint forecasts for the same VT, but for forecasts at day 1 (t+0,t+24), day 2 (t+24,t+48), day 3 (t+48,t+72), day 4 (t+72,t+96), and day 5 (t+96,t+120), respectively.}
 \label{fig:prob_tp_exceeding_1rp}
 \end{figure}
-
-
 
 \begin{figure}[htbp]
 \centering
