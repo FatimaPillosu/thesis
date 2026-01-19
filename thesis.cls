@@ -18,6 +18,7 @@
 \RequirePackage{atbegshi} % Needed for \AtBeginShipoutUpperLeft
 \RequirePackage{eso-pic}
 \RequirePackage{tikz}
+\RequirePackage[strict]{changepage}
 \RequirePackage{geometry} % Configure page layout
 \RequirePackage{graphicx} % Handle images
 \RequirePackage{caption}  % Manage captions
