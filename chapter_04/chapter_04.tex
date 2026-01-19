@@ -85,9 +85,9 @@ ERA5 \marginpara{ERA5 variables used to compute data-driven model features to id
 The following sub-sections describe the pre-processing of the raw ERA5 parameters to compute the variables that will be included in the data-driven model.
 
 
-\subsection{Parameter representing antecedent soil moisture}
+\subsection{Parameter representing the antecedent soil moisture: percentage of soil maximum saturation}
 
-To \marginpara{ Percentage of soil maximum saturation (representing antecedent soil moisture): general description} estimate the antecedent soil moisture, this study considers the percentage of soil maximum saturation in the top 1 metre layer of soil, 24 hours prior to a flash-flood-triggering rainfall event. This 1 metre depth corresponds to the active "root zone" represented by the first three layers of the ECMWF's IFS land surface scheme, defined as Layer 1, between 0 and 7 cm, Layer 2, between 7 and 28 cm, and Layer 3, between 28 to 100 cm \citep{ECMWF_2016}. Table \ref{table:max_saturation} shows the pre-defined values of maximum soil saturation used at ECMWF for different types of soil \citep{Balsamo_2009}:
+To \marginpara{Percentage of soil maximum saturation (representing antecedent soil moisture): general description} estimate the antecedent soil moisture, this study considers the percentage of soil maximum saturation in the top 1 metre layer of soil, 24 hours prior to a flash-flood-triggering rainfall event. This 1 metre depth corresponds to the active "root zone" represented by the first three layers of the ECMWF's IFS land surface scheme, defined as Layer 1, between 0 and 7 cm, Layer 2, between 7 and 28 cm, and Layer 3, between 28 to 100 cm \citep{ECMWF_2016}. Table \ref{table:max_saturation} shows the pre-defined values of maximum soil saturation used at ECMWF for different types of soil \citep{Balsamo_2009}:
 
 \begin{table}[htbp]
 \centering
@@ -113,21 +113,14 @@ Equations \ref{eq:max_sat_field} and \ref{eq:indicator} show how the fields cont
 
 where, N goes from 1 to 7, and it represents the soil type codes. Each grid box is assigned a single, dominant soil type. The indicator function $\mathbf{1}_{\{s=c_i\}}$ acts as a binary filter: it returns 1 only when the grid box's soil type $s$ matches a specific category $c_i$; it returns 0 otherwise.
 
-Equation \ref{eq:swvl} computes the soil water content over the top 1 metre layer of the soil:
+Equation \ref{eq:swvl} computes the soil water content (swvl) over the top 1 metre layer of the soil integrating the soil water content over the top three layers:
 
 \begin{equation}
 \label{eq:swvl}
 \text{swvl} = \sum_{j=1}^{M} \text{swvl}_{j}\, \text{depth}_{j}
 \end{equation}
 
-where M goes from 1 to 3 (i.e., the three soil layers). The percentage of the soil maximum saturation is considered a dynamic field because the values of \textit{swvl} for the three soil layers change at every reanalysis and forecasts run\footnote{To know how to retrieve the fields for swvl, please, refer to the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper} .}.
-
-Finally, the equation \ref{eq:swvl_perc} computes the percentage of soil saturation as follows:
-
-\begin{equation}
-\label{eq:swvl_perc}
-\text{swvl\_perc} = \frac{\text{swvl}}{\text{max\_sat\_field}}
-\end{equation}
+where M goes from soil layer 1 to 3. The percentage of the soil maximum saturation is considered a dynamic field because the values of swvl in the three soil layers change at every reanalysis and forecasts run\footnote{To know how to retrieve the fields for swvl, please, refer to the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper} .}.
 
 \begin{figure}[htbp]
 \begin{adjustwidth*}{-1cm}{-4cm}
@@ -141,13 +134,18 @@ Finally, the equation \ref{eq:swvl_perc} computes the percentage of soil saturat
 \end{adjustwidth*}
 \end{figure}
 
-Figure \marginpara{} \ref{fig:percentage_soil_maximum_saturation} illustrates the spatial distribution of the percentage of soil maximum saturation across the CONUS for the valid time of September 1, 2021, at 00 UTC. Panel (a) presents the reference state derived from ERA5 reanalysis. Panels (b) to (f) display ERA5 forecasts for the same valid time but for different lead times, from t+24 (day 1) to t+120 (day 5). The colour scale indicates soil wetness, with warm colours (brown/yellow) representing dry conditions and cool colours (green/blue) indicating higher saturation. Heavy rainfall from Storm Ida, over the preceding days, caused a distinct area of near-total saturation (approaching 100\%) in the southeastern CONUS. The figure demonstrates the model's ability to capture this saturation pattern up to five days in advance, as the forecast fields remain visually consistent with the reanalysis.
+Finally, the equation \ref{eq:swvl_perc} computes the percentage of soil saturation as follows:
 
-\subsection{Parameter to represent orographic steepness}
+\begin{equation}
+\label{eq:swvl_perc}
+\text{swvl\_perc} = \frac{\text{swvl}}{\text{max\_sat\_field}}
+\end{equation}
 
-This study \marginpara{Standard deviation of the filtered sub-grid orography (representing orography slope): general description} standard deviation of the filtered sub-grid orography is a static, time-invariant field, representing the statistical variability of terrain elevation at higher spatial resolution (typically at 1 km) than the model grid resolution (for ERA5, \sim31 km). It serves as a fundamental component for parametrising unresolved topographic effects in both atmospheric and hydrological modelling. The parameter is expressed in metres. In regions with high values of this parameter (typically above 100-500 meters), the parameter indicates significant topographic heterogeneity within model grid-boxes, representing the presence of valleys, ridges, peaks, and other terrain features that cannot be explicitly resolved.
+Figure \marginpara{Example of the percentage of soil maximum saturation after Storm Ida} \ref{fig:percentage_soil_maximum_saturation} illustrates the spatial distribution of the percentage of soil maximum saturation across the CONUS for the valid time of September 1, 2021, at 00 UTC. Panel (a) presents the reference state derived from ERA5 reanalysis. Panels (b) to (f) display ERA5 forecasts for the same valid time but for different lead times, from t+24 (day 1) to t+120 (day 5). The colour scale indicates soil wetness, with warm colours (brown/yellow) representing dry conditions and cool colours (green/blue) indicating higher saturation. Heavy rainfall from Storm Ida, over the preceding days, caused a distinct area of near-total saturation (approaching 100\%) in the southeastern CONUS. The figure demonstrates the model's ability to capture this saturation pattern up to five days in advance, as the forecast fields remain visually consistent with the reanalysis.
 
-An example of the standard deviation of the filtered sub-grid orography values over the CONUS is shown in Figure \ref{fig:std_dev_filtered_orog}. 
+\subsection{Parameter representing the orographic steepness: the standard deviation of the filtered sub-grid orography}
+
+This \marginpara{Standard deviation of the filtered sub-grid orography (representing orographic steepness): general description} study considers the standard deviation of the filtered sub-grid orography as the parameter to represent the orographic steepness. This is a static, time-invariant field, representing the statistical variability of terrain elevation at higher spatial resolution (typically at 1 km) than the model grid resolution (for ERA5, \sim31 km). It serves as a fundamental component for parametrising unresolved topographic effects in both atmospheric and hydrological modelling. The parameter is expressed in metres. In regions with high values of this parameter (typically above 100-500 meters), the parameter indicates significant topographic heterogeneity within model grid-boxes, representing the presence of valleys, ridges, peaks, and other terrain features that cannot be explicitly resolved. Figure \ref{fig:std_dev_filtered_orog} shows the standard deviation of the filtered sub-grid orography values over the CONUS. 
 
 \begin{figure}[htbp]
 \centering
@@ -156,10 +154,14 @@ An example of the standard deviation of the filtered sub-grid orography values o
 \label{fig:std_dev_filtered_orog}
 \end{figure}
 
+Figure \marginpara{Correlation and distinction between the orography's absolute elevation and the standard deviation of the filtered sub-grid orography.} \ref{fig:conus_domain} and \ref{fig:std_dev_filtered_orog} are visually similar because high-elevation regions, such as the Rocky Mountains on the West and the Appalachians on the east, are geologically correlated with complex, rugged terrain. However, they indicate distinct physical properties: the orography defines the absolute vertical position relative to sea level, whereas the standard deviation of the filtered sub-grid orography quantifies the spread of elevation values around that mean, effectively representing terrain roughness. For instance, a high-altitude plateau would have high orography but low standard deviation because it is flat. 
 
-\subsection{Vegetation coverage}
+The \marginpara{Justification on the selection of the standard deviation of the filtered sub-grid orography to represent orographic steepness over orography's slope} standard deviation of sub-grid orography is preferred over grid-scale slope because it preserves the signal of local topographic roughness that controls rapid runoff, which is otherwise lost when calculating an average slope at the coarse model resolution ($\sim$31 km). While a simple slope calculation would smooth out narrow valleys and ridges, the standard deviation metric explicitly quantifies this unresolved steepness.
 
-The \marginpara{Leaf area index (representing vegetation coverage): general description} leaf area index is a parameter that describes land surface vegetation\footnote{https://confluence.ecmwf.int/display/FUG/Section+2.1.4.7+Modelling+vegetation.+Leaf+area+index}. It corresponds to a non-dimensional number representing the square metres of leaf area per square metre of the earth's surface. The leaf area index has a value of 0 over bare ground or where there are no leaves, and it grows as the vegetation coverage increases, typically up to values equal to 7. It is worth noting that the leaf area index in ERA5, as in the ECMWF IFS, varies only with climatology, month by month, and anomalous weather (e.g. winds stripping leaves from trees or widespread fire damage) has no effect on its value. The leaf area index is calculated using the following formula:
+
+\subsection{Parameter representing the vegetation coverage: the leaf area index (LAI)}
+
+The \marginpara{Leaf area index (representing vegetation coverage): general description} leaf area index corresponds to a non-dimensional number representing the square metres of leaf area per square metre of the earth's surface\footnote{https://confluence.ecmwf.int/display/FUG/Section+2.1.4.7+Modelling+vegetation.+Leaf+area+index}. It has a value of 0 over bare ground or where there are no leaves, and it grows as the vegetation coverage increases, typically up to values equal to 7. In ERA5, as in the ECMWF IFS, the leaf area index varies only climatologically, month by month. Hence, anomalous weather (e.g. winds stripping leaves from trees or widespread fire damage) has no effect on its value. The leaf area index is calculated using the following formula:
 
 \[
 \text{LAI}_{\text{total}} = 
@@ -167,21 +169,85 @@ The \marginpara{Leaf area index (representing vegetation coverage): general desc
 (\text{LAI}_{\text{low}} \times \text{Cover}_{\text{low}})
 \]
 
-An example of the leaf area index values over the CONUS, during the four seasons, is shown in Figure \ref{fig:lai}. 
-
 \begin{figure}[htbp]
+\begin{adjustwidth*}{-3.6cm}{-4.4cm}
+\begin{minipage}{16cm}
 \centering
-\includegraphics[width=\textwidth]{lai.png}
+\includegraphics[width=15cm]{lai.png}
+\captionsetup{width=16cm, justification=Justified}
 \caption{\textbf{Leaf area index (climatological field).} Panels (a) to (d) show examples of leaf area index values in ERA5 over the CONUS, respectively, for a day in mid-winter (15th of January), mid-spring (15th of April), mid-summer (15th of July), and mid-autumn (15th of October).}
 \label{fig:lai}
+\end{minipage}
+\end{adjustwidth*}
 \end{figure}
 
+An \marginpara{Seasonal evolution of the LAI values, reflecting the climatological phenological cycle of the vegetation across the CONUS} example of LAI values over the CONUS during the four seasons is shown in Figure \ref{fig:lai}. In mid-winter (15\textsuperscript{th} of January), LAI is at its minimum. Most interior and northern regions show values near 0–0.2, indicating dormant vegetation or bare ground, while evergreen forests in the Pacific North-West retain moderate coverage. By mid-spring (15\textsuperscript{th} of April), a green-up is evident in the South-East where values rise to ranges between 2 and 4. The cycle peaks in mid-summer (15\textsuperscript{th} of July), where vast areas of the eastern US and Pacific North-West reach saturation values ranging between 5 and 7. Finally, mid-autumn (15\textsuperscript{th} of October) marks the decline associated with leaf senescence, as values in northern latitudes range only between 1 and 2, although the South-East retains relatively high vegetation coverage.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Post-processed ERA5 rainfall: ecPoint}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{ERA5-ecPoint: the post-processed ERA5 rainfall with the ecPoint post-processing technique}
 \label{datasets_ecpoint}
 
-While ERA5 provides a comprehensive suite of hydro-meteorological variables, its native precipitation output exhibits known limitations in representing rainfall's sub-grid variability and can underestimate rainfall peaks - which are crucial in flash flood prediction. To address this limitation, this study employs ERA5-ecPoint, i.e., the post-processed version of ERA5 rainfall reanalysis and forecasts with the ECMWF's ecPoint technique.
+ERA5's \marginpara{Limitations of ERA5's raw rainfall estimates (reanalysis or forecasts) in the prediction of flash-flood-triggering rainfall events} raw rainfall estimates (reanalysis or forecasts) exhibit known limitations in representing rainfall extremes, which are detrimental for the correct prediction of flash flood events. As any other gridded model output, ERA5 provides a rainfall estimate that represents the average of point values over the grid-box area. This averaging inevitably smooths the localised, high-intensity rainfall peaks, which are the primary drivers of flash floods. To address this structural limitation of the raw ERA5 rainfall estimates, this study employs ERA5-ecPoint, the post-processed version of ERA5 rainfall reanalysis and forecasts with the ecPoint statistical post-processing \citep{Hewson_2021}. By applying ecPoint to the grid-box averaged ERA5's rainfall estimates, we constructed the probabilistic distribution of point-scale rainfall estimates within each grid-box, which verifies better against rain-gauge observations, especially in the case of extremes \citep{Pillosu_2025a}.
+
+ecPoint \marginpara{The ecPoint post-processing technique} is a statistical post-processing technique that transforms global gridded NWP outputs into probabilistic point-scale forecasts \citep{Hewson2021}. The post-processing technique aims to provide post-processed forecasts that mirror observations from rain gauges by addressing the two main factors affecting the performance of global NWP model outputs against point verification: systematic biases \citep{Lavers2021} and lack of representation of sub-grid variability \citep{Gober2008}. The errors between global gridded rainfall forecasts (i.e., up to t+30, control run) and point-rainfall observations (i.e., rain gauges) are computed for a one-year calibration period. The error computed for accumulated variables, like rainfall, is the Forecast Error Ratio (FER), whose formulation is shown in
+Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{a}). The error distribution is named Mapping Function (MF), and its shape is linked to the degree of sub-grid variability and biases at grid scale in the raw forecasts. The MF for all data points in the calibration period is also shown in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{a}, and it shows that ENS both overestimates (green bars) and underestimates (yellow and red bars) versus gage reports. The white bar indicates that only \textasciitilde15\% of the point-rainfall observations were correctly predicted. The MF shape can significantly change according to different weather scenarios at grid-scale (called Grid-box Weather Type, G-WT). The multiple MFs can be visualised with a decision-tree-like representation, where each leaf of the decision tree corresponds to a G-WT and its corresponding MF (Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{b}). When for a grid-box, the raw ENS predicts high totals of mainly large-scale rainfall and strong steering wind speeds (case A in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{b}), the MF takes a Gaussian-like form. This means the raw model output is relatively representative of the point-scale rainfall totals. When the raw ENS predicts mainly convective rainfall with light steering wind speeds (case B in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{b}), the MF might take an exponential-like form. This means that the raw model output is not representative of the point-scale rainfall totals and that the expected degree of sub-grid variability is bigger than in case A. Each raw forecast is converted into a distribution of N point-scale forecasts using the MFs (for example, operationally, for each raw ensemble member, N=100 point-scale forecasts are created).
+
+Suppose all grid-boxes in the raw forecasts were post-processed by sampling only the MF in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{a} (i.e., MF within the black circle at the top of the decision tree in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{b}), the ecPoint post-processing would be following a univariate approach (U-ecPoint). This approach can be represented by a single-leaf decision tree. U-ecPoint generally increases the number of zeros in the distribution of point-rainfall forecasts to correct ENS's tendency to overpredict small rainfall totals \citep{Haiden2023}, as well as generally increasing the amounts in the wet tail of the rainfall distribution to correct for ENS underestimation of high rainfall values \citep{Haiden2023}. 
+
+When each grid-box in the raw forecast is post-processed differently by using the MF corresponding to the matching G-WT in the decision tree (within the grey square in Figure \ref{fig:02_Data_Univariate_Multivariate_ecPoint}\hyperref[fig:02_Data_Univariate_Multivariate_ecPoint]{b}), the ecPoint post-processing would be following a multivariate approach (M-ecPoint). M-ecPoint can be seen as a multiple-leaf decision tree, and it corresponds to the original ecPoint system \citep{Hewson2021}. While M-ecPoint increases overall the frequency of small and large rainfall totals in the post-processed forecasts as U-ecPoint does, its adjustments are applied according to the different G-WTs. \cite{Hewson2021} have shown that, due to the G-WT differentiation in the corrections, one of M-ecPoint's features is the ability to shift the location of areas at higher risk of extreme localised rainfall. This feature in U-ecPoint is lost as all grid-boxes are post-processed identically. Figures \ref{fig:02_Data_Example_FC}\hyperref[fig:02_Data_Example_FC]{a-c} show how different the forecast probabilities of exceeding 10 mm/12h can be across the three forecast outputs. Probabilities for ENS (Figure \ref{fig:02_Data_Example_FC}\hyperref[fig:02_Data_Example_FC]{a}) are mostly reduced by U-ecPoint (Figure \ref{fig:02_Data_Example_FC}\hyperref[fig:02_Data_Example_FC]{b}) and M-ecPoint (Figure \ref{fig:02_Data_Example_FC}\hyperref[fig:02_Data_Example_FC]{c}). However, M-ecPoint reduces the probabilities at certain locations more than U-ecPoint; this relates to the fact that corrections are applied differently across the ensemble members rather than uniformly, as done by U-ecPoint.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ecPoint is a decision-tree-based statistical post-processing technique that transforms global grid-based forecasts into probabilistic point-scale forecasts \citep{Hewson_2021}. The post-processing technique aims to provide forecasts that mirror observations from rain gauges by addressing the two main factors affecting the performance of global NWP model outputs against point verification: systematic biases \citep{Lavers_2021} and lack of information on forecast sub-grid variability \citep{Göber_2008}. For each deterministic realisation or raw ensemble member of a probabilistic system, ecPoint generates an ensemble of X (e.g., 100) point-rainfall values based on the error distributions between forecasts and observations that vary according to different weather scenarios at the grid-box level. For example, when the model is on a grid-box, it primarily predicts large-scale rainfall with light winds. The raw model output tends to be representative of point rainfall totals within that grid-box, and ecPoint generates an ensemble with a smaller spread compared to the case of mainly convective rainfall with light winds. In the latter case, many points within the grid-box are expected to show zero rainfall, while large rainfall amounts may be observed at a few data points. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \begin{figure}[htbp]
 \centering
@@ -190,14 +256,14 @@ While ERA5 provides a comprehensive suite of hydro-meteorological variables, its
 \label{fig:prob_tp_exceeding_1rp}
 \end{figure}
 
+
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{prob_tp_exceeding_50rp.png}
 \caption{\textbf{Probability (\%) of exceeding the 50-year return period in ERA5-ecPoint.} Similar to Figure \ref{fig:prob_tp_exceeding_1rp}, but for probability of exceeding the 50-year return period.}
 \label{fig:prob_tp_exceeding_50rp}
 \end{figure}
-
-ecPoint \marginpara{General description of the ecPoint post-processing method} is a decision-tree-based statistical post-processing technique that transforms global grid-based forecasts into probabilistic point-scale forecasts \citep{Hewson_2021}. The post-processing technique aims to provide forecasts that mirror observations from rain gauges by addressing the two main factors affecting the performance of global NWP model outputs against point verification: systematic biases \citep{Lavers_2021} and lack of information on forecast sub-grid variability \citep{Göber_2008}. For each deterministic realisation or raw ensemble member of a probabilistic system, ecPoint generates an ensemble of X (e.g., 100) point-rainfall values based on the error distributions between forecasts and observations that vary according to different weather scenarios at the grid-box level. For example, when the model is on a grid-box, it primarily predicts large-scale rainfall with light winds. The raw model output tends to be representative of point rainfall totals within that grid-box, and ecPoint generates an ensemble with a smaller spread compared to the case of mainly convective rainfall with light winds. In the latter case, many points within the grid-box are expected to show zero rainfall, while large rainfall amounts may be observed at a few data points. 
 
 The \marginpara{ERA5-ecPoint} ecPoint post-processing technique has been applied to ERA5 reanalysis and forecasts \citep{Bottazzi_2024}. The deterministic realisations of ERA5 reanalysis and forecasts are, therefore, transformed to a distribution of 100 point-rainfall totals, and distilled in 99 percentiles from 1st to 99th. ecPoint reanalysis and forecasts are provided in the same native grid of ERA5 (reduced Gaussian grid N320, \sim31 km), with forecasts up to day 5, and accumulation periods ending at 00 UTC. Preliminary verification between raw ERA5 and ERA5-ecPoint reanalysis has shown that ERA5-ecPoint represents point rainfall estimates better than ERA5 \citep{Hewson_2023}\footnote{A more comprehensive comparison between ERA5 and ERA5-ecPoint has been done against 20 years of point-rainfall observations, from rain gauges, which supports the claims made in the main body of the chapter. The manuscript is currently under peer-review for the Bulletin of the American Meteorological Society (BAMS).}. 
 
