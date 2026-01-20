@@ -74,19 +74,47 @@ In \marginpara{Requirement n.4 for robust evaluation of probabilistic forecasts 
 \subsection{Proposed forecasts verification strategy}
 \label{integrated_experimental_strategy_verification_strategy_proposed_scores}
 
-To \marginpara{Chosen (overall and breakdown) scores to assess reliability and discrimination ability: frequency bias and reliability diagrams, ROC curves and areas under the ROC} assess reliability and discrimination ability, this thesis will employ scores commonly used in the assessment of probabilistic weather forecasts \citep{Wilks_2020, Jolliffe_2012}. Based on the contingency table for probabilistic forecasts ()
+To \marginpara{Chosen overall and breakdown scores to assess reliability and discrimination ability: frequency bias and reliability diagrams, ROC curves and areas under the ROC} assess forecasts' reliability and discrimination ability, this thesis will employ scores commonly used in the assessment of probabilistic weather forecasts \citep{Wilks_2020, Jolliffe_2012}. The frequency bias will be used as an overall measure of reliability, which provides an estimate of systematic over- and under-prediction by comparing the predicted probabilities for an event with its observed frequency. Based on the contingency table for probabilistic forecasts in Figure \ref{fig:contingency_table_prob_fc}, the frequency bias is computed with the following equation \ref{eq:frequency_bias}:
+
+\begin{figure}[htbp]
+\begin{adjustwidth*}{-3.6cm}{-4.4cm}
+\begin{minipage}{16cm}
+\centering
+\includegraphics[width=11cm]{chapter_03/figures/contingency_table_prob_fc.png}
+\captionsetup{width=16cm, justification=Justified}
+\caption{\textbf{Contingency table for probabilistic forecasts.} Description of the four elements of the contingency table for a binary classification of probabilistic forecasts at a given probability threshold. The probability density plot displays the distribution of observed yes-events (in blue) and observed non-events (in pink). The vertical dash-dot line passing over a given probability threshold (purple dot) divides the space in predicted yes-events (to the right, in diagonal green lines) and predicted non-events (to the left, in horizontal yellow lines). The overlaps between the two spaces and the density distributions define the elements of the contingency table: H (area covered by diagonal green lines), FA (area covered by a transparent pink shade), M (area covered by a transparent brown shade), and CN (area covered by horizontal yellow lines).}
+\label{fig:contingency_table_prob_fc}
+\end{minipage}
+\end{adjustwidth*}
+\end{figure}
+
+\begin{equation}
+\label{eq:frequency_bias}
+\text{FBI} = \frac{\text{Hits} + \text{False Alarms}}{\text{Hits} + \text{Misses}}
+\end{equation}
+
+\noindent The reliability diagrams will be used as a breakdown score to assess reliability. Reliability diagrams plot observed frequencies against forecast probabilities for discrete probability bins, thereby revealing calibration issues at specific probability ranges. 
+
+\begin{figure}[htbp]
+\begin{adjustwidth*}{-3.6cm}{-4.4cm}
+\begin{minipage}{16cm}
+\centering
+\includegraphics[width=11.7cm]{break_down_scores.png}
+\captionsetup{width=16cm, justification=Justified}
+\caption{\textbf{Examples of Receiver Operating Characteristic (ROC) and Precision-Recall curves: computation from contingency tables and performance characteristics under balanced and imbalanced datasets.} Panel (a) defines the four contingency table elements for a binary classification of probabilistic forecasts at a given probability threshold. The probability density plot displays the distribution of observed yes-events (blue) and observed non-events (pink). The vertical dash-dot line passing over a given probability threshold (purple dot) divides the space in predicted yes-events (to the right, in green) and predicted non-events (to the left, in yellow). The overlaps between the two spaces and the density distributions define the elements of the contingency table: H (area covered by dark green sloping lines), FA (area covered by dark pink), M (area covered by dark brown), and CN (area covered by orange horizontal lines). Panel (b) shows how discrimination ability is represented by ROC curves (which assume balance between the binary classes) across different model performances - perfect, none, and good - with the rightmost panel showing discrimination ability for an imbalanced dataset. Panel (c) shows the same as panel (b), but for precision-recall curves (which do not assume class balance between the binary classes).}
+\label{fig:curve_roc_pr_examples}
+\end{minipage}
+\end{adjustwidth*}
+\end{figure}
 
 
 
-The \textit{frequency bias} will be used as an overall measure of reliability. It provides an estimate of systematic over- and under-prediction by comparing the predicted probabilities for an event with its observed frequency:
 
 
 
 
 
-
-
-\textit{Reliability diagrams} will extend this analysis by plotting observed frequencies against forecast probabilities for discrete probability bins, thereby revealing calibration issues at specific probability ranges. To assess discrimination ability, the Receiver Operating Characteristic (ROC) curve will be considered to assess the trade-off between hit rates and false alarm rates across different probability thresholds. The Area under the ROC curve (AUC-ROC) will then be considered as an overall measure of discrimination ability. Figure \ref{fig:forecast_evaluation_strategy} - Objective Verification - lists the chosen verification scores, alongside the data processing (DP) pipeline required to transform raw observations and forecasts into the appropriate format to run the objective verification analysis.
+To assess discrimination ability, the Receiver Operating Characteristic (ROC) curve will be considered to assess the trade-off between hit rates and false alarm rates across different probability thresholds. The Area under the ROC curve (AUC-ROC) will then be considered as an overall measure of discrimination ability. Figure \ref{fig:forecast_evaluation_strategy} - Objective Verification - lists the chosen verification scores, alongside the data processing (DP) pipeline required to transform raw observations and forecasts into the appropriate format to run the objective verification analysis.
 
 \begin{figure}[htbp]
 \centering
@@ -96,13 +124,6 @@ The \textit{frequency bias} will be used as an overall measure of reliability. I
 \end{figure}
 
 As \marginpara{Chosen robust metrics to assess forecasts for rare events} mentioned in the previous paragraph, ROC curves and AUC-ROC are commonly used to assess discrimination ability in hydro-meteorology. ROC curves are built from a contingency table (Figure \ref{fig:curve_roc_pr_examples}a), plotting Hit Rates (HR) against False Alarm Rates (FAR) and, therefore, highlighting the trade-off between correctly identifying true positive cases and incorrectly labelling negatives as positives. Due to their definition, ROC curves weigh all four quadrants of the contingency table equally, providing an estimate of discrimination ability that has been considered in the literature more appropriate for "balanced" datasets (i.e., datasets with a similar proportion of yes- and non-events) as they might inflate discrimination ability due to the use of the FAR \citep{Davis_2006}. Alternatively, the Precision-Recall (PR) curve can be used to estimate discrimination ability in cases of imbalanced datasets. This lesser-known metric in hydro-meteorology excludes the Correct Negative (CN) quadrant from its definition to avoid a disproportionate inflation of performance due to the overwhelmingly large number of correct negatives typical of imbalanced datasets. Instead, the PR curve measures Precision, defined as the proportion of predicted positives that are actually correct, against Recall (which in hydro-meteorology is more commonly referred to as HR). This does not mean that ROC curves do not have positive points when assessing the discrimination ability for rare events or imbalanced datasets. \citet{Richardson_2024} has demonstrated that ROC curves provide a stable and consistent evaluation across datasets with different levels of imbalance, facilitating straightforward comparisons across different classifiers and datasets. Moreover, Figure \ref{fig:curve_roc_pr_examples}b shows that their shape remains relatively stable at different levels of dataset imbalance, and their baseline remains constant (i.e., the diagonal of the unit square, representing an AUC-ROC always equal to 0.5). PR curves are notably more volatile than ROC curves (Figure \ref{fig:curve_roc_pr_examples}c). Their shape can vary significantly depending on class distribution and dataset specifics, and their baseline for no skill (calculated simply as the proportion of positive cases over the total number of cases) may change dramatically according to the level of dataset imbalance \citep{Richardson_2024}. Moreover, ROC and PR curves address fundamentally distinct evaluation questions \citep{Cook_2020}. ROC curves focus on identifying as many true positives as possible, even if it means incurring more false alarms. In contrast, PR curves prioritise precision, ensuring that identified yes-events are correct and reducing false alarms, as they might have significant negative consequences. Rather than choosing one metric exclusively, this thesis proposes evaluating forecasts using both ROC and PR curves (see Figure \ref{fig:forecast_evaluation_strategy}, "list of considered scores" for Chapter \ref{data_driven_flash_floods_short_medium_range} and \ref{regional_to_global_training}). Using both metrics enables users with diverse operational needs and sensitivities to various types of forecast errors to interpret results more effectively, acknowledging that different intended uses of the forecasts can incur different costs for different types of errors \citep{Sofaer_2019}. No single performance metric captures all dimensions of model quality, and therefore, integrating both ROC and PR evaluations facilitates a more nuanced and context-sensitive assessment aligned with specific user requirements.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[scale=0.9]{curve_roc_pr_examples.png}
-\caption{\textbf{Examples of Receiver Operating Characteristic (ROC) and Precision-Recall curves: computation from contingency tables and performance characteristics under balanced and imbalanced datasets.} Panel (a) defines the four contingency table elements for a binary classification of probabilistic forecasts at a given probability threshold. The probability density plot displays the distribution of observed yes-events (blue) and observed non-events (pink). The vertical dash-dot line passing over a given probability threshold (purple dot) divides the space in predicted yes-events (to the right, in green) and predicted non-events (to the left, in yellow). The overlaps between the two spaces and the density distributions define the elements of the contingency table: H (area covered by dark green sloping lines), FA (area covered by dark pink), M (area covered by dark brown), and CN (area covered by orange horizontal lines). Panel (b) shows how discrimination ability is represented by ROC curves (which assume balance between the binary classes) across different model performances - perfect, none, and good - with the rightmost panel showing discrimination ability for an imbalanced dataset. Panel (c) shows the same as panel (b), but for precision-recall curves (which do not assume class balance between the binary classes).}
-\label{fig:curve_roc_pr_examples}
-\end{figure}
 
 To \marginpara{Chosen case-studies for subjective verification: flash floods generated by large-scale, widespread rainfall and small-scale, localised rainfall} understand differences in performance and predictability across various flash flood events, it is essential to differentiate between two categories of flash-flood-triggering rainfall: (1) large-scale, widespread rainfall due to persistent moderate-to-extreme stratiform rainfall or short-to-medium duration mesoscale convective systems delivering extreme rainfall, and (2) small-scale, localise rainfall due to short duration convective systems delivering very intense rainfall (see Figure \ref{fig:forecast_evaluation_strategy}, "Subjective Verification" section). By examining, through well-observed case studies, the forecast performance and predictability of these two categories of flash flood events, it is possible to determine whether deficiencies in predicting areas at risk of flash floods stem from inherent limitations in rainfall forecasting or other factors within the hydrological modelling chain. Hence, each objective verification study in the main analysis chapters (Chapter \ref{flash_flood_focused_verification_rainfall_based_ff} to \ref{data_driven_flash_floods_short_medium_range}) will be complemented with case-study-based subjective verification assessing the performance and predictability of predicting areas at risk of flash floods over large- and small-scale flash-flood-triggering rainfall events.
 
