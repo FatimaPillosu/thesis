@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Base class
-\LoadClass[10pt,twoside]{book} % Font size 11pt, two-sided layout
+\LoadClass[10pt,twoside,openright]{book} % Font size 11pt, two-sided layout, chapters on right-hand pages
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -157,6 +157,15 @@
 \newcommand{\chapterindent}{\hspace*{\parindent}\ignorespaces} % Add manual indent for the first paragraph
 \makeatother
 
+% Wrap the custom \chapter so it performs \cleardoublepage (openright) before starting.
+\makeatletter
+\let\thesis@orig@chapter\chapter
+\renewcommand{\chapter}{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \thesis@orig@chapter
+}
+\makeatother
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Header and footer styles
@@ -211,7 +220,7 @@
   \marginpar[\raggedleft\footnotesize\textbf{#1}]% Left margin (even pages)
   {\raggedright\footnotesize\textbf{#1}}% Right margin (odd pages)
 }
-\endinput
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -240,3 +249,5 @@
 \renewenvironment{figure}[1][H]%
   {\origfigure[#1]}%
   {\endorigfigure}
+
+\endinput
