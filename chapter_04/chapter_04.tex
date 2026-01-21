@@ -49,10 +49,15 @@ NOAA's \marginpara{Storm Event Database: general description} National Centers f
 The \marginpara{Storm Event Database: metadata quality} Storm Event provides extensive metadata for flash flood events, compiled by professional meteorologists and hydrologists. Metadata recordings will include impact severity, affected areas, and casualty information. Among all available keys\footnote{Please, refer to https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/Storm-Data-Bulk-csv-Format.pdf for a detailed description of the features (columns) included in the Storm Event Database}, this study considers only those described in Table \ref{table:sed_params}. It is worth noting that, as with any other human augmented reporting system, the Storm Event Database is subject to variations in other variables. \citet{Marjerison_2016} highlight that population density is one of the most important factors affecting the location of flash flood reports. Figure \ref{fig:sed_ff_reports}a shows indeed that the Eastern side of the CONUS - the most densely populated - presents a larger frequency of reports than the Western side. Other factors affecting the location of flash flood reports are diurnal cycles of human activity and more mundane transcription or memory errors that affect the timing and location of reports \citep{Barthold_2015}. Evidence of these issues has been found in assessments of Flash Flood Guidance (FFG) skill \citep{Clark_2014}.
 
 \begin{table}[htbp]
+\begin{adjustwidth*}{-3.6cm}{-4.4cm}
+\begin{minipage}{16cm}
 \centering
+\captionsetup{width=16cm, justification=Justified}
 \captionof{table}{\textbf{Features used from the Storm Event Database.} The table presents the name of the features, called "Keys" in the database, the variable types (e.g., string, data object, or float), their units, and description.}
-\includegraphics[width=\textwidth]{sed_params.png}
+\includegraphics[width=13cm]{sed_params.png}
 \label{table:sed_params}
+\end{minipage}
+\end{adjustwidth*}
 \end{table}
 
 Notwithstanding \marginpara{Storm Event Database: relevance for flash flood prediction and evaluation} the acknowledged limitations in the flash flood event reporting in the Storm Event Database, this dataset demonstrates substantial utility for model development and evaluation compared to global datasets. The data preserves fundamental hydro-climatological signals essential for model training. Figure \ref{fig:sed_ff_reports}c (red bars), representative of flash flood report counts for 2021, shows that the underreporting does not compromise the representation of seasonal variability throughout the year - the timeseries shows pronounced peaks during the summer months and the beginning of the autumn when peaks in (flash) flood frequency are expected \citep{Dougherty_2019}. Furthermore, the database maintains sufficient daily report counts over most of the year. This ensures the dataset provides adequate sample sizes for model training and to compute robust statistics during model evaluation. 
@@ -76,10 +81,15 @@ ERA5 \marginpara{ERA5 reanalysis and forecasts: general description} represents 
 ERA5 \marginpara{ERA5 variables used to compute data-driven model features to identify and predict areas at risk of flash floods} reanalysis was used to compute the hydrological and static features used to train the data-driven models developed in Chapters \ref{data_driven_flash_floods_short_medium_range} and \ref{regional_to_global_training} to \textit{identify} areas at risk of flash floods. During the inference stage, ERA5 forecasts up to day 5 served as inputs to the trained data-driven models to \textit{predict} areas at risk of flash floods. From the extensive suite of variables available in ERA5\footnote {The full set of parameters available for ERA5 reanalysis and forecasts can be found in the Mars Catalogue at \url{https://apps.ecmwf.int/mars-catalogue/?class=ea&stream=oper}.}, the subset of dynamic and static parameters listed in Table \ref{table:era5_params} were considered to compute antecedent soil moisture, orography slope, and vegetation coverage. 
 
 \begin{table}[htbp]
+\begin{adjustwidth*}{-0cm}{-3.6cm}
+\begin{minipage}{16cm}
 \centering
+\captionsetup{width=16cm, justification=Justified}
 \captionof{table}{\textbf{Parameters used from ERA5 and ERA5-ecPoint.} Description of the parameters used to compute the hydrological and static features used in the developed data-driven models to identify and predict areas at risk of flash floods.}
-\includegraphics[width=\textwidth]{era5_params.png}
+\includegraphics[width=13cm]{era5_params.png}
 \label{table:era5_params}
+\end{minipage}
+\end{adjustwidth*}
 \end{table}
 
 The following sub-sections describe the pre-processing of the raw ERA5 parameters to compute the variables that will be included in the data-driven model.
