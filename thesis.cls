@@ -104,7 +104,7 @@
   \@startsection {section}{1}{\z@}%
     {-1.5ex \@plus -0.2ex \@minus -0.1ex} % Minimal space before the section title
     {0.3ex \@plus 0.1ex} % No space after the section title
-    {\normalfont\Large\bfseries\@afterindenttrue}%
+    {\normalfont\Large\bfseries\raggedright\@afterindenttrue}%
 }
 
 % Customise subsection spacing (no additional white space before)
@@ -112,7 +112,7 @@
   \@startsection {subsection}{2}{\z@}%
     {-1ex \@plus -0.1ex \@minus -0.1ex} % Very minimal space before
     {0.2ex \@plus 0.1ex} % No space after the subsection title
-    {\normalfont\large\bfseries}%
+    {\normalfont\large\bfseries\raggedright}%
 }
 
 % Customize subsubsection numbering and spacing (no additional white space before)
@@ -135,7 +135,7 @@
 \newfontfamily\chapterfont{QT Avanti} % Define "Cabin Condensed" for chapter titles
 
 \titleformat{\chapter}[display] % "display" places number and title on separate lines
-  {\normalfont\chapterfont\bfseries} % Use "Cabin Condensed" and bold for chapter titles
+  {\normalfont\chapterfont\bfseries\raggedright} % Use "Cabin Condensed" and bold for chapter titles
   {\Huge\MakeUppercase{Chapter \thechapter}} % Large, uppercase chapter number
   {0pt} % No additional spacing
   {\vspace{1pt}\Large\MakeUppercase} % Slightly smaller title below the number
