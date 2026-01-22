@@ -110,11 +110,17 @@ To \marginpara{Defining the gridded observational fields} assess the performance
 
 As discussed in Section \ref{integrated_experimental_strategy_verification_strategy} in Chapter \ref{integrated_experimental_strategy}, two properties of probabilistic forecasts must be assessed: reliability and discrimination ability. \textit{Contingency tables} provide the foundation for the computation of the verification scores that will follow in Section \ref{flash_flood_focused_verification_rainfall_based_ff_verif_framework_verification_scores}, and are therefore defined next. 
 
+
+
+
+
+
+
 Stationary observations (i.e., provided by instruments installed at a specific location, such as rain gauges or discharge gauges) provide timeseries of yes- and non-events recorded at the location where the instrument was installed. Thus, all four elements in the contingency table can be quantified. Non-stationary observations (i.e., impact reports) record only yes-events at the location where the event occurred. As a result, it is impossible to answer the question "if there are no reports at a location, is it because an event happened but nobody reported it, or because there was no event to report?". Some studies using impact reports as ground truth verify only yes-events with the caveat that only quadrant I (i.e. hits) and III (i.e. misses) of the contingency table can be populated \citep{Robbins_2018}. In this thesis, the assumption suggested by \citet{Tsonevsky_2018} and \citet{Pillosu_2024} of assuming non-reports as non-events was followed because it allows for the population of all quadrants of the contingency table. This approach inherently inflates the false alarm rate, as locations where events may have occurred but were unreported may be classified as misses or correct negatives. Given the constraints of impact-based reports, this methodology provides a systematic framework for the evaluation of predictions of areas at risk of flash floods, albeit one that may present a pessimistic view of forecast skill.
 
 \begin{table}[htbp]
 \centering
-\captionof{table}{\textbf{Example of a 2x2 contingency table}. The table defines the four quadrants constituting a 2x2 contingency table.}
+\captionof{table}{\textbf{Contingency table for probabilistic forecasts}. It defines hits}
 \includegraphics[width=\textwidth]{contingency_table.png}
 \label{table:contingency_table}
 \end{table} 
