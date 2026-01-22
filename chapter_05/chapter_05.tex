@@ -38,23 +38,29 @@ However, \marginpara{Aims of this chapter: bridge the evaluation gap of statisti
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Pre-processing of observational and forecast data}
-\label{flash_flood_focused_verification_rainfall_based_ff_preprocessing}
+\section{Development of the objective flash-flood-focused 
+verification framework for predictions of areas at risk of flash floods}
+\label{flash_flood_focused_verification_rainfall_based_ff_verif_framework}
 
-\subsubsection{Pre-processing the forecast data}
-\label{flash_flood_focused_verification_rainfall_based_ff_preprocessing_forecasts}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=13cm]{chapter_05/figures/definition_yes_non_events.png}
-\caption{\textbf{Schematic on how yes- and non-events are defined for rainfall-based flash flood predictions of areas at risk of flash floods.} The point-scale forecast (mm/24h) for each grid box is compared against a specific rainfall threshold. If the forecast exceeds or is equal to the threshold, it is classified as a "yes-event" (value 1, shown in light green), indicating a risk of flash flooding. Conversely, forecasts below the threshold are classified as "non-events" (value 0, shown in light brown). The resulting output is a binary field representing the predictions of areas at risk.}
-\label{fig:definition_yes_non_events}
-\end{figure}
-
-ERA5-ecPoint \marginpara{Rainfall-based predictions of areas at risk of flash floods computed with ERA5-ecPoint rainfall forecasts: determining yes- and non-events in the forecast} rainfall forecasts (mm/24h at point-scale) - already described in Section \ref{datasets_ecpoint} in Chapter \ref{datasets} - are used to create the rainfall-based predictions of areas at risk of flash floods. ERA5-ecPoint is preferred to raw ERA5 estimates because they are able to capture the signal of flash-flood-triggering rainfall. A grid-box is classified at a risk of flash flooding if the forecast exceeds a specific rainfall threshold (likely to generate a flash flood). In this case, the grid-box is assigned the value 1 (yes-event); 0 otherwise (non-event). The resulting binary field represents the rainfall-based prediction of areas at risk of flash floods.
+\subsection{Pre-processing of observational and forecast data}
+\label{flash_flood_focused_verification_rainfall_based_ff_preprocessing_data}
 
 \begin{figure}[htbp]
 \begin{adjustwidth*}{-3.6cm}{-4.4cm}
+\begin{minipage}{16cm}
+\centering
+\includegraphics[width=13cm]{chapter_05/figures/definition_yes_non_events.png}
+\captionsetup{width=16cm, justification=Justified}
+\caption{\textbf{Schematic on how yes- and non-events are defined for rainfall-based flash flood predictions of areas at risk of flash floods.} The point-scale forecast (mm/24h) for each grid box is compared against a specific rainfall threshold. If the forecast exceeds or is equal to the threshold, it is classified as a "yes-event" (value 1, shown in light green), indicating a risk of flash flooding. Conversely, forecasts below the threshold are classified as "non-events" (value 0, shown in light brown). The resulting output is a binary field representing the predictions of areas at risk.}
+\label{fig:definition_yes_non_events}
+\end{minipage}
+\end{adjustwidth*}
+\end{figure}
+
+ERA5-ecPoint \marginpara{Rainfall-based predictions of areas at risk of flash floods computed with ERA5-ecPoint rainfall forecasts: determining yes- and non-events in the forecast} rainfall forecasts (mm/24h at point-scale) - already described in Section \ref{datasets_ecpoint} in Chapter \ref{datasets} - are used to create the rainfall-based predictions of areas at risk of flash floods. ERA5-ecPoint is preferred to raw ERA5 estimates because they are able to capture the signal of flash-flood-triggering rainfall. A grid-box is classified at a risk of flash flooding if the forecast exceeds a specific rainfall threshold (likely to generate a flash flood). In this case, the grid-box is assigned the value 1 (yes-event); 0 otherwise (non-event). The resulting binary field represents the rainfall-based prediction of areas at risk of flash floods (Figure \ref{fig:schematic_verifying_rainfall_thresholds}).
+
+\begin{figure}[htbp]
+\begin{adjustwidth*}{-0cm}{-3.6cm}
 \begin{minipage}{16cm}
 \centering
 \includegraphics[width=13cm]{chapter_05/figures/schematic_verifying_rainfall_thresholds.png}
@@ -71,21 +77,19 @@ The \marginpara{Computing the verifying rainfall thresholds: the mathematics} ve
 
 \begin{equation}
 \label{eq:return_period}
-T = \frac{365}{1 - p}
+T = \frac{1}{365 \times (1 - p)} \quad \text{[years]}
 \end{equation}
 
-\noindent where, p is the percentile expressed as a probability (e.g. 0.99 for the 99\textsuperscript{th} percentile). Thus, the 99.73\textsuperscript{rd} percentile corresponds to a rainfall intensity expected to be exceeded, on average, once per year (i.e., a 1-year return period). 
+\noindent where, p is the percentile expressed as a probability (e.g. 0.99 for the 99\textsuperscript{th} percentile). Table \ref{table:verifying_rainfall_thresholds} shows the percentiles that are commonly used to define flash-flood-triggering rainfall events with different levels of severity and their equivalent in return periods (in years). These return periods will also be considered in this chapter.
 
+\begin{table}[htbp]
+\centering
+\captionof{table}{\textbf{Severity of flash-flood-triggering rainfall events}. The table shows the percentiles that define different severity categories for flash-flood-triggering rainfall events and their equivalent in return periods (in years, for mm/24h).}
+\includegraphics[width=\textwidth]{chapter_05/tables/verifying_rainfall_thresholds.png}
+\label{table:verifying_rainfall_thresholds}
+\end{table} 
 
-\subsubsection{Pre-processing the observational data}
-\label{flash_flood_focused_verification_rainfall_based_ff_methods_gridded_fields}
-
-To assess the predictions of areas at risk of flash floods, these predictions must be compared against ground-truth observations. In this thesis, the ground-truth observations correspond to point flash flood impact reports (from NOAA's Storm Event Database and described in Section \ref{datasets_sed_reports}). To compare gridded forecasts against point flash flood impact reports, the latter must be transformed into the format in which the forecasts are provided, i.e., gridded datasets aggregated over the considered accumulated outlook. This approach follows the methodology proposed by \citet{Tsonevsky_2018} for severe weather, and the proof-of-concept proposed by \citet{Pillosu_2024} for flash floods in Ecuador.
-
-As mentioned in section \ref{datasets_ecpoint}, ERA5-ecPoint forecasts are provided in a reduced Gaussian grid N320, with a spatial resolution of \sim31 km at the equator. The post-processed forecasts are also provided in 24-hourly accumulations. Consequently, the flash flood reports were aggregated over 24-hourly accumulation periods ending at 00 UTC. The outcome of this stage consists of a list of \textit{point} flash flood reports occurring between 00 UTC on January 1st and 00 UTC on January 2nd, between 00 UTC on January 2nd and 00 UTC on January 3rd, and so on. Each point report in a specific accumulation period must then be located on the ERA5 grid-box where the event occurred using the latitude/longitude coordinates of each impact report. In the Storm Event Database, the location of each flash flood event is provided by two latitude coordinates ("BEGIN\_LAT" and "END\_LAT") and two longitude coordinates ("BEGIN\_LON" and "END\_LON"). If BEGIN\_LAT = END\_LAT and BEGIN\_LON = END\_LON, the flash flood event is identified by a single point, and only the closest grid-box to that point is assigned the flash flood event using the "nearest grid-box" method. If BEGIN\_LAT \ne END\_LAT and BEGIN\_LON \ne END\_LON, a polygon is provided, and the flash flood event is assigned to all the grid-boxes within that polygon. It is worth noting that even when a polygon is provided, only one grid-box may contain the flash flood event if the radius of such a polygon is not larger than the resolution of the ERA5 grid-box, i.e., 31 km. This procedure creates \textit{gridded} fields of flash flood reports, where the values assigned to the grid-boxes indicate the number of flash flood reports that occurred within the grid-boxes: when a grid-box is assigned the value 0, it means it does not contain any flash flood reports for the considered accumulation period, while a grid-box with a value of 5 indicates that there are 5 point flash flood reports within that grid-box, for the considered accumulation period. During verification, all grid boxes with at least one flash flood report will be assigned a value of 1; otherwise, they will be assigned a value of 0.
-
-Because of the large size of the ERA5 grid-boxes (i.e., 31 km) and the large accumulation periods for the flash flood outlooks (i.e. 24 hours), any additional expansion in the area or reporting times of individual reports is probably unnecessary to account for uncertainties in the location and reporting times as done in other studies \citep{Cavaiola_2024}. It is possible to envision remote scenarios in which a report is close enough to the edge of the ERA5 grid-box or the outlook accumulation period that a location or reporting time error in the database could cause the mislocation of such flash flood event, but this scenario has been established to be less than 0.1\% of the total number of the reports considered in this thesis, so no further actions will be considered here to account for spatio-temporal uncertainties in the location or reporting time in the Storm Event Database. 
-
+To \marginpara{Defining the gridded observational fields} assess the performance of the rainfall-based predictions of areas at risk of flash floods (Figure \ref{fig:schematic_verifying_rainfall_thresholds}), these must be evaluated against ground-truth observations. In this thesis, these ground truth observations are provided by point/polygon flash-flood impact reports from NOAA’s Storm Events Database (Section \ref{datasets_sed_reports}). The two datasets are not directly comparable because the forecasts are defined on a grid (reduced Gaussian grid N320 with approximately 31 km spatial resolution at the equator) and over an accumulated field (24-hourly, from 00 to 00 UTC), while the observations are provided at points at a specific time (instantaneous). Hence, the impact reports must be converted to the same grid and 24-hourly accumulation period of the forecasts. To do so, we followed the same procedure shown in \citet{Tsonevsky_2018} and \citet{Pillosu_2024}. Practically, the impact reports are first grouped into the corresponding 24-hour accumulation periods (00–00 UTC). Each point/polygon report is then mapped to the model grid: in the case of a point report, this is assigned to the closest grid-box using the "nearest grid-box" method, while in the case of a polygon report, a report is assigned to all the grid-boxes within the polygon. All the grid-boxes containing at least one flash flood report are assigned the value 1; 0, otherwise. Spatio-temporal buffers were not applied to the impact reports, unlike other studies using forecasts with finer spatial and temporal resolutions \citep{Cavaiola_2024}. This choice is unlikely to affect the results as only 0.1\% of all reports lie sufficiently close to a grid-box boundary or the 24-hour accumulation cut-off that omitting a buffer could plausibly shift the event into a neighbouring grid box or an adjacent accumulation period. We therefore make no additional adjustments for uncertainties in the reports' location or timing.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Development of the objective flash-flood-focused 
