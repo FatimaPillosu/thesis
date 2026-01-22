@@ -101,7 +101,7 @@ T = \frac{1}{365 \times (1 - p)} \quad \text{[years]}
 \end{adjustwidth*}
 \end{figure}
 
-To \marginpara{Defining the gridded observational fields} assess the performance of the rainfall-based predictions of areas at risk of flash floods (Figure \ref{fig:schematic_verifying_rainfall_thresholds}), these must be evaluated against ground-truth observations. In this thesis, these ground truth observations are provided by point/polygon flash-flood impact reports from NOAA’s Storm Events Database (Section \ref{datasets_sed_reports}). The two datasets are not directly comparable because the forecasts are defined on a grid (reduced Gaussian grid N320 with approximately 31 km spatial resolution at the equator) and over an accumulated field (24-hourly, from 00 to 00 UTC), while the observations are provided at points at a specific time (instantaneous). Hence, the impact reports must be converted to the same grid and 24-hourly accumulation period of the forecasts. To do so, we followed the same procedure shown in \citet{Tsonevsky_2018} and \citet{Pillosu_2024}. Practically, the impact reports are first grouped into the corresponding 24-hour accumulation periods (00–00 UTC). Each point/polygon report is then mapped to the model grid: in the case of a point report, this is assigned to the closest grid-box using the "nearest grid-box" method, while in the case of a polygon report, a report is assigned to all the grid-boxes within the polygon. The total number of reports accumulated in each grid-box is then counted. All the grid-boxes containing at least one flash flood report are assigned the value 1; 0, otherwise. Spatio-temporal buffers were not applied to the impact reports, unlike other studies using forecasts with finer spatial and temporal resolutions \citep{Cavaiola_2024}. This choice is unlikely to affect the results as only 0.1\% of all reports lie sufficiently close to a grid-box boundary or the 24-hour accumulation cut-off that omitting a buffer could plausibly shift the event into a neighbouring grid box or an adjacent accumulation period. We therefore make no additional adjustments for uncertainties in the reports' location or timing.
+To \marginpara{Defining the gridded observational fields} assess the performance of the rainfall-based predictions of areas at risk of flash floods (Figure \ref{fig:schematic_verifying_rainfall_thresholds}), these must be evaluated against ground-truth observations. In this thesis, these ground truth observations are provided by point/polygon flash-flood impact reports from NOAA’s Storm Events Database (refer to Table \ref{table:sed_params} in Section \ref{datasets_sed_reports}). The two datasets are not directly comparable because the forecasts are defined on a grid (reduced Gaussian grid N320 with approximately 31 km spatial resolution at the equator) and over an accumulated field (24-hourly, from 00 to 00 UTC), while the observations are provided at points at a specific time (instantaneous). Hence, the impact reports must be converted to the same grid and 24-hourly accumulation period of the forecasts. To do so, we followed the same procedure shown in \citet{Tsonevsky_2018} and \citet{Pillosu_2024}. Practically, the impact reports are first grouped into the corresponding 24-hour accumulation periods (00–00 UTC). Each point/polygon report is then mapped to the model grid: in the case of a point report, this is assigned to the closest grid-box using the "nearest grid-box" method, while in the case of a polygon report, a report is assigned to all the grid-boxes within the polygon. The total number of reports accumulated in each grid-box is then counted. All the grid-boxes containing at least one flash flood report are assigned the value 1; 0, otherwise. Spatio-temporal buffers were not applied to the impact reports, unlike other studies using forecasts with finer spatial and temporal resolutions \citep{Cavaiola_2024}. This choice is unlikely to affect the results as only 0.1\% of all reports lie sufficiently close to a grid-box boundary or the 24-hour accumulation cut-off that omitting a buffer could plausibly shift the event into a neighbouring grid box or an adjacent accumulation period. We therefore make no additional adjustments for uncertainties in the reports' location or timing.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -187,37 +187,9 @@ Similar results are obtained for the 5-, 10-, 20-, 50-, and 100-year return peri
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{chapter_05/figures/rainfall_based_ff_verif_breakdown_scores_roc_5rp.png}
-\caption{\textbf{ROC curves for tp >= 5-year return period for the rainfall-based forecasts of areas at risk of flash floods built with ERA5-ecPoint.} Similar to Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_roc_1rp}.}
-\label{fig:rainfall_based_ff_verif_breakdown_scores_roc_5rp}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{chapter_05/figures/rainfall_based_ff_verif_breakdown_scores_roc_10rp.png}
-\caption{\textbf{ROC curves for tp >= 10-year return period for the rainfall-based forecasts of areas at risk of flash floods built with ERA5-ecPoint.} Similar to Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_roc_1rp}.}
-\label{fig:rainfall_based_ff_verif_breakdown_scores_roc_10rp}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{chapter_05/figures/rainfall_based_ff_verif_breakdown_scores_roc_20rp.png}
-\caption{\textbf{ROC curves for tp >= 20-year return period for the rainfall-based forecasts of areas at risk of flash floods built with ERA5-ecPoint.} Similar to Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_roc_1rp}.}
-\label{fig:rainfall_based_ff_verif_breakdown_scores_roc_20rp}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
 \includegraphics[width=\textwidth]{chapter_05/figures/rainfall_based_ff_verif_breakdown_scores_roc_50rp.png}
 \caption{\textbf{ROC curves for tp >= 50-year return period for the rainfall-based forecasts of areas at risk of flash floods built with ERA5-ecPoint.} Similar to Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_roc_1rp}.}
 \label{fig:rainfall_based_ff_verif_breakdown_scores_roc_50rp}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{chapter_05/figures/rainfall_based_ff_verif_breakdown_scores_roc_100rp.png}
-\caption{\textbf{ROC curves for tp >= 100-year return period for the rainfall-based forecasts of areas at risk of flash floods built with ERA5-ecPoint.} Similar to Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_roc_1rp}.}
-\label{fig:rainfall_based_ff_verif_breakdown_scores_roc_100rp}
 \end{figure}
 
 
@@ -234,37 +206,9 @@ All \marginpara{Breakdown reliability: reliability diagrams} forecasts for rainf
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{rainfall_based_ff_verif_breakdown_scores_rel_diag_5rp.png}
-\caption{\textbf{Reliability diagrams for tp >= 5-year return period for the rainfall-based forecasts of areas at risk of flash floods built with ERA5-ecPoint.} Similar to Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_rel_diag_1rp}.}
-\label{fig:rainfall_based_ff_verif_breakdown_scores_rel_diag_5rp}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{rainfall_based_ff_verif_breakdown_scores_rel_diag_10rp.png}
-\caption{\textbf{Reliability diagrams for tp >= 10-year return period for the rainfall-based forecasts of areas at risk of flash floods built with ERA5-ecPoint.} Similar to Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_rel_diag_1rp}.}
-\label{fig:rainfall_based_ff_verif_breakdown_scores_rel_diag_10rp}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{rainfall_based_ff_verif_breakdown_scores_rel_diag_20rp.png}
-\caption{\textbf{Reliability diagrams for tp >= 20-year return period for the rainfall-based forecasts of areas at risk of flash floods built with ERA5-ecPoint.} Similar to Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_rel_diag_1rp}.}
-\label{fig:rainfall_based_ff_verif_breakdown_scores_rel_diag_20rp}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
 \includegraphics[width=\textwidth]{rainfall_based_ff_verif_breakdown_scores_rel_diag_50rp.png}
 \caption{\textbf{Reliability diagrams for tp >= 50-year return period for the rainfall-based forecasts of areas at risk of flash floods built with ERA5-ecPoint.} Similar to Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_rel_diag_1rp}.}
 \label{fig:rainfall_based_ff_verif_breakdown_scores_rel_diag_50rp}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{rainfall_based_ff_verif_breakdown_scores_rel_diag_100rp.png}
-\caption{\textbf{Reliability diagrams for tp >= 100-year return period for the rainfall-based forecasts of areas at risk of flash floods built with ERA5-ecPoint.} Similar to Figure \ref{fig:rainfall_based_ff_verif_breakdown_scores_rel_diag_1rp}.}
-\label{fig:rainfall_based_ff_verif_breakdown_scores_rel_diag_100rp}
 \end{figure}
 
 
