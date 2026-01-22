@@ -44,7 +44,26 @@ However, \marginpara{Aims of this chapter: bridge the evaluation gap of statisti
 \subsubsection{Pre-processing the forecast data}
 \label{flash_flood_focused_verification_rainfall_based_ff_preprocessing_forecasts}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=13cm]{chapter_05/figures/definition_yes_non_events.png}
+\caption{\textbf{Schematic on how yes- and non-events are defined for rainfall-based flash flood predictions of areas at risk of flash floods.} The point-scale forecast (mm/24h) for each grid box is compared against a specific rainfall threshold. If the forecast exceeds or is equal to the threshold, it is classified as a "yes-event" (value 1, shown in light green), indicating a risk of flash flooding. Conversely, forecasts below the threshold are classified as "non-events" (value 0, shown in light brown). The resulting output is a binary field representing the predictions of areas at risk.}
+\label{fig:definition_yes_non_events}
+\end{figure}
+
 ERA5-ecPoint \marginpara{Rainfall-based predictions of areas at risk of flash floods computed with ERA5-ecPoint rainfall forecasts: determining yes- and non-events in the forecast} rainfall forecasts (mm/24h at point-scale) - already described in Section \ref{datasets_ecpoint} in Chapter \ref{datasets} - are used to create the rainfall-based predictions of areas at risk of flash floods. ERA5-ecPoint is preferred to raw ERA5 estimates because they are able to capture the signal of flash-flood-triggering rainfall. A grid-box is classified at a risk of flash flooding if the forecast exceeds a specific rainfall threshold (likely to generate a flash flood). In this case, the grid-box is assigned the value 1 (yes-event); 0 otherwise (non-event). The resulting binary field represents the rainfall-based prediction of areas at risk of flash floods.
+
+\begin{figure}[htbp]
+\begin{adjustwidth*}{-3.6cm}{-4.4cm}
+\begin{minipage}{16cm}
+\centering
+\includegraphics[width=13cm]{chapter_05/figures/schematic_verifying_rainfall_thresholds.png}
+\captionsetup{width=16cm, justification=Justified}
+\caption{\textbf{Schematic illustrating the process of defining a verifying rainfall threshold.} Historical rainfall data from observations (in green) or gridded products (in pink) can be used to construct a probability distribution of rainfall intensity. An  X\textsuperscript{th} percentile from the tail of this distribution, representing rare and intense events likely to cause flash flooding, is then selected to determine the verifying rainfall threshold. Verifying rainfall thresholds from a distribution constructed from gridded rainfall estimates are typically smaller than those computed using point-scale rainfall estimates.}
+\label{fig:schematic_verifying_rainfall_thresholds}
+\end{minipage}
+\end{adjustwidth*}
+\end{figure}
 
 In \marginpara{Selecting the right dataset for the definition of the verifying rainfall thresholds} objective verification, the threshold used to define yes- and non-events is called \textit{verifying rainfall threshold}, and choosing the right dataset to compute it is critical. The verifying rainfall threshold must be defined in the same units and spatial resolution as the forecasts, so in our case, point-scale rainfall expressed in mm/24h. Point-scale verifying rainfall thresholds of practical interest may be known (e.g., in my region, 50 mm/24h is likely to cause flash floods), or may be computed using historical observational or modelled point-scale rainfall estimates. Computing the verifying rainfall threshold from a long time series (at least 20–30 years) of high-density rain gauge rainfall observations (spaced only a few kilometres apart) or radar-derived rainfall totals (see Figure \ref{fig:schematic_verifying_rainfall_thresholds}a, datasets in green) yields the most accurate representation of those localised rainfall extremes that are likely to trigger flash floods \citep{Haiden_2016, RamosFilho_2021}\footnote{In the absence of a suitable observational network, verifying rainfall thresholds could be defined from gridded rainfall products (see Figure \ref{fig:schematic_verifying_rainfall_thresholds}a, datasets in pink), such as reanalysis, e.g., ERA5 \citep{Hersbach_2020}, reforecasts \citep{Hamill_2006b}, or blended rainfall observations provided on a grid such as MSWEP \citep{Beck_2019} or GPCP \citep{Adler_2018}. However, gridded rainfall data should not be used to compute verifying rainfall thresholds for flash flood applications. First, they tend to underestimate the "true" value of flash-flood-triggering rainfall events, reducing users' confidence in the methodology and its practical applicability \citep{Tapiador_2019}. Moreover, as we are using point-scale rainfall forecasts to define the areas at risk of flash floods, the point-scale forecasts would exceed the verifying thresholds too often, giving the misleading impression that the forecasts overpredict the risk of flash floods, as there would be too many false alarms (see schematic in Figure \ref{fig:schematic_verifying_rainfall_thresholds}b, distribution in pink).} (see schematic in Figure \ref{fig:schematic_verifying_rainfall_thresholds}b, distribution in green). Due to the absence of a long timeseries of high-density rain gauge observations over the CONUS, the verifying rainfall thresholds were computed with point-scale rainfall estimates from ERA5-ecPoint reanalysis \citep{Bottazzi_2024}, as they have been shown to represent the climatologies of rainfall observations from rain gauges \citep{Pillosu_2025a} adequately. 
 
@@ -56,13 +75,6 @@ T = \frac{365}{1 - p}
 \end{equation}
 
 \noindent where, p is the percentile expressed as a probability (e.g. 0.99 for the 99\textsuperscript{th} percentile). Thus, the 99.73\textsuperscript{rd} percentile corresponds to a rainfall intensity expected to be exceeded, on average, once per year (i.e., a 1-year return period). 
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{chapter_05/figures/schematic_verifying_rainfall_thresholds.png}
-\caption{\textbf{Schematic illustrating the process of defining a verifying rainfall threshold.} Historical rainfall data from observations (in green) or gridded products (in pink) can be used to construct a probability distribution of rainfall intensity. An  X\textsuperscript{th} percentile from the tail of this distribution, representing rare and intense events likely to cause flash flooding, is then selected to determine the verifying rainfall threshold. Verifying rainfall thresholds from a distribution constructed from gridded rainfall estimates are typically smaller than those computed using point-scale rainfall estimates.}
-\label{fig:schematic_verifying_rainfall_thresholds}
-\end{figure}
 
 
 \subsubsection{Pre-processing the observational data}
