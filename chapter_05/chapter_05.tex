@@ -25,8 +25,9 @@ predictions of areas at risk of flash floods}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+\label{flash_flood_focused_verification_rainfall_based_ff_introduction}
 
 Flash \marginpara{On the importance of early warning systems to mitigate flash flood impacts} floods\footnote{Please refer to the first paragraph in Chapter \ref{general_introduction} for the definition of flash floods used in this thesis.} cause significant societal, economic, and environmental impacts \citep{Dordevic_2020}. Forecast-triggered mitigation strategies, such as early warning systems \citep{CoughlanDePerez_2022, SakicTrogrlic_2022} and forecast-based financing protocols \citep{Bischiniotis_2019a, Perez_2016}, have been shown to improve resilience, decrease mortality, and lower recovery costs against riverine floods. Yet, these strategies hinge on accurate, timely predictions. In lower-income countries, accurate forecasts with even longer lead times are required to set cost-effective mitigation strategies \citep{Bazo_2019, Kiptum_2023}. 
 
@@ -37,13 +38,12 @@ Global \marginpara{Statistically post-processed rainfall forecasts from global N
 However, \marginpara{Aims of this chapter: bridge the evaluation gap of statistically post-processed rainfall forecasts for the identification of areas at risk of flash flood over a continuous global domain and up to medium-range lead times} a significant gap remains in leveraging the statistically post-processed rainfall forecasts from global NWP models to create truly global predictions of areas at risk of flash floods up to medium-range lead times. This study aims to bridge this gap by evaluating the performance of ERA5-ecPoint rainfall forecasts in identifying areas at risk of flash floods (from now on, this type of forecast will be referred to as \textit{rainfall-based predictions of areas at risk of flash floods}). The CONUS, with its extensive collection of flash flood impact reports within NOAA's Storm Event Database and its varying climate, serves as an ideal test bed for this research. The innovation proposed by this research is twofold. It proposes the first systematic flash-flood-focused verification framework for predictions of areas at risk of flash floods, in recognition of the non-linear relationship between flash floods and triggering rainfall events. Secondly, this research provides a performance benchmark against which more sophisticated modelling approaches (for example, incorporating additional hydrological and topographical parameters) can be measured. Such comparative analysis is essential for determining whether the increased computational demands and data requirements of complex systems yield commensurate improvements in flash flood prediction accuracy, or whether simpler precipitation-based approaches provide sufficient utility for early warning applications.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Development of the objective flash-flood-focused 
-verification framework for predictions of areas at risk of flash floods}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Development of the flash-flood-focused objective verification framework for rainfall-based predictions of areas at risk of flash floods}
 \label{flash_flood_focused_verification_rainfall_based_ff_verif_framework}
 
 \subsection{Pre-processing of observational and forecast data}
-\label{flash_flood_focused_verification_rainfall_based_ff_preprocessing_data}
+\label{flash_flood_focused_verification_rainfall_based_ff_verif_framework_preprocessing_data}
 
 \begin{figure}[htbp]
 \begin{adjustwidth*}{-3.6cm}{-4.4cm}
@@ -84,7 +84,7 @@ T = \frac{1}{365 \times (1 - p)} \quad \text{[years]}
 
 \begin{table}[htbp]
 \centering
-\captionof{table}{\textbf{Severity of flash-flood-triggering rainfall events}. The table shows the percentiles that define different severity categories for flash-flood-triggering rainfall events and their equivalent in return periods (in years, for mm/24h).}
+\captionof{table}{\textbf{Severity of flash-flood-triggering rainfall events}. The table shows the percentiles that define different severity categories for flash-flood-triggering rainfall events and their equivalent in return periods (in years, for mm/24h). Results for the starred (*) return periods are discussed but not shown in the "Results" Section \ref{flash_flood_focused_verification_rainfall_based_ff_results}.}
 \includegraphics[width=\textwidth]{chapter_05/tables/verifying_rainfall_thresholds.png}
 \label{table:verifying_rainfall_thresholds}
 \end{table} 
@@ -101,15 +101,16 @@ T = \frac{1}{365 \times (1 - p)} \quad \text{[years]}
 \end{adjustwidth*}
 \end{figure}
 
-To \marginpara{Defining the gridded observational fields} assess the performance of the rainfall-based predictions of areas at risk of flash floods (Figure \ref{fig:schematic_verifying_rainfall_thresholds}), these must be evaluated against ground-truth observations. In this thesis, these ground truth observations are provided by point/polygon flash-flood impact reports from NOAA’s Storm Events Database (refer to Table \ref{table:sed_params} in Section \ref{datasets_sed_reports}). The two datasets are not directly comparable because the forecasts are defined on a grid (reduced Gaussian grid N320 with approximately 31 km spatial resolution at the equator) and over an accumulated field (24-hourly, from 00 to 00 UTC), while the observations are provided at points at a specific time (instantaneous). Hence, the impact reports must be converted to the same grid and 24-hourly accumulation period of the forecasts. To do so, we followed the same procedure shown in \citet{Tsonevsky_2018} and \citet{Pillosu_2024}. Practically, the impact reports are first grouped into the corresponding 24-hour accumulation periods (00–00 UTC). Each point/polygon report is then mapped to the model grid: in the case of a point report, this is assigned to the closest grid-box using the "nearest grid-box" method, while in the case of a polygon report, a report is assigned to all the grid-boxes within the polygon. The total number of reports accumulated in each grid-box is then counted. All the grid-boxes containing at least one flash flood report are assigned the value 1; 0, otherwise. Spatio-temporal buffers were not applied to the impact reports, unlike other studies using forecasts with finer spatial and temporal resolutions \citep{Cavaiola_2024}. This choice is unlikely to affect the results as only 0.1\% of all reports lie sufficiently close to a grid-box boundary or the 24-hour accumulation cut-off that omitting a buffer could plausibly shift the event into a neighbouring grid box or an adjacent accumulation period. We therefore make no additional adjustments for uncertainties in the reports' location or timing.
+To \marginpara{Defining the gridded observational fields} assess the performance of the rainfall-based predictions of areas at risk of flash floods, these must be evaluated against ground-truth observations. In this thesis, these ground truth observations are provided by point/polygon flash-flood impact reports from NOAA’s Storm Events Database (refer to Table \ref{table:sed_params} in Section \ref{datasets_sed_reports}). The two datasets are not directly comparable because the forecasts are defined on a grid (reduced Gaussian grid N320 with approximately 31 km spatial resolution at the equator) and over an accumulated field (24-hourly, from 00 to 00 UTC), while the observations are provided at points at a specific time (instantaneous). Hence, the impact reports must be converted to the same grid and 24-hourly accumulation period of the forecasts. To do so, we followed the same procedure shown in \citet{Tsonevsky_2018} and \citet{Pillosu_2024}. Practically, the impact reports are first grouped into the corresponding 24-hour accumulation periods (00–00 UTC). Each point/polygon report is then mapped to the model grid: in the case of a point report, this is assigned to the closest grid-box using the "nearest grid-box" method, while in the case of a polygon report, a report is assigned to all the grid-boxes within the polygon. The total number of reports accumulated in each grid-box is then counted. All the grid-boxes containing at least one flash flood report are assigned the value 1; 0, otherwise. Spatio-temporal buffers were not applied to the impact reports, unlike other studies using forecasts with finer spatial and temporal resolutions \citep{Cavaiola_2024}. This choice is unlikely to affect the results as only 0.1\% of all reports lie sufficiently close to a grid-box boundary or the 24-hour accumulation cut-off that omitting a buffer could plausibly shift the event into a neighbouring grid box or an adjacent accumulation period. We therefore make no additional adjustments for uncertainties in the reports' location or timing.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Development of the objective flash-flood-focused 
-verification framework for predictions of areas at risk of flash floods}
-\label{flash_flood_focused_verification_rainfall_based_ff_methods}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Building a contingency table for non-standard observations}
+\label{flash_flood_focused_verification_rainfall_based_ff_verif_framework_contingency_table}
 
-The objective verification carried out in this thesis is based on verification scores computed from a probabilistic contingency table (Figure \ref{table:contingency_table}). Stationary observations (i.e., provided by instruments installed at a specific location, such as rain gauges or discharge gauges) provide timeseries of yes- and non-events recorded at the location where the instrument was installed. Thus, all four elements in the contingency table can be quantified. Non-stationary observations (i.e., impact reports) record only yes-events at the location where the event occurred. As a result, it is impossible to answer the question "if there are no reports at a location, is it because an event happened but nobody reported it, or because there was no event to report?". Some studies using impact reports as ground truth verify only yes-events with the caveat that only quadrant I (i.e. hits) and III (i.e. misses) of the contingency table can be populated \citep{Robbins_2018}. In this thesis, the assumption suggested by \citet{Tsonevsky_2018} and \citet{Pillosu_2024} of assuming non-reports as non-events was followed because it allows for the population of all quadrants of the contingency table. This approach inherently inflates the false alarm rate, as locations where events may have occurred but were unreported may be classified as misses or correct negatives. Given the constraints of impact-based reports, this methodology provides a systematic framework for the evaluation of predictions of areas at risk of flash floods, albeit one that may present a pessimistic view of forecast skill.
+As discussed in Section \ref{integrated_experimental_strategy_verification_strategy} in Chapter \ref{integrated_experimental_strategy}, two properties of probabilistic forecasts must be assessed: reliability and discrimination ability. \textit{Contingency tables} provide the foundation for the computation of the verification scores that will follow in Section \ref{flash_flood_focused_verification_rainfall_based_ff_verif_framework_verification_scores}, and are therefore defined next. 
+
+Stationary observations (i.e., provided by instruments installed at a specific location, such as rain gauges or discharge gauges) provide timeseries of yes- and non-events recorded at the location where the instrument was installed. Thus, all four elements in the contingency table can be quantified. Non-stationary observations (i.e., impact reports) record only yes-events at the location where the event occurred. As a result, it is impossible to answer the question "if there are no reports at a location, is it because an event happened but nobody reported it, or because there was no event to report?". Some studies using impact reports as ground truth verify only yes-events with the caveat that only quadrant I (i.e. hits) and III (i.e. misses) of the contingency table can be populated \citep{Robbins_2018}. In this thesis, the assumption suggested by \citet{Tsonevsky_2018} and \citet{Pillosu_2024} of assuming non-reports as non-events was followed because it allows for the population of all quadrants of the contingency table. This approach inherently inflates the false alarm rate, as locations where events may have occurred but were unreported may be classified as misses or correct negatives. Given the constraints of impact-based reports, this methodology provides a systematic framework for the evaluation of predictions of areas at risk of flash floods, albeit one that may present a pessimistic view of forecast skill.
 
 \begin{table}[htbp]
 \centering
@@ -120,8 +121,37 @@ The objective verification carried out in this thesis is based on verification s
 
 The probabilistic contingency tables are built by examining overlapping grid-boxes in corresponding observational and forecast fields. When both grid-boxes are assigned a value of 1 or 0, they count as a hit or a correct negative, respectively. When a grid-box in the observational field is assigned a value of 1, and the corresponding grid-box in the forecast field is assigned a value of 0, it counts as a miss. It counts as a false alarm if the opposite occurs. 
 
-\subsection{Properties of probabilistic forecasts}
-Reliability and discrimination ability are desirable properties of ensemble forecasts, and both are defined against a verifying threshold \citep{Jolliffe_2012, Wilks_2020}. Reliability measures whether the chosen verifying threshold is predicted with probabilities that mirror the frequency with which the considered event is observed. Discrimination measures the forecasts' ability to distinguish situations that lead to events exceeding the verifying threshold from those that do not, appraising the existence of a signal in forecasts when an event materialises. In this thesis, we consider two types of scores to analyse reliability and discrimination ability: summary and breakdown scores. Summary scores show the overall reliability and discrimination ability of the forecasts, while the breakdown scores provide detailed insights into how reliability and discrimination ability relate to the full distribution of probabilities. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Verification scores}
+\label{flash_flood_focused_verification_rainfall_based_ff_verif_framework_verification_scores}
 
 \subsubsection{Reliability}
 To assess the overall reliability of the forecasts, we will consider the frequency bias (FB) to evaluate the overall reliability of the predictions of areas at risk of flash floods. The frequency bias was determined by dividing the total number of yes-events in the forecasts by the total number of yes-events in the observations. FB values range from 0 to $+\infty$. FB = 1 indicates perfect calibration, while scores greater or smaller than 1 indicate, respectively, over- and under-prediction of the observed yes-events. It is worth noting that FB measure the overall ratio of forecast events to observed events and is not a measure of forecast skill. As such, it can provide a score of 1 when there are compensating errors. Moreover, the FB might show large overestimations if the observed event is heavily underreported, as in our case.
@@ -153,9 +183,9 @@ It is worth noting that all scores are provided with 99\% confidence intervals c
 
 
 
-%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
-\label{flash_flood_focused_verification_rainfall_based_ff_RESULTS}
+\label{flash_flood_focused_verification_rainfall_based_ff_results}
 
 
 \subsection{Overall verification scores}
@@ -212,15 +242,16 @@ All \marginpara{Breakdown reliability: reliability diagrams} forecasts for rainf
 \end{figure}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Case study on Storm Ida}
+\label{flash_flood_focused_verification_rainfall_based_ff_case_study}
 
 The objective verification results can be further interpreted by analysing the probabilities of exceeding the 1- and 50-year return period for the case study on Storm Ida\footnote{For a detailed description of the synoptic conditions during Storm Ida and its impacts, please refer to Section \ref{datasets_case_study} in Chapter \ref{datasets}.}. Over the New York area, the probabilities of rainfall exceeding the 1-year return period are very high - >80\% - in ERA5-ecPoint reanalysis (Figure  \ref{fig:prob_tp_exceeding_1rp}a, blue circle). It also indicate overall very well the general area impacted by Storm Ida as seen in the observations in Figure \ref{fig:sed_ff_reports}d. The overall signal of potential extreme rainfall is given by the probabilities of exceeding the 50-year return period also being fairly high - >10\% - in ERA5-ecPoint reanalysis (Figure \ref{fig:prob_tp_exceeding_50rp}a). The signal of extreme rainfall is well maintained up to day 5 lead time (Figures \ref{fig:prob_tp_exceeding_1rp}b-f and Figures \ref{fig:prob_tp_exceeding_50rp}b-f, blue circles). The picture is different for the extreme rainfall events on the Western side. The areas potentially affected by moderate rainfall (Figure  \ref{fig:prob_tp_exceeding_1rp}a, red circle) are much larger than those observed in Figure \ref{fig:sed_ff_reports}d. Indeed, the probabilities of exceeding the 50-year return period are much smaller, not exceeding 5\%. Moreover, it is worth noting the \textit{scattered pattern} of the areas highlighted by the rainfall predictions and the low predictability at longer lead times (Figures \ref{fig:prob_tp_exceeding_1rp}b-f and Figures \ref{fig:prob_tp_exceeding_50rp}b-f, red circles). These patterns are more commonly observed during small-scale convective systems, which tend to drive very localised flash flood events.
 
 
-%%%%%%%%%%%%%%%%%%%%%
-\section{Discussions}
-\label{flash_flood_focused_verification_rainfall_based_ff_DISCUSSIONS}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+\label{flash_flood_focused_verification_rainfall_based_ff_discussion}
 
 For \marginpara{Reliability and discrimination ability of the rainfall-based predictions of areas at risk of flash floods} high-frequency events (e.g., 1-year return period), the high-frequency bias values indicate that ERA5-ecPoint forecasts identify potential flash flood areas up to 70 times more frequently than such events are observed in the Storm Event Database. In marked contrast, extreme events (with return periods of 50-100 years) demonstrate near-optimal frequency bias values between 2 and 3. These results may have two interpretations. The first one concerns the quality of the forecasts, indicating that rainfall-based predictions of areas at risk of flash floods based on rainfall forecasts exceeding at least the 50-year return period are the ones that should be considered for the prediction of areas at risk of flash floods, as they are the ones providing near-optimal reliability. The second interpretation concerns the type of flash flood events recorded in the database, i.e., mostly extreme flash flood events, generated by rainfall events exceeding the 50-year return period, are recorded in the database. It is not possible to disentangle from the information at hand, which of the two interpretations might be the correct one. The case study corroborates this result. Forecasts of rainfall exceeding the 1-year return period might indicate a far too big area at risk of flash flood in the case of small-scale convective systems, which tend to generate more localised flash flood events. Since there may not be as many flash flood events, or they may occur in areas that go underreported, this low-return period forecasts may yield very high frequency biases. Hence, it is advocated that the objective verification framework should at least distinguished between flash floods generated by small-scale convective systems and larger-scale systems because the NWP rainfall forecasts may yield different performance levels in these two cases. This hypothesis aligns with results in other studies \citep{Pillosu_2024}.
 
@@ -229,9 +260,9 @@ Although \marginpara{Interpreting verification metrics with sparse observational
 Event \marginpara{Adequacy of the impact observations for verifying flash floods} though the scientific community must strive in continuingly improving global NWP rainfall forecasts, it is essential to improve the spatial coverage of flash flood impact reports to show forecast users a number of false alarms closer to that related to forecast skill rather than that mainly due to underreporting. For this type of analysis (i.e., verification of forecasts using non-standard observations) is the biggest and most difficult problem to address \citep{Marsigli_2021}. This study demonstrates that enhanced flash flood report databases are instrumental in assessing the performance of rainfall forecasts for flash flood prediction. The improved and more spatio-temporal coverage of flash flood reports in the Storm Event Database enabled an in-depth, long-term assessment that would have been unfeasible with other databases, such as EM-DAT, due to their poorer spatio-temporal coverage. For these reasons, flash flood verification in the past was primarily based on case studies or at catchment level, as more detailed information is available for single events \citep{Gaume_2009, Gaume_2016}. While a case-study-based verification approach or at catchment level is invaluable in understanding how forecasts predict flash flood events, provided enough observations are available, the results may not hold for other events due to the focused nature of the analysis. Alternatively, by leveraging the higher quality and spatial coverage of rainfall observations, researchers can use them to assess the performance of rainfall forecasts in predicting flash floods. However, as seen in this study, the results of these two verification analyses are different. ecPoint almost always performs better than ENS in predicting extreme (localised) rainfall \citep{Gascón_2024, Hemri_2022, Hewson_2021}. However, in the binary prediction of whether an area was affected by a flash flood or not (yes- or no-event), the verification results are more nuanced. Failing to consider these two cases separately would do a disservice to the assessment of how well raw ENS forecasts can predict areas at risk of flash floods. Thus, this study highlights the importance of enhancing flash flood report databases to assess the performance of rainfall forecasts for flash flood prediction in more detail, thereby contributing significantly to more effective disaster preparedness and risk management strategies.
 
 
-%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusions}
-\label{flash_flood_focused_verification_rainfall_based_ff_CONCLUSIONS}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+\label{flash_flood_focused_verification_rainfall_based_ff_conclusion}
 
 In this chapter, the performance of post-processed ERA5-ecPoint reanalysis and forecasts, post-processed with the ecPoint methodology, in predicting areas at risk of flash floods is examined.
 
