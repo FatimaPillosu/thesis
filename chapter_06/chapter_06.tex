@@ -62,15 +62,10 @@ The \marginpara{Description of the feature and target variables} data used in th
 \subsubsection{Model architecture selection}
 
 \begin{figure}[htbp]
-\begin{adjustwidth*}{-3.6cm}{-4.4cm}
-\begin{minipage}{16cm}
 \centering
-\includegraphics[width=11.5]{chapter_06/figures/ai_models.png}
-\captionsetup{width=16cm, justification=Justified}
+\includegraphics[width=\textwidth]{chapter_06/figures/ai_models.png}
 \caption{\textbf{Overview of the three ensemble data-driven model architectures used in this study.} \textit{Bagging}, with random forests (with XGBoost and LightGBM implementations in random forest mode), \textit{boosting}, with gradient boosting (with XGBoost, LightGBM, and CatBoost implementations in gradient boosting mode), and \textit{neural networks}, with feed-forward architectures (implemented using Keras with TensorFlow backend).}
 \label{fig:ai_models}
-\end{minipage}
-\end{adjustwidth*}
 \end{figure}
 
 Six distinct machine learning architectures were evaluated to identify the optimal approach for flash flood probability estimation: \textit{random forest} (with XGBoost and LightGBM implementations), \textit{gradient boosting} (with XGBoost, LightGBM, and CatBoost implementations), and a \textit{feed-forward neural network} (constructed using Keras and TensorFlow). These models were selected based on their proven efficacy in handling tabular data with class imbalance and their ability to capture complex non-linear relationships between hydro-meteorological predictors and flash flood occurrence \citep{Shwartz-Ziv_2022}.
@@ -99,7 +94,7 @@ Cross-validation \marginpara{Adoption of nested cross-validation to avoid data l
 \begin{adjustwidth*}{-0cm}{-3.6cm}
 \begin{minipage}{16cm}
 \centering
-\includegraphics[width=11.7cm]{chapter_06/figures/cv_optuna.png}
+\includegraphics[width=11cm]{chapter_06/figures/cv_optuna.png}
 \captionsetup{width=16cm, justification=Justified}
 \caption{\textbf{Workflow for the repeated nested cross-validation.} The outer cross-validation loop utilises Scikit-Learn's "RepeatedStratifiedKFold" function to create k\_outer = 5 outer folds (grey blocks) across n\_repeats = 1 iterations. Each \textcolor{colourOuterFolds}{\textit{outer fold}} maintains the class distribution of the \textcolor{colourTraining}{\textit{training dataset}}, and it is split into an outer training dataset (80\%, blocks in shades of pink and orange) and an \textcolor{colourOuterTest}{\textit{outer test dataset}} (20\%). Within each outer fold, a Bayesian hyperparameter tuning is performed employing the Optuna library through an inner cross-validation procedure over n\_trial = 20 repetitions. Each trial evaluates candidate hyperparameters by training on \textcolor{colourInnerTraining}{\textit{inner training folds}} and validating on \textcolor{colourInnerValidation}{\textit{inner validation folds}}, with performance measured as the mean AUC-ROC or AUC-PR. The optimal hyperparameter set, identified by maximising the selected evaluation metric, is used to train the final model on the complete outer training subset. Model performance is assessed on the held-out \textcolor{colourOuterTest}{\textit{outer test fold}} using AUC-ROC and AUC-PR. The best-performing fold is retrained on the original \textcolor{colourTraining}{\textit{training dataset}} for operational deployment. Independent, more extensive verification of the data-driven predictions is performed using the \textcolor{colourTest}{\textit{verification dataset}}, considering the Precision-Recall curve and AUC-PR, the ROC curve and AUC-ROC, reliability diagrams, and frequency bias.}
 \label{fig:cv_optuna}
@@ -143,10 +138,23 @@ The \marginpara{\textit{Similarities} with the objective verification framework 
 
 Three \marginpara{\textit{Differences} between the objective verification framework in Chapter \ref{flash_flood_focused_verification_rainfall_based_ff}} key differences distinguish the objective verification framework employed here from that presented in Chapter \ref{flash_flood_focused_verification_rainfall_based_ff}. First, for the data-driven predictions evaluated in this chapter, the verifying threshold is a probability value above which a grid-box is classified as a yes-event. Conventionally, a threshold of 50\% is applied. However, for rare events such as flash floods, this would yield very few yes-event classifications, rendering verification insensitive to model performance. The threshold is therefore optimised on the F1-score, which balances precision and recall by penalising false alarms and missed events equally \citep{Hancock_2022}. This approach identifies the decision boundary that maximises predictive skill given the inherent trade-off between detection rate and false alarm rate. Second, the precision-recall (PR) curve is introduced to complement the discrimination analysis provided by ROC curves. PR curves are better suited than ROC curves for evaluating predictions trained on imbalanced datasets, as they focus on the minority class and are more sensitive to changes in false alarm rates when true positives are rare \citep{Saito_2015, Juba_2019, Sofaer_2019}. In meteorology, PR curves are more commonly encountered as Performance Diagrams and have been primarily applied to deterministic predictions \citep{Taylor_2001}. Finally, 99\% confidence intervals were computed via bootstrapping with replacement over 1000 repetitions for all scores. However, in this case, the confidence intervals were so small that they were not included in the figures presenting the verification results.
 
+\begin{figure}[htbp]
+\begin{adjustwidth*}{-0cm}{-3.6cm}
+\begin{minipage}{16cm}
+\centering
+\includegraphics[width=11.5cm]{sed_ff_reports.png}
+\captionsetup{width=16cm, justification=Justified}
+\caption{\textbf{} }
+\end{minipage}
+\end{adjustwidth*}
+\end{figure}
+
+
+
 
 \subsection{Physical interpretation of the data-driven model outputs: Shapley values}
 
-Shapley values, derived from cooperative game theory, have emerged as a powerful technique for interpreting complex data-driven models by quantifying the contribution of each input feature to individual predictions \citep{Rozemberczki_2022}. Shapley values decompose a model's prediction into additive contributions from each predictor variable, revealing how each model feature - in this case, rainfall, antecedent soil moisture, orography slope, and vegetation coverage - combine to produce the final prediction - i.e., areas at risk of flash floods. This decomposition provides crucial physical insights into the decision-making process of the data-driven model. In this way, the model becomes \textit{interpretable} because it is possible to assess which variable yields the most importance in defining a prediction and how a model feature modulates the impact of another one. Moreover, it is possible to diagnose potential issues where the model may be relying on spurious correlations.  
+Shapley values, derived from cooperative game theory, have emerged as a powerful technique for interpreting complex data-driven models by quantifying the contribution of each input feature to individual predictions \citep{Rozemberczki_2022}. Shapley values decompose a model's prediction into additive contributions from each predictor variable, revealing how each model feature - in this case, rainfall, antecedent soil moisture, orography slope, and vegetation coverage - combines to produce the final prediction - i.e., areas at risk of flash floods. This decomposition provides crucial physical insights into the decision-making process of the data-driven model. In this way, the model becomes \textit{interpretable} because it is possible to assess which variable yields the most importance in defining a prediction and how a model feature modulates the impact of another one. Moreover, it is possible to diagnose potential issues where the model may be relying on spurious correlations.  
 
 
 %%%%%%%%%%%%%%%%%
